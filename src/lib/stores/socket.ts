@@ -41,6 +41,7 @@ export const gameConfig = writable<GameConfigClient>({
 export const fullQuestion = writable<FullQuestion | null>(null);
 export const playerId = writable<string>('');
 export const buzzerSound = writable<{ playerName: string } | null>(null);
+export const joinError = writable<string | null>(null);
 
 export function initSocket() {
 	if (socket) return socket;
@@ -79,6 +80,10 @@ export function initSocket() {
 		setTimeout(() => buzzerSound.set(null), 100);
 	});
 
+	socket.on('joinError', (data: { error: string }) => {
+		joinError.set(data.error);
+	});
+
 	return socket;
 }
 
@@ -90,8 +95,19 @@ export function hostJoin() {
 	socket?.emit('hostJoin');
 }
 
-export function playerJoin(username: string) {
-	socket?.emit('playerJoin', username);
+export function playerJoin(username: string): Promise<{ success: boolean; error?: string }> {
+	return new Promise((resolve) => {
+		if (!socket) {
+			resolve({ success: false, error: 'Not connected' });
+			return;
+		}
+		socket.emit('playerJoin', username, (result: { success: boolean; error?: string }) => {
+			if (!result.success) {
+				joinError.set(result.error || 'Failed to join');
+			}
+			resolve(result);
+		});
+	});
 }
 
 export function startGame() {
@@ -136,6 +152,11 @@ export function skipQuestion() {
 	fullQuestion.set(null);
 }
 
+export function cancelQuestion() {
+	socket?.emit('cancelQuestion');
+	fullQuestion.set(null);
+}
+
 export function showLeaderboard() {
 	socket?.emit('showLeaderboard');
 	fullQuestion.set(null);
@@ -148,4 +169,12 @@ export function backToGame() {
 export function resetGame() {
 	socket?.emit('resetGame');
 	fullQuestion.set(null);
+}
+
+export function reloadConfig() {
+	socket?.emit('reloadConfig');
+}
+
+export function updatePlayerScore(playerId: string, newScore: number) {
+	socket?.emit('updatePlayerScore', { playerId, newScore });
 }

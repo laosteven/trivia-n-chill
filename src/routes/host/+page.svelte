@@ -21,14 +21,20 @@
 		unlockBuzzer,
 		clearBuzzers,
 		revealAnswer,
+		cancelQuestion,
+		updatePlayerScore,
 		connected,
-		buzzerSound
+		buzzerSound,
+		reloadConfig
 	} from '$lib/stores/socket';
 	import QRCode from 'qrcode';
 
 	let qrCodeDataUrl = $state('');
 	let joinUrl = $state('');
 	let showResetConfirm = $state(false);
+	let showPlayAgainConfirm = $state(false);
+	let editingPlayer: { id: string; name: string; score: number } | null = $state(null);
+	let editScoreValue = $state('');
 	let buzzerAudio: HTMLAudioElement | null = $state(null);
 
 	onMount(() => {
@@ -84,9 +90,59 @@
 		showResetConfirm = false;
 	}
 
+	function handlePlayAgain() {
+		showPlayAgainConfirm = true;
+	}
+
+	function confirmPlayAgain() {
+		startGame();
+		showPlayAgainConfirm = false;
+	}
+
+	function cancelPlayAgain() {
+		showPlayAgainConfirm = false;
+	}
+
+	function openScoreEditor(player: { id: string; name: string; score: number }) {
+		editingPlayer = player;
+		editScoreValue = player.score.toString();
+	}
+
+	function saveScore() {
+		if (editingPlayer) {
+			const newScore = parseInt(editScoreValue, 10);
+			if (!isNaN(newScore)) {
+				updatePlayerScore(editingPlayer.id, newScore);
+			}
+		}
+		closeScoreEditor();
+	}
+
+	function closeScoreEditor() {
+		editingPlayer = null;
+		editScoreValue = '';
+	}
+
 	function getYoutubeEmbedUrl(url: string): string {
 		const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/)?.[1];
 		return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+	}
+
+	function isVideo(url: string): boolean {
+		return /\.(mp4|webm|ogg|gifv)(?:\?.*)?$/i.test(url);
+	}
+
+	function toVideoUrl(url: string): string {
+		// Imgur gifv -> mp4
+		if (/\.gifv$/i.test(url)) {
+			return url.replace(/\.gifv$/i, '.mp4');
+		}
+		// Imgur page URL (e.g., https://imgur.com/abc123) -> direct mp4
+		const imgurMatch = url.match(/^https?:\/\/imgur\.com\/([A-Za-z0-9]+)$/);
+		if (imgurMatch) {
+			return `https://i.imgur.com/${imgurMatch[1]}.mp4`;
+		}
+		return url;
 	}
 </script>
 
@@ -105,7 +161,9 @@
 			<div class="max-w-6xl w-full">
 				<Card class="mb-6">
 					<CardHeader class="text-center">
-						<CardTitle class="text-4xl font-bold text-blue-600">{$gameConfig.title}</CardTitle>
+						<CardTitle class="text-4xl font-bold text-blue-600 flex items-center justify-center gap-4">{$gameConfig.title}
+							<Button variant="outline" size="sm" onclick={() => reloadConfig()}>Reload Config</Button>
+						</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<div class="grid md:grid-cols-2 gap-6">
@@ -163,7 +221,7 @@
 					{/each}
 
 					<!-- Question Values -->
-					{#each [100, 200, 300, 400, 500] as value}
+					{#each Array.from(new Set($gameConfig.categories.flatMap(c => c.questions.map(q => q.value)))).sort((a,b)=>a-b) as value}
 						{#each $gameConfig.categories as category}
 							{@const isAnswered = isQuestionAnswered(category.name, value)}
 							<button
@@ -180,12 +238,14 @@
 				<!-- Player Scores -->
 				<div class="mt-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
 					{#each $gameState.players as player}
-						<Card class="text-center">
-							<CardContent class="p-3">
-								<p class="font-semibold truncate">{player.name}</p>
-								<p class="text-xl font-bold text-blue-600">${player.score}</p>
-							</CardContent>
-						</Card>
+						<button onclick={() => openScoreEditor(player)} class="text-left">
+							<Card class="text-center hover:bg-accent transition-colors cursor-pointer">
+								<CardContent class="p-3">
+									<p class="font-semibold truncate">{player.name}</p>
+									<p class="text-xl font-bold text-blue-600">${player.score}</p>
+								</CardContent>
+							</Card>
+						</button>
 					{/each}
 				</div>
 			</div>
@@ -205,7 +265,20 @@
 							<p class="text-2xl">{$fullQuestion?.question}</p>
 							
 							{#if $fullQuestion?.image}
-								<img src={$fullQuestion.image} alt="" class="mx-auto mt-4 max-h-64 rounded-lg" />
+								{#if isVideo($fullQuestion.image)}
+									<video
+										src={toVideoUrl($fullQuestion.image)}
+										autoplay
+										loop
+										playsinline
+										controls
+										class="mx-auto mt-4 max-h-64 rounded-lg"
+									>
+										<track kind="captions" label="Video" default />
+									</video>
+								{:else}
+									<img src={$fullQuestion.image} alt="" class="mx-auto mt-4 max-h-64 rounded-lg" />
+								{/if}
 							{/if}
 							
 							{#if $fullQuestion?.youtube}
@@ -236,12 +309,18 @@
 
 						<!-- Buzzer Controls -->
 						<div class="flex justify-center gap-4 flex-wrap">
-							<Button onclick={() => lockBuzzer()} variant="secondary" disabled={$gameState.buzzerLocked}>
-								Lock Buzzers
+							<Button onclick={() => cancelQuestion()} variant="ghost">
+								Cancel Question
 							</Button>
-							<Button onclick={() => unlockBuzzer()} variant="secondary" disabled={!$gameState.buzzerLocked}>
-								Unlock Buzzers
-							</Button>
+							{#if !$gameState.buzzerLocked}
+								<Button onclick={() => lockBuzzer()} variant="outline">
+									Lock Buzzers
+								</Button>
+							{:else}
+								<Button onclick={() => unlockBuzzer()} variant="outline">
+									Unlock Buzzers
+								</Button>
+							{/if}
 							<Button onclick={() => clearBuzzers()} variant="outline">
 								Clear Queue
 							</Button>
@@ -308,7 +387,7 @@
 							<Button onclick={() => backToGame()} variant="outline" class="px-8">
 								Back to Game
 							</Button>
-							<Button onclick={() => startGame()} variant="default" class="px-8">
+							<Button onclick={handlePlayAgain} variant="default" class="px-8">
 								Play Again
 							</Button>
 							<Button onclick={handleResetGame} variant="secondary">
@@ -336,6 +415,58 @@
 						<Button onclick={cancelReset} variant="outline">Cancel</Button>
 						<Button onclick={confirmReset} variant="destructive">Reset Game</Button>
 					</div>
+				</CardContent>
+			</Card>
+		</div>
+	{/if}
+
+	<!-- Play Again Confirmation Modal -->
+	{#if showPlayAgainConfirm}
+		<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+			<Card class="w-full max-w-md mx-4">
+				<CardHeader>
+					<CardTitle class="text-center">Play Again?</CardTitle>
+				</CardHeader>
+				<CardContent class="space-y-4">
+					<p class="text-center text-muted-foreground">
+						This will reset all scores to 0 and start a new game with the same players.
+					</p>
+					<div class="flex justify-center gap-4">
+						<Button onclick={cancelPlayAgain} variant="outline">Cancel</Button>
+						<Button onclick={confirmPlayAgain} variant="default">Play Again</Button>
+					</div>
+				</CardContent>
+			</Card>
+		</div>
+	{/if}
+
+	<!-- Score Editor Modal -->
+	{#if editingPlayer}
+		<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+			<Card class="w-full max-w-md mx-4">
+				<CardHeader>
+					<CardTitle class="text-center">Edit Score</CardTitle>
+				</CardHeader>
+				<CardContent class="space-y-4">
+					<div class="text-center">
+						<p class="text-lg font-semibold mb-2">{editingPlayer.name}</p>
+						<p class="text-sm text-muted-foreground mb-4">Current Score: ${editingPlayer.score}</p>
+					</div>
+					<form onsubmit={(e) => { e.preventDefault(); saveScore(); }} class="space-y-4">
+						<div>
+						<label for="score-input" class="block text-sm font-medium mb-2">New Score</label>
+						<input
+							id="score-input"
+							type="number"
+							bind:value={editScoreValue}
+							class="w-full px-4 py-2 text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+						<div class="flex justify-center gap-4">
+							<Button type="button" onclick={closeScoreEditor} variant="outline">Cancel</Button>
+							<Button type="submit" variant="default">Save</Button>
+						</div>
+					</form>
 				</CardContent>
 			</Card>
 		</div>

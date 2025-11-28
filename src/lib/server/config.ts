@@ -1,83 +1,51 @@
 import { parse } from 'yaml';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, watch } from 'fs';
+import path from 'path';
 import type { GameConfig } from '$lib/types';
 
-const defaultConfig: GameConfig = {
-	title: 'Jeopardy!',
-	countdown: 30,
-	categories: [
-		{
-			name: 'Science',
-			questions: [
-				{ value: 100, question: 'This planet is known as the Red Planet', answer: 'What is Mars?' },
-				{ value: 200, question: 'This force keeps us on the ground', answer: 'What is gravity?' },
-				{ value: 300, question: 'H2O is the chemical formula for this', answer: 'What is water?' },
-				{ value: 400, question: 'This organ pumps blood through the body', answer: 'What is the heart?' },
-				{ value: 500, question: 'This scientist developed the theory of relativity', answer: 'Who is Albert Einstein?' }
-			]
-		},
-		{
-			name: 'History',
-			questions: [
-				{ value: 100, question: 'This document declared American independence in 1776', answer: 'What is the Declaration of Independence?' },
-				{ value: 200, question: 'This wall fell in 1989', answer: 'What is the Berlin Wall?' },
-				{ value: 300, question: 'This ship sank on its maiden voyage in 1912', answer: 'What is the Titanic?' },
-				{ value: 400, question: 'This ancient wonder was located in Egypt', answer: 'What are the Pyramids of Giza?' },
-				{ value: 500, question: 'This explorer is credited with discovering America', answer: 'Who is Christopher Columbus?' }
-			]
-		},
-		{
-			name: 'Geography',
-			questions: [
-				{ value: 100, question: 'This is the largest ocean on Earth', answer: 'What is the Pacific Ocean?' },
-				{ value: 200, question: 'This river is the longest in the world', answer: 'What is the Nile River?' },
-				{ value: 300, question: 'This country has the largest population', answer: 'What is China?' },
-				{ value: 400, question: 'This is the tallest mountain in the world', answer: 'What is Mount Everest?' },
-				{ value: 500, question: 'This desert is the largest hot desert in the world', answer: 'What is the Sahara Desert?' }
-			]
-		},
-		{
-			name: 'Pop Culture',
-			questions: [
-				{ value: 100, question: 'This wizard attends Hogwarts School', answer: 'Who is Harry Potter?' },
-				{ value: 200, question: 'This superhero is known as the Dark Knight', answer: 'Who is Batman?' },
-				{ value: 300, question: 'This band sang "Bohemian Rhapsody"', answer: 'Who is Queen?' },
-				{ value: 400, question: 'This movie features a time-traveling DeLorean', answer: 'What is Back to the Future?' },
-				{ value: 500, question: 'This streaming service has a red "N" logo', answer: 'What is Netflix?' }
-			]
-		},
-		{
-			name: 'Sports',
-			questions: [
-				{ value: 100, question: 'This sport uses a round orange ball and a hoop', answer: 'What is basketball?' },
-				{ value: 200, question: 'This country hosted the 2020 Summer Olympics', answer: 'What is Japan?' },
-				{ value: 300, question: 'This tennis tournament is played on grass at Wimbledon', answer: 'What is Wimbledon Championships?' },
-				{ value: 400, question: 'This soccer player is nicknamed "CR7"', answer: 'Who is Cristiano Ronaldo?' },
-				{ value: 500, question: 'This American football event is the championship game of the NFL', answer: 'What is the Super Bowl?' }
-			]
-		}
-	]
-};
+// Minimal fallback only if YAML missing or invalid.
+const FALLBACK: GameConfig = { title: 'Jeopardy!', countdown: 30, categories: [] };
 
-export function loadGameConfig(): GameConfig {
-	const configPath = process.env.CONFIG_PATH || '/config/game.yaml';
-
-	if (existsSync(configPath)) {
-		try {
-			const configContent = readFileSync(configPath, 'utf-8');
-			const config = parse(configContent) as GameConfig;
-			return {
-				title: config.title || defaultConfig.title,
-				countdown: config.countdown || defaultConfig.countdown,
-				categories: config.categories || defaultConfig.categories
-			};
-		} catch (error) {
-			console.error('Error loading config from file, using defaults:', error);
-			return defaultConfig;
-		}
-	}
-
-	return defaultConfig;
+function resolvePath(): string {
+	const envPath = process.env.CONFIG_PATH;
+	if (envPath && existsSync(envPath)) return envPath;
+	const local = path.resolve('config/game.yaml');
+	if (existsSync(local)) return local;
+	return envPath || local; // may be missing; caller handles
 }
 
-export { defaultConfig };
+export function loadGameConfig(): GameConfig {
+	const configPath = resolvePath();
+	if (existsSync(configPath)) {
+		try {
+			const raw = readFileSync(configPath, 'utf-8');
+			const parsed = parse(raw) as Partial<GameConfig>;
+			return {
+				title: parsed.title || FALLBACK.title,
+				countdown: parsed.countdown ?? FALLBACK.countdown,
+				categories: parsed.categories || FALLBACK.categories
+			};
+		} catch (err) {
+			console.error('Failed to parse game config YAML. Using fallback.', err);
+			return FALLBACK;
+		}
+	} else {
+		console.warn(`Game config not found at ${configPath}. Using fallback.`);
+	}
+	return FALLBACK;
+}
+
+export function watchGameConfig(onChange: (cfg: GameConfig) => void) {
+	if (process.env.NODE_ENV === 'production') return; // avoid watchers in prod
+	const file = resolvePath();
+	if (!existsSync(file)) return;
+	try {
+		watch(file, { persistent: false }, () => {
+			const cfg = loadGameConfig();
+			onChange(cfg);
+			console.log('[config] Reloaded game.yaml');
+		});
+	} catch (err) {
+		console.error('Failed to watch config file', err);
+	}
+}

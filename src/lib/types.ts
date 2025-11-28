@@ -38,6 +38,7 @@ export interface GameState {
 	buzzerLocked: boolean;
 	gamePhase: 'lobby' | 'playing' | 'question' | 'answer' | 'leaderboard';
 	hostConnected: boolean;
+	showAnswer: boolean;
 }
 
 export interface ClientGameState {
@@ -48,4 +49,5 @@ export interface ClientGameState {
 	buzzerOrder: BuzzEvent[];
 	buzzerLocked: boolean;
 	gamePhase: 'lobby' | 'playing' | 'question' | 'answer' | 'leaderboard';
+	showAnswer: boolean;
 }

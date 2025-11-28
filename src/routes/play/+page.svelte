@@ -11,7 +11,8 @@
 		gameConfig,
 		playerId,
 		buzz,
-		connected
+		connected,
+		joinError
 	} from '$lib/stores/socket';
 
 	let username = $state('');
@@ -32,14 +33,25 @@
 		}
 	});
 
-	function handleJoin() {
+	async function handleJoin() {
 		if (username.trim()) {
-			// Save username to localStorage for session restoration
-			localStorage.setItem(STORAGE_KEY, username.trim());
-			playerJoin(username.trim());
-			hasJoined = true;
+			joinError.set(null);
+			const result = await playerJoin(username.trim());
+			if (result.success) {
+				// Save username to localStorage for session restoration
+				localStorage.setItem(STORAGE_KEY, username.trim());
+				hasJoined = true;
+			}
+			// Error is already set in the store by playerJoin
 		}
 	}
+
+	// Clear error when username changes
+	$effect(() => {
+		if (username) {
+			joinError.set(null);
+		}
+	});
 
 	function handleBuzz() {
 		buzz();
@@ -96,6 +108,11 @@
 						maxlength={20}
 						class="text-lg py-6"
 					/>
+					{#if $joinError}
+						<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+							<p class="text-sm font-semibold">{$joinError}</p>
+						</div>
+					{/if}
 					<Button type="submit" class="w-full text-lg py-6" disabled={!username.trim()}>
 						Join Game
 					</Button>
