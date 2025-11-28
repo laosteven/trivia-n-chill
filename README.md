@@ -1,1 +1,109 @@
-# silver-eureka
+# Jeopardy
+
+A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interactive trivia games where friends can join by scanning a QR code!
+
+## Features
+
+- 🎮 **Host Controls**: Full control over game flow, question selection, and scoring
+- 📱 **QR Code Join**: Players can easily join by scanning a QR code
+- ⚡ **Real-time**: WebSocket-powered buzzer system with instant feedback
+- 🏆 **Leaderboard**: Track scores and display rankings at the end
+- ⚙️ **Customizable**: Configure questions, categories, and game settings via YAML
+- 🐳 **Docker Ready**: Easy self-hosting with Docker Compose
+
+## Quick Start
+
+### Using Docker Compose (Recommended)
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/laosteven/silver-eureka.git
+   cd silver-eureka
+   ```
+
+2. (Optional) Customize your game by editing `config/game.yaml`
+
+3. Start the application:
+   ```bash
+   docker compose up -d
+   ```
+
+4. Open `http://localhost:3000` in your browser
+
+### Local Development
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Open `http://localhost:5173` in your browser
+
+## How to Play
+
+### For the Host
+
+1. Go to the main page and click "Host a Game"
+2. Share the QR code with players or give them the join URL
+3. Wait for players to join, then click "Start Game"
+4. Select questions from the board
+5. Award or deduct points based on answers
+6. Show the leaderboard when the game is over
+
+### For Players
+
+1. Scan the QR code or navigate to the join URL
+2. Enter a temporary username
+3. Wait for the host to start the game
+4. When a question appears, press the big red BUZZ button to answer first!
+5. Check your score and rank throughout the game
+
+## Configuration
+
+The game can be customized by editing the `config/game.yaml` file:
+
+```yaml
+title: "My Trivia Night!"
+countdown: 30
+
+categories:
+  - name: "Category Name"
+    questions:
+      - value: 100
+        question: "Your question here"
+        answer: "What is the answer?"
+      - value: 200
+        question: "Another question"
+        answer: "Another answer"
+```
+
+### Configuration Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `title` | Game title displayed on screens | "Jeopardy!" |
+| `countdown` | Seconds allowed to answer (future feature) | 30 |
+| `categories` | Array of category objects | Default categories |
+
+## Tech Stack
+
+- **Frontend**: SvelteKit 2, shadcn-svelte, TailwindCSS
+- **Backend**: Node.js, Socket.IO
+- **Build**: Vite, adapter-node
+- **Containerization**: Docker
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | 3000 |
+| `CONFIG_PATH` | Path to game YAML config | /config/game.yaml |
+
+## License
+
+MIT
