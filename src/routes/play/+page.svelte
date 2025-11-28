@@ -18,7 +18,7 @@
 	let hasJoined = $state(false);
 	let buzzed = $state(false);
 
-	const STORAGE_KEY = 'jeopardy_username';
+	const STORAGE_KEY = 'jeopardy-game_username';
 
 	onMount(() => {
 		if (browser) {
