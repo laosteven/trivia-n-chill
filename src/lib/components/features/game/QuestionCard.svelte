@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Card, CardHeader, CardTitle, CardContent } from "$lib/components/ui/card";
   import HostQuestionControls from "$lib/components/features/host/HostQuestionControls.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
+  import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
   const p = $props<{
     question: {
       category: string;
@@ -72,7 +72,10 @@
       </div>
     {:else}
       <div class="text-center">
-        <Button onclick={p.reveal}>Reveal answer</Button>
+        <Button
+          onclick={p.reveal}
+          class="bg-green-600 hover:bg-green-700 text-white border-green-700">Reveal answer</Button
+        >
       </div>
     {/if}
 

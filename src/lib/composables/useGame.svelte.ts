@@ -22,6 +22,9 @@ import {
   updatePlayerScore as socketUpdatePlayerScore,
   hostUpdatePlayerName as socketHostUpdatePlayerName,
   reloadConfig as socketReloadConfig,
+  clearPlayers as socketClearPlayers,
+  removePlayer as socketRemovePlayer,
+  clearDisconnected as socketClearDisconnected,
   gameState,
 } from "$lib/stores/socket";
 import type { Player } from "$lib/types";
@@ -64,6 +67,27 @@ export function useGame() {
    */
   function resetGame() {
     socketResetGame();
+  }
+
+  /**
+   * Clear all players and return to lobby (fresh start)
+   */
+  function clearPlayers() {
+    socketClearPlayers();
+  }
+
+  /**
+   * Remove a single player
+   */
+  function removePlayer(playerId: string) {
+    socketRemovePlayer(playerId);
+  }
+
+  /**
+   * Clear only disconnected players
+   */
+  function clearDisconnected() {
+    socketClearDisconnected();
   }
 
   /**
@@ -173,6 +197,9 @@ export function useGame() {
     getLeaderboard,
     startGame,
     resetGame,
+    clearPlayers,
+    removePlayer,
+    clearDisconnected,
     showLeaderboard,
     backToGame,
     markCorrect,

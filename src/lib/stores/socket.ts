@@ -191,6 +191,19 @@ export function resetGame() {
   fullQuestion.set(null);
 }
 
+export function clearPlayers() {
+  socket?.emit("clearPlayers");
+  fullQuestion.set(null);
+}
+
+export function removePlayer(playerId: string) {
+  socket?.emit("removePlayer", playerId);
+}
+
+export function clearDisconnected() {
+  socket?.emit("clearDisconnected");
+}
+
 export function reloadConfig() {
   socket?.emit("reloadConfig");
 }

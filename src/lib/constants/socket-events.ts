@@ -22,6 +22,9 @@ export const SOCKET_EVENTS = {
   RELOAD_CONFIG: "reloadConfig",
   UPDATE_PLAYER_SCORE: "updatePlayerScore",
   HOST_UPDATE_PLAYER_NAME: "hostUpdatePlayerName",
+  CLEAR_PLAYERS: "clearPlayers",
+  REMOVE_PLAYER: "removePlayer",
+  CLEAR_DISCONNECTED: "clearDisconnected",
 
   // Player events
   PLAYER_JOIN: "playerJoin",

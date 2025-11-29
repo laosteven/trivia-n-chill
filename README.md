@@ -2,16 +2,52 @@
 
 A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interactive trivia games where friends can join by scanning a QR code!
 
+## Screenshots
+
+### Landing page
+
+![Landing](https://imgur.com/8feG4Ge.png)
+
+### Lobby & join
+
+![Lobby](https://imgur.com/hVTWca2.png)
+
+### Host game board
+
+![Gameboard](https://imgur.com/MmIZtxh.png)
+
+![Question](https://imgur.com/vkMhdQq.png)
+
+### Player view
+
+![Landing](https://imgur.com/HPxhydK.png)
+
+![Stand by](https://imgur.com/yT45TU2.png)
+
+![Rename modal](https://imgur.com/XpG2qRL.png)
+
+![Buzzer](https://imgur.com/XjIsWC0.png)
+
+![Buzzed](https://imgur.com/SIizWcM.png)
+
+### Player management
+
+![Management](https://imgur.com/JQN4lSq.png)
+
+### Leaderboard
+
+![Leaderboard](https://imgur.com/Zlf8Kd3.png)
+
 ## Features
 
-- 🎮 **Host Controls**: Full control over game flow, question selection, and scoring
-- 📱 **QR Code Join**: Players can easily join by scanning a QR code
+- 🎮 **Host controls**: Full control over game flow, question selection, and scoring
+- 📱 **QR code join**: Players can easily join by scanning a QR code
 - ⚡ **Real-time**: WebSocket-powered buzzer system with instant feedback and sound alerts
 - 🏆 **Leaderboard**: Track scores and display rankings at the end
 - ⚙️ **Customizable**: Configure questions, categories, and game settings via YAML or environment variables
-- 🖼️ **Media Support**: Add images (imgur, etc.) and YouTube videos to questions
-- 🔄 **Session Restore**: Players can restore their session if they refresh by using the same username
-- 🐳 **Docker Ready**: Easy self-hosting with Docker Compose
+- 🖼️ **Media support**: Add images (imgur, etc.) and YouTube videos to questions
+- 🔄 **Session restore**: Players can restore their session if they refresh by using the same username
+- 🐳 **Docker ready**: Easy self-hosting with Docker Compose
 
 ## Quick Start
 

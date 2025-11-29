@@ -64,6 +64,42 @@ export class HostHandler {
   }
 
   /**
+   * Handle clearing all players (kick everyone and return to lobby)
+   */
+  handleClearPlayers(): void {
+    this.playerService.clearAllPlayers();
+    // Reset game state (clears questions, buzzers, etc.)
+    this.gameStateService.reset();
+    this.gameStateService.setPhase("lobby");
+    console.log("All players cleared by host");
+  }
+
+  /**
+   * Remove a single player by id
+   */
+  handleRemovePlayer(playerId: string): void {
+    const player = this.playerService.getPlayer(playerId);
+    if (!player) {
+      console.log(`Remove player failed: ${playerId} not found`);
+      return;
+    }
+    this.playerService.removePlayer(playerId);
+    // Also update buzzer queue
+    this.gameStateService.removeBuzz(playerId);
+    console.log(`Player removed: ${player.name} (${playerId})`);
+  }
+
+  /**
+   * Clear only disconnected players
+   */
+  handleClearDisconnected(): void {
+    const removed = this.playerService.clearDisconnected();
+    if (removed > 0) {
+      console.log(`Removed ${removed} disconnected players`);
+    }
+  }
+
+  /**
    * Handle show leaderboard
    */
   handleShowLeaderboard(): void {

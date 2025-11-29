@@ -78,6 +78,19 @@ export class PlayerService {
   }
 
   /**
+   * Remove all disconnected players
+   */
+  clearDisconnected(): number {
+    const before = this.players.size;
+    for (const [id, player] of this.players.entries()) {
+      if (!player.connected) {
+        this.players.delete(id);
+      }
+    }
+    return before - this.players.size;
+  }
+
+  /**
    * Update player name and optionally restore score
    * @param restoreScore - If true, will restore score from new username if available
    * @returns The final score after update
@@ -142,6 +155,15 @@ export class PlayerService {
       player.score = 0;
       this.playerScores.set(player.name.toLowerCase(), 0);
     });
+  }
+
+  /**
+   * Clear all players from the game (kick everyone)
+   * Also clears stored scores for a fresh start
+   */
+  clearAllPlayers(): void {
+    this.players.clear();
+    this.playerScores.clear();
   }
 
   /**

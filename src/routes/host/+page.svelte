@@ -1,25 +1,32 @@
 <script lang="ts">
-  import PlayerManagement from "$lib/components/features/host/PlayerManagement.svelte";
-  import { onMount } from "svelte";
   import { browser } from "$app/environment";
+  import GameBoard from "$lib/components/features/game/GameBoard.svelte";
+  import QuestionCard from "$lib/components/features/game/QuestionCard.svelte";
+  import HostControls from "$lib/components/features/host/HostControls.svelte";
+  import PlayerManagement from "$lib/components/features/host/PlayerManagement.svelte";
+  import Leaderboard from "$lib/components/features/leaderboard/Leaderboard.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
   import {
-    initSocket,
-    hostJoin,
-    gameState,
-    gameConfig,
-    fullQuestion,
-    connected,
-  } from "$lib/stores/socket";
-  import { useGame } from "$lib/composables/useGame.svelte";
-  import { useQRCode } from "$lib/composables/useQRCode.svelte";
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+  } from "$lib/components/ui/dropdown-menu";
   import { useBuzzer } from "$lib/composables/useBuzzer.svelte";
+  import { useGame } from "$lib/composables/useGame.svelte";
   import { useMedia } from "$lib/composables/useMedia.svelte";
-  import HostControls from "$lib/components/features/host/HostControls.svelte";
-  import GameBoard from "$lib/components/features/game/GameBoard.svelte";
-  import QuestionCard from "$lib/components/features/game/QuestionCard.svelte";
-  import Leaderboard from "$lib/components/features/leaderboard/Leaderboard.svelte";
+  import { useQRCode } from "$lib/composables/useQRCode.svelte";
+  import {
+    connected,
+    fullQuestion,
+    gameConfig,
+    gameState,
+    hostJoin,
+    initSocket,
+  } from "$lib/stores/socket";
+  import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
+  import { onMount } from "svelte";
 
   const game = useGame();
   const qrCode = useQRCode();
@@ -28,6 +35,11 @@
 
   let showResetConfirm = $state(false);
   let showPlayAgainConfirm = $state(false);
+  let showClearPlayersConfirm = $state(false);
+  let showClearDisconnectedConfirm = $state(false);
+  let editingPlayerId = $state<string | null>(null);
+  let editingName = $state("");
+  let editError = $state("");
 
   onMount(() => {
     if (browser) {
@@ -64,6 +76,57 @@
   function cancelPlayAgain() {
     showPlayAgainConfirm = false;
   }
+
+  function handleClearPlayers() {
+    showClearPlayersConfirm = true;
+  }
+
+  function confirmClearPlayers() {
+    game.clearPlayers();
+    showClearPlayersConfirm = false;
+  }
+
+  function cancelClearPlayers() {
+    showClearPlayersConfirm = false;
+  }
+
+  function handleClearDisconnected() {
+    showClearDisconnectedConfirm = true;
+  }
+
+  function confirmClearDisconnected() {
+    game.clearDisconnected();
+    showClearDisconnectedConfirm = false;
+  }
+
+  function cancelClearDisconnected() {
+    showClearDisconnectedConfirm = false;
+  }
+
+  function startEditingName(playerId: string, currentName: string) {
+    editingPlayerId = playerId;
+    editingName = currentName;
+    editError = "";
+  }
+
+  function cancelEditName() {
+    editingPlayerId = null;
+    editingName = "";
+    editError = "";
+  }
+
+  async function saveEditName() {
+    if (!editingPlayerId) return;
+
+    const result = await game.updatePlayerName(editingPlayerId, editingName);
+    if (result.success) {
+      editingPlayerId = null;
+      editingName = "";
+      editError = "";
+    } else {
+      editError = result.error || "Failed to update name";
+    }
+  }
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 p-4 flex flex-col">
@@ -99,15 +162,72 @@
                 </p>
               </div>
               <div>
-                <h3 class="text-xl font-semibold mb-4">
-                  Players ({$gameState.players.length})
-                </h3>
+                <div class="flex items-center gap-4 mb-4">
+                  <h3 class="text-xl font-semibold mr-auto">
+                    Players ({$gameState.players.length})
+                  </h3>
+                  {#if $gameState.players.length > 0}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <Button size="icon" variant="outline" aria-label="More Options">
+                          <MoreHorizontal />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onclick={handleClearDisconnected}>
+                          Remove disconnected
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onclick={handleClearPlayers}>
+                          Clear players
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  {/if}
+                </div>
                 <div class="space-y-2 max-h-64 overflow-y-auto">
                   {#each $gameState.players as player}
-                    <div class="p-2 bg-secondary rounded-lg flex items-center justify-between">
-                      <span>{player.name}</span>
-                      {#if !player.connected}
-                        <span class="text-xs text-red-600 font-semibold">Disconnected</span>
+                    <div
+                      class="px-4 py-2 bg-secondary rounded-lg flex items-center justify-between"
+                    >
+                      {#if editingPlayerId === player.id}
+                        <div class="flex flex-col gap-1 flex-1">
+                          <input
+                            type="text"
+                            bind:value={editingName}
+                            class="px-2 py-1 rounded border bg-background"
+                            placeholder="Player name"
+                          />
+                          {#if editError}
+                            <span class="text-xs text-red-600">{editError}</span>
+                          {/if}
+                        </div>
+                        <div class="flex items-center gap-2 ml-2">
+                          <Button size="sm" onclick={saveEditName}>Save</Button>
+                          <Button size="sm" variant="outline" onclick={cancelEditName}
+                            >Cancel</Button
+                          >
+                        </div>
+                      {:else}
+                        <span>{player.name}</span>
+                        {#if !player.connected}
+                          <div class="flex items-center gap-2">
+                            <span class="text-xs text-red-600 font-semibold">Disconnected</span>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              class="text-xs"
+                              onclick={() => game.removePlayer(player.id)}>❌</Button
+                            >
+                          </div>
+                        {/if}
+                        {#if player.connected}
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            class="text-xs"
+                            onclick={() => startEditingName(player.id, player.name)}>✏️</Button
+                          >
+                        {/if}
                       {/if}
                     </div>
                   {/each}
@@ -117,7 +237,7 @@
                 </div>
               </div>
             </div>
-            <div class="mt-6 text-center">
+            <div class="flex mt-6 text-center gap-4 justify-center">
               <Button
                 onclick={() => game.startGame()}
                 disabled={$gameState.players.length === 0}
@@ -201,7 +321,9 @@
                           <Button
                             onclick={() => game.markCorrect(buzz.playerId)}
                             variant="default"
-                            size="sm">Correct</Button
+                            size="sm"
+                            class="bg-green-600 hover:bg-green-700 text-white border-green-700"
+                            >Correct</Button
                           >
                           <Button
                             onclick={() => game.markIncorrect(buzz.playerId)}
@@ -281,6 +403,48 @@
           <div class="flex justify-center gap-4">
             <Button onclick={cancelPlayAgain} variant="outline">Cancel</Button>
             <Button onclick={confirmPlayAgain} variant="default">Play again</Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  {/if}
+
+  <!-- Clear Players Confirmation Modal -->
+  {#if showClearPlayersConfirm}
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <Card class="w-full max-w-md mx-4">
+        <CardHeader>
+          <CardTitle class="text-center">Remove all players?</CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <p class="text-center text-muted-foreground">
+            This will kick everyone and return to an empty lobby. This action cannot be undone.
+          </p>
+          <div class="flex justify-center gap-4">
+            <Button onclick={cancelClearPlayers} variant="outline">Cancel</Button>
+            <Button onclick={confirmClearPlayers} variant="destructive">Remove all</Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  {/if}
+
+  <!-- Clear Disconnected Confirmation Modal -->
+  {#if showClearDisconnectedConfirm}
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <Card class="w-full max-w-md mx-4">
+        <CardHeader>
+          <CardTitle class="text-center">Remove disconnected players?</CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <p class="text-center text-muted-foreground">
+            This will remove only players marked as disconnected.
+          </p>
+          <div class="flex justify-center gap-4">
+            <Button onclick={cancelClearDisconnected} variant="outline">Cancel</Button>
+            <Button onclick={confirmClearDisconnected} variant="secondary"
+              >Remove disconnected</Button
+            >
           </div>
         </CardContent>
       </Card>

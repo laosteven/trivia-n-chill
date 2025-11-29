@@ -206,6 +206,24 @@ export function initSocketServer(server: HTTPServer) {
       broadcastGameState();
     });
 
+    // Host clears all players
+    socket.on(SOCKET_EVENTS.CLEAR_PLAYERS, () => {
+      hostHandler.handleClearPlayers();
+      broadcastGameState();
+    });
+
+    // Host removes a single player
+    socket.on(SOCKET_EVENTS.REMOVE_PLAYER, (playerId: string) => {
+      hostHandler.handleRemovePlayer(playerId);
+      broadcastGameState();
+    });
+
+    // Host clears only disconnected players
+    socket.on(SOCKET_EVENTS.CLEAR_DISCONNECTED, () => {
+      hostHandler.handleClearDisconnected();
+      broadcastGameState();
+    });
+
     // Host reveals answer (sets showAnswer true)
     socket.on(SOCKET_EVENTS.REVEAL_ANSWER, () => {
       gameHandler.handleRevealAnswer();

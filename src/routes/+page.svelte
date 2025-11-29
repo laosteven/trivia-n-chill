@@ -24,9 +24,9 @@
   <Card class="w-full max-w-md">
     <CardHeader class="text-center">
       <CardTitle class="text-4xl font-bold text-blue-600"
-        >{$gameConfig.title.toUpperCase()}</CardTitle
+        >{$gameConfig.title}</CardTitle
       >
-      <CardDescription class="text-lg">Self-hosted trivia game</CardDescription>
+      <CardDescription>Self-hosted trivia game</CardDescription>
     </CardHeader>
     <CardContent class="space-y-4">
       <a href="/host" class="block">
