@@ -1,8 +1,7 @@
 # Trivia Game Configuration
 # Customize your game by editing this file
-# Note: Game title is set via GAME_TITLE environment variable in .env
 
-countdown: 30  # Seconds to answer (future feature)
+countdown: 30 # Seconds to answer (future feature)
 
 categories:
   - name: "Science"

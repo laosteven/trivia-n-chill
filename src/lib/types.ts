@@ -1,53 +1,53 @@
 export interface GameConfig {
-	title: string;
-	countdown: number;
-	categories: Category[];
+  title: string;
+  countdown: number;
+  categories: Category[];
 }
 
 export interface Category {
-	name: string;
-	questions: Question[];
+  name: string;
+  questions: Question[];
 }
 
 export interface Question {
-	value: number;
-	question: string;
-	answer: string;
-	image?: string;
-	youtube?: string;
+  value: number;
+  question: string;
+  answer: string;
+  image?: string;
+  youtube?: string;
 }
 
 export interface Player {
-	id: string;
-	name: string;
-	score: number;
+  id: string;
+  name: string;
+  score: number;
 }
 
 export interface BuzzEvent {
-	playerId: string;
-	playerName: string;
-	timestamp: number;
+  playerId: string;
+  playerName: string;
+  timestamp: number;
 }
 
 export interface GameState {
-	players: Map<string, Player>;
-	currentQuestion: Question | null;
-	currentCategory: string | null;
-	answeredQuestions: Set<string>;
-	buzzerOrder: BuzzEvent[];
-	buzzerLocked: boolean;
-	gamePhase: 'lobby' | 'playing' | 'question' | 'answer' | 'leaderboard';
-	hostConnected: boolean;
-	showAnswer: boolean;
+  players: Map<string, Player>;
+  currentQuestion: Question | null;
+  currentCategory: string | null;
+  answeredQuestions: Set<string>;
+  buzzerOrder: BuzzEvent[];
+  buzzerLocked: boolean;
+  gamePhase: "lobby" | "playing" | "question" | "answer" | "leaderboard";
+  hostConnected: boolean;
+  showAnswer: boolean;
 }
 
 export interface ClientGameState {
-	players: Player[];
-	currentQuestion: Question | null;
-	currentCategory: string | null;
-	answeredQuestions: string[];
-	buzzerOrder: BuzzEvent[];
-	buzzerLocked: boolean;
-	gamePhase: 'lobby' | 'playing' | 'question' | 'answer' | 'leaderboard';
-	showAnswer: boolean;
+  players: Player[];
+  currentQuestion: Question | null;
+  currentCategory: string | null;
+  answeredQuestions: string[];
+  buzzerOrder: BuzzEvent[];
+  buzzerLocked: boolean;
+  gamePhase: "lobby" | "playing" | "question" | "answer" | "leaderboard";
+  showAnswer: boolean;
 }

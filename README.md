@@ -17,22 +17,16 @@ A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interac
 
 ### Using Docker Compose (Recommended)
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/laosteven/silver-eureka.git
-   cd silver-eureka
-   ```
-
-2. (Optional) Customize your game:
+1. (Optional) Customize your game:
    - Edit `config/game.yaml` for questions
    - Set `GAME_TITLE` in environment for custom title
 
-3. Start the application:
+2. Start the application:
    ```bash
    docker compose up -d
    ```
 
-4. Open `http://localhost:3000` in your browser
+3. Open `http://localhost:3000` in your browser
 
 ### Local Development
 
