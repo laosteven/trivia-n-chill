@@ -57,10 +57,23 @@ A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interac
    - Edit `config/game.yaml` for questions
    - Set `GAME_TITLE` in environment for custom title
 
-2. Start the application:
+2. Use this snippet:
 
-   ```bash
-   docker compose up -d
+   ```yml
+   version: "3.8"
+   services:
+   trivia:
+      image: laosteven/trivia-n-chill:latest
+      container_name: trivia-n-chill
+      restart: unless-stopped
+      ports:
+         - "3000:3000"
+      environment:
+         PORT: 3000
+         NODE_ENV: production
+         CONFIG_PATH: /app/config/game.yaml
+      volumes:
+         - ./game.yaml:/app/config/game.yaml:ro
    ```
 
 3. Open `http://localhost:3000` in your browser
