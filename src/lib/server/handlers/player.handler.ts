@@ -133,9 +133,7 @@ export class PlayerHandler {
     // Update localStorage hint for client
     socket.emit(SOCKET_EVENTS.UPDATE_USERNAME, { newUsername: cleanName });
 
-    console.log(
-      `Player renamed: ${oldName} -> ${cleanName} (score: ${restoredScore})`
-    );
+    console.log(`Player renamed: ${oldName} -> ${cleanName} (score: ${restoredScore})`);
     callback?.({ success: true });
   }
 

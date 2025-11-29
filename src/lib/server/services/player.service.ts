@@ -3,7 +3,7 @@
  * Handles all player-related business logic
  */
 
-import type { Player } from '../../types';
+import type { Player } from "../../types";
 
 export class PlayerService {
   private players: Map<string, Player>;

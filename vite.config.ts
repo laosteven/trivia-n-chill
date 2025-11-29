@@ -16,9 +16,7 @@ export default defineConfig(() => {
           const { initSocketServer } = await import("./src/lib/server/socket.js");
           // Cast to any to accommodate Vite's dev server http implementation (http/https/http2)
           initSocketServer(server.httpServer as any);
-          console.log(
-            "[dev] Socket server initialized using shared implementation"
-          );
+          console.log("[dev] Socket server initialized using shared implementation");
         },
       },
     ],

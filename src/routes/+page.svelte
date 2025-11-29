@@ -30,14 +30,10 @@
     </CardHeader>
     <CardContent class="space-y-4">
       <a href="/host" class="block">
-        <Button class="w-full text-lg py-6" variant="default">
-          Host a game
-        </Button>
+        <Button class="w-full text-lg py-6" variant="default">Host a game</Button>
       </a>
       <a href="/play" class="block">
-        <Button class="w-full text-lg py-6" variant="secondary">
-          Join as player
-        </Button>
+        <Button class="w-full text-lg py-6" variant="secondary">Join as player</Button>
       </a>
     </CardContent>
   </Card>

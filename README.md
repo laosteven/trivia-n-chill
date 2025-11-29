@@ -22,6 +22,7 @@ A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interac
    - Set `GAME_TITLE` in environment for custom title
 
 2. Start the application:
+
    ```bash
    docker compose up -d
    ```
@@ -31,17 +32,20 @@ A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interac
 ### Local Development
 
 1. Install dependencies:
+
    ```bash
    npm install
    ```
 
 2. (Optional) Create a `.env` file:
+
    ```bash
    cp .env.example .env
    # Edit .env to set GAME_TITLE
    ```
 
 3. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -95,21 +99,21 @@ categories:
 
 ### Configuration Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `title` | Game title displayed on screens | "Trivia & Chill" |
-| `countdown` | Seconds allowed to answer (future feature) | 30 |
-| `categories` | Array of category objects | Default categories |
+| Option       | Description                                | Default            |
+| ------------ | ------------------------------------------ | ------------------ |
+| `title`      | Game title displayed on screens            | "Trivia & Chill"   |
+| `countdown`  | Seconds allowed to answer (future feature) | 30                 |
+| `categories` | Array of category objects                  | Default categories |
 
 ### Question Options
 
-| Option | Description | Required |
-|--------|-------------|----------|
-| `value` | Point value (100, 200, etc.) | Yes |
-| `question` | The question text | Yes |
-| `answer` | The answer text | Yes |
-| `image` | URL to an image (imgur, etc.) | No |
-| `youtube` | YouTube video URL | No |
+| Option     | Description                   | Required |
+| ---------- | ----------------------------- | -------- |
+| `value`    | Point value (100, 200, etc.)  | Yes      |
+| `question` | The question text             | Yes      |
+| `answer`   | The answer text               | Yes      |
+| `image`    | URL to an image (imgur, etc.) | No       |
+| `youtube`  | YouTube video URL             | No       |
 
 ## Tech Stack
 
@@ -120,11 +124,11 @@ categories:
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | Server port | 3000 |
+| Variable      | Description              | Default           |
+| ------------- | ------------------------ | ----------------- |
+| `PORT`        | Server port              | 3000              |
 | `CONFIG_PATH` | Path to game YAML config | /config/game.yaml |
-| `GAME_TITLE` | Game title | "Trivia & Chill" |
+| `GAME_TITLE`  | Game title               | "Trivia & Chill"  |
 
 ## License
 

@@ -64,12 +64,9 @@ export function initSocket() {
     connected.set(false);
   });
 
-  socket.on(
-    "gameState",
-    (state: ClientGameState & { showAnswer?: boolean }) => {
-      gameState.set(state);
-    }
-  );
+  socket.on("gameState", (state: ClientGameState & { showAnswer?: boolean }) => {
+    gameState.set(state);
+  });
 
   socket.on("gameConfig", (config: GameConfigClient) => {
     gameConfig.set(config);
@@ -114,24 +111,18 @@ export function hostJoin() {
   socket?.emit("hostJoin");
 }
 
-export function playerJoin(
-  username: string
-): Promise<{ success: boolean; error?: string }> {
+export function playerJoin(username: string): Promise<{ success: boolean; error?: string }> {
   return new Promise((resolve) => {
     if (!socket) {
       resolve({ success: false, error: "Not connected" });
       return;
     }
-    socket.emit(
-      "playerJoin",
-      username,
-      (result: { success: boolean; error?: string }) => {
-        if (!result.success) {
-          joinError.set(result.error || "Failed to join");
-        }
-        resolve(result);
+    socket.emit("playerJoin", username, (result: { success: boolean; error?: string }) => {
+      if (!result.success) {
+        joinError.set(result.error || "Failed to join");
       }
-    );
+      resolve(result);
+    });
   });
 }
 
@@ -208,24 +199,18 @@ export function updatePlayerScore(playerId: string, newScore: number) {
   socket?.emit("updatePlayerScore", { playerId, newScore });
 }
 
-export function playerRename(
-  newUsername: string
-): Promise<{ success: boolean; error?: string }> {
+export function playerRename(newUsername: string): Promise<{ success: boolean; error?: string }> {
   return new Promise((resolve) => {
     if (!socket) {
       resolve({ success: false, error: "Not connected" });
       return;
     }
-    socket.emit(
-      "playerRename",
-      newUsername,
-      (result: { success: boolean; error?: string }) => {
-        if (!result.success) {
-          joinError.set(result.error || "Failed to rename");
-        }
-        resolve(result);
+    socket.emit("playerRename", newUsername, (result: { success: boolean; error?: string }) => {
+      if (!result.success) {
+        joinError.set(result.error || "Failed to rename");
       }
-    );
+      resolve(result);
+    });
   });
 }
 

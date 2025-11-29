@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent,
-  } from "$lib/components/ui/card";
+  import { Card, CardHeader, CardTitle, CardContent } from "$lib/components/ui/card";
   import { Input } from "$lib/components/ui/input";
   import { Button } from "$lib/components/ui/button";
   import { hostUpdatePlayerName, updatePlayerScore } from "$lib/stores/socket";
@@ -58,9 +53,7 @@
     // Apply changes only if they differ
     if (newName !== player.name) {
       const result = await hostUpdatePlayerName(player.id, newName);
-      renameErrors[player.id] = result.success
-        ? null
-        : result.error || "Failed to rename";
+      renameErrors[player.id] = result.success ? null : result.error || "Failed to rename";
       if (!result.success) return; // stop if rename failed
     }
 
@@ -100,8 +93,7 @@
     <div
       class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
       onclick={() => (editingId = null)}
-      onkeydown={(e) =>
-        (e.key === "Escape" || e.key === "Enter") && (editingId = null)}
+      onkeydown={(e) => (e.key === "Escape" || e.key === "Enter") && (editingId = null)}
       role="button"
       tabindex="0"
     >
@@ -123,9 +115,7 @@
               </CardHeader>
               <CardContent class="space-y-4">
                 <div class="space-y-2">
-                  <label for={inputId} class="text-sm text-muted-foreground"
-                    >Username</label
-                  >
+                  <label for={inputId} class="text-sm text-muted-foreground">Username</label>
                   <Input
                     id={inputId}
                     type="text"
@@ -142,9 +132,7 @@
                 {/if}
 
                 <div class="space-y-2">
-                  <label for={scoreId} class="text-sm text-muted-foreground"
-                    >Score</label
-                  >
+                  <label for={scoreId} class="text-sm text-muted-foreground">Score</label>
                   <Input
                     id={scoreId}
                     type="number"
@@ -161,14 +149,10 @@
                 {/if}
 
                 <div class="flex items-center justify-between gap-2 mt-2">
-                  <Button
-                    variant="outline"
-                    onclick={() => (editingId = null)}
-                    class="flex-1">Close</Button
+                  <Button variant="outline" onclick={() => (editingId = null)} class="flex-1"
+                    >Close</Button
                   >
-                  <Button onclick={() => saveChanges(player)} class="flex-1"
-                    >Save</Button
-                  >
+                  <Button onclick={() => saveChanges(player)} class="flex-1">Save</Button>
                 </div>
               </CardContent>
             </Card>

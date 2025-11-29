@@ -11,12 +11,10 @@ import {
   gameState,
   playerId,
   joinError,
-  hostNotification,
   updatedUsername,
 } from "$lib/stores/socket";
 import type { Player } from "$lib/types";
 import { validateUsername } from "$lib/utils/validation";
-import { get } from "svelte/store";
 
 const STORAGE_KEY = "jeopardy-game_username";
 
@@ -31,8 +29,8 @@ export function usePlayer() {
 
   // Use $effect to keep local state in sync with stores
   $effect(() => {
-    const unsubState = gameState.subscribe(v => currentGameState = v);
-    const unsubId = playerId.subscribe(v => currentPlayerId = v);
+    const unsubState = gameState.subscribe((v) => (currentGameState = v));
+    const unsubId = playerId.subscribe((v) => (currentPlayerId = v));
     const unsubUpdatedName = updatedUsername.subscribe((val) => {
       if (val) {
         username = val;
@@ -68,7 +66,7 @@ export function usePlayer() {
 
     joinError.set(null);
     const result = await socketPlayerJoin(trimmedName);
-    
+
     if (result.success) {
       if (browser) {
         localStorage.setItem(STORAGE_KEY, trimmedName);
@@ -76,7 +74,7 @@ export function usePlayer() {
       username = trimmedName;
       hasJoined = true;
     }
-    
+
     return result;
   }
 
@@ -89,14 +87,14 @@ export function usePlayer() {
     const trimmedName = newName.trim();
 
     const result = await socketPlayerRename(trimmedName);
-    
+
     if (result.success) {
       if (browser) {
         localStorage.setItem(STORAGE_KEY, trimmedName);
       }
       username = trimmedName;
     }
-    
+
     return result;
   }
 
@@ -144,19 +142,37 @@ export function usePlayer() {
    */
   const buzzPosition = $derived.by(() => {
     if (!currentGameState.buzzerOrder) return 0;
-    const index = currentGameState.buzzerOrder.findIndex((b: any) => b.playerId === currentPlayerId);
+    const index = currentGameState.buzzerOrder.findIndex(
+      (b: any) => b.playerId === currentPlayerId
+    );
     return index + 1;
   });
 
   return {
-    get hasJoined() { return hasJoined; },
-    get username() { return username; },
-    set username(value: string) { username = value; },
-    get buzzed() { return buzzed; },
-    get currentPlayer() { return currentPlayer; },
-    get playerRank() { return playerRank; },
-    get hasBuzzedValue() { return hasBuzzedValue; },
-    get buzzPosition() { return buzzPosition; },
+    get hasJoined() {
+      return hasJoined;
+    },
+    get username() {
+      return username;
+    },
+    set username(value: string) {
+      username = value;
+    },
+    get buzzed() {
+      return buzzed;
+    },
+    get currentPlayer() {
+      return currentPlayer;
+    },
+    get playerRank() {
+      return playerRank;
+    },
+    get hasBuzzedValue() {
+      return hasBuzzedValue;
+    },
+    get buzzPosition() {
+      return buzzPosition;
+    },
     init,
     join,
     rename,

@@ -84,10 +84,7 @@ export class HostHandler {
   /**
    * Handle manual player score update by host
    */
-  handleUpdatePlayerScore(
-    socket: Socket,
-    data: { playerId: string; newScore: number }
-  ): void {
+  handleUpdatePlayerScore(socket: Socket, data: { playerId: string; newScore: number }): void {
     // Verify host permission
     if (!socket.rooms.has("host")) {
       console.log("Unauthorized score update attempt");
@@ -159,9 +156,7 @@ export class HostHandler {
     );
 
     if (existingPlayer) {
-      console.log(
-        `Host name update rejected: username "${cleanName}" already taken`
-      );
+      console.log(`Host name update rejected: username "${cleanName}" already taken`);
       callback?.({ success: false, error: "Username already taken" });
       return;
     }

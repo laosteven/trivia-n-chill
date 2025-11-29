@@ -102,9 +102,7 @@
     <!-- Username Entry -->
     <Card class="w-full max-w-md">
       <CardHeader class="text-center">
-        <CardTitle class="text-3xl font-bold text-purple-600"
-          >{$gameConfig.title}</CardTitle
-        >
+        <CardTitle class="text-3xl font-bold text-purple-600">{$gameConfig.title}</CardTitle>
         <CardDescription>Enter your name to join the game</CardDescription>
       </CardHeader>
       <CardContent>
@@ -123,17 +121,11 @@
             class="text-lg py-6"
           />
           {#if $joinError}
-            <div
-              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-            >
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
               <p class="text-sm font-semibold">{$joinError}</p>
             </div>
           {/if}
-          <Button
-            type="submit"
-            class="w-full text-lg py-6"
-            disabled={!player.username.trim()}
-          >
+          <Button type="submit" class="w-full text-lg py-6" disabled={!player.username.trim()}>
             Join game
           </Button>
         </form>
@@ -158,9 +150,7 @@
         <p class="text-muted-foreground">
           {$gameState.players.length} player(s) joined
         </p>
-        <Button onclick={openRenameModal} variant="outline" class="mt-4">
-          Change name
-        </Button>
+        <Button onclick={openRenameModal} variant="outline" class="mt-4">Change name</Button>
       </CardContent>
     </Card>
   {:else if $gameState.gamePhase === "playing"}
@@ -176,12 +166,8 @@
           rank={player.playerRank}
           totalPlayers={$gameState.players.length}
         />
-        <p class="text-muted-foreground">
-          Waiting for host to select a question...
-        </p>
-        <Button onclick={openRenameModal} variant="outline" size="sm">
-          Change name
-        </Button>
+        <p class="text-muted-foreground">Waiting for host to select a question...</p>
+        <Button onclick={openRenameModal} variant="outline" size="sm">Change name</Button>
       </CardContent>
     </Card>
   {:else if $gameState.gamePhase === "question"}

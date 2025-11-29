@@ -1,5 +1,9 @@
 <script lang="ts">
-  const p = $props<{ categories: { name: string; questions: { value: number }[] }[]; isAnswered: (cat: string, value: number) => boolean; onSelect: (cat: string, value: number) => void }>();
+  const p = $props<{
+    categories: { name: string; questions: { value: number }[] }[];
+    isAnswered: (cat: string, value: number) => boolean;
+    onSelect: (cat: string, value: number) => void;
+  }>();
 </script>
 
 <div class="grid gap-2" style={`grid-template-columns: repeat(${p.categories.length}, 1fr)`}>
@@ -9,7 +13,7 @@
     </div>
   {/each}
 
-  {#each (Array.from(new Set(p.categories.flatMap((c: { name: string; questions: { value: number }[] }) => c.questions.map((q: { value: number }) => q.value)))) as number[]).sort((a, b) => a - b) as value}
+  {#each (Array.from(new Set(p.categories.flatMap( (c: { name: string; questions: { value: number }[] }) => c.questions.map((q: { value: number }) => q.value) ))) as number[]).sort((a, b) => a - b) as value}
     {#each p.categories as category}
       {@const answered = p.isAnswered(category.name, value)}
       <button

@@ -1,6 +1,12 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  const p = $props<{ title: string; canStart: boolean; onStart: () => void; onShowLeaderboard: () => void; onReset: () => void }>();
+  const p = $props<{
+    title: string;
+    canStart: boolean;
+    onStart: () => void;
+    onShowLeaderboard: () => void;
+    onReset: () => void;
+  }>();
 </script>
 
 <div class="flex justify-between items-center mb-4">

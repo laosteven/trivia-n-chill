@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "$lib/components/ui/card";
+  import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+  } from "$lib/components/ui/card";
   import { Input } from "$lib/components/ui/input";
   import { Button } from "$lib/components/ui/button";
 
@@ -41,17 +47,20 @@
           >
             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
               <p class="text-sm text-yellow-800">
-                <strong>⚠️ Important:</strong> To keep your current score, use the same name when you rejoin.
+                <strong>⚠️ Important:</strong> To keep your current score, use the same name when you
+                rejoin.
               </p>
             </div>
-            <Input type="text" bind:value={value} maxlength={20} class="text-lg py-6" />
+            <Input type="text" bind:value maxlength={20} class="text-lg py-6" />
             {#if error}
               <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                 <p class="text-sm font-semibold">{error}</p>
               </div>
             {/if}
             <div class="flex gap-2">
-              <Button type="button" onclick={onClose} variant="outline" class="flex-1">Cancel</Button>
+              <Button type="button" onclick={onClose} variant="outline" class="flex-1"
+                >Cancel</Button
+              >
               <Button type="submit" class="flex-1" disabled={!value.trim()}>Change name</Button>
             </div>
           </form>

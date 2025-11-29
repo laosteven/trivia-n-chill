@@ -37,14 +37,14 @@ export class GameHandler {
 
     // Set the question in game state
     this.gameStateService.setQuestion(question, data.category);
-    
+
     // Clear buzzers and unlock for players
     this.gameStateService.clearBuzzers();
     this.gameStateService.setBuzzerLocked(false);
-    
+
     // Set phase to question
     this.gameStateService.setPhase("question");
-    
+
     // Hide answer initially
     this.gameStateService.setShowAnswer(false);
 
@@ -190,7 +190,7 @@ export class GameHandler {
     const wasFirst = state.buzzerOrder[0]?.playerId === playerId;
     this.gameStateService.removeBuzz(playerId);
     // If we removed the first buzz and buzzer was locked due to evaluation, unlock to allow others
-    if (wasFirst && state.gamePhase === 'question') {
+    if (wasFirst && state.gamePhase === "question") {
       this.gameStateService.setBuzzerLocked(false);
     }
     console.log(`Removed buzz for player ${playerId}`);

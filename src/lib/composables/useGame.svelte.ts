@@ -31,7 +31,7 @@ export function useGame() {
    */
   function isQuestionAnswered(category: string, value: number): boolean {
     let state: any;
-    gameState.subscribe(v => state = v)();
+    gameState.subscribe((v) => (state = v))();
     return state.answeredQuestions.includes(`${category}-${value}`);
   }
 
@@ -49,7 +49,7 @@ export function useGame() {
    */
   function getLeaderboard(): Player[] {
     let state: any;
-    gameState.subscribe(v => state = v)();
+    gameState.subscribe((v) => (state = v))();
     return [...state.players].sort((a, b) => b.score - a.score);
   }
 

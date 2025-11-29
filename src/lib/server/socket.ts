@@ -73,18 +73,8 @@ export function initSocketServer(server: HTTPServer) {
 
   // Initialize handlers now that io is created
   playerHandler = new PlayerHandler(playerService, gameStateService);
-  hostHandler = new HostHandler(
-    io,
-    playerService,
-    gameStateService,
-    () => gameConfig
-  );
-  gameHandler = new GameHandler(
-    io,
-    playerService,
-    gameStateService,
-    () => gameConfig
-  );
+  hostHandler = new HostHandler(io, playerService, gameStateService, () => gameConfig);
+  gameHandler = new GameHandler(io, playerService, gameStateService, () => gameConfig);
 
   io.on("connection", (socket: Socket) => {
     console.log("Client connected:", socket.id);
@@ -117,10 +107,7 @@ export function initSocketServer(server: HTTPServer) {
     // Player joins with username
     socket.on(
       SOCKET_EVENTS.PLAYER_JOIN,
-      (
-        username: string,
-        callback?: (result: { success: boolean; error?: string }) => void
-      ) => {
+      (username: string, callback?: (result: { success: boolean; error?: string }) => void) => {
         playerHandler.handlePlayerJoin(socket, username, callback);
         broadcastGameState();
       }
@@ -129,10 +116,7 @@ export function initSocketServer(server: HTTPServer) {
     // Player renames themselves
     socket.on(
       SOCKET_EVENTS.PLAYER_RENAME,
-      (
-        newUsername: string,
-        callback?: (result: { success: boolean; error?: string }) => void
-      ) => {
+      (newUsername: string, callback?: (result: { success: boolean; error?: string }) => void) => {
         playerHandler.handlePlayerRename(socket, newUsername, callback);
         broadcastGameState();
       }
@@ -229,13 +213,10 @@ export function initSocketServer(server: HTTPServer) {
     });
 
     // Host manually updates a player's score
-    socket.on(
-      SOCKET_EVENTS.UPDATE_PLAYER_SCORE,
-      (data: { playerId: string; newScore: number }) => {
-        hostHandler.handleUpdatePlayerScore(socket, data);
-        broadcastGameState();
-      }
-    );
+    socket.on(SOCKET_EVENTS.UPDATE_PLAYER_SCORE, (data: { playerId: string; newScore: number }) => {
+      hostHandler.handleUpdatePlayerScore(socket, data);
+      broadcastGameState();
+    });
 
     // Host manually updates a player's name
     socket.on(

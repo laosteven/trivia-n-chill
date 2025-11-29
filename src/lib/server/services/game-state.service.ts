@@ -3,8 +3,8 @@
  * Manages the core game state and logic
  */
 
-import type { GameState, Question, BuzzEvent, GamePhase } from '../../types';
-import { PlayerService } from './player.service';
+import type { GameState, Question, BuzzEvent, GamePhase } from "../../types";
+import { PlayerService } from "./player.service";
 
 export class GameStateService {
   private state: GameState;
@@ -19,7 +19,7 @@ export class GameStateService {
       answeredQuestions: new Set(),
       buzzerOrder: [],
       buzzerLocked: true,
-      gamePhase: 'lobby',
+      gamePhase: "lobby",
       hostConnected: false,
       showAnswer: false,
     };
@@ -30,9 +30,7 @@ export class GameStateService {
    */
   getState(): GameState {
     // Update players reference from player service
-    this.state.players = new Map(
-      this.playerService.getAllPlayers().map(p => [p.id, p])
-    );
+    this.state.players = new Map(this.playerService.getAllPlayers().map((p) => [p.id, p]));
     return this.state;
   }
 
@@ -89,9 +87,7 @@ export class GameStateService {
    * Remove player from buzzer queue
    */
   removeBuzz(playerId: string): void {
-    this.state.buzzerOrder = this.state.buzzerOrder.filter(
-      (b) => b.playerId !== playerId
-    );
+    this.state.buzzerOrder = this.state.buzzerOrder.filter((b) => b.playerId !== playerId);
   }
 
   /**
@@ -133,7 +129,7 @@ export class GameStateService {
     this.state.currentCategory = null;
     this.state.buzzerOrder = [];
     this.state.buzzerLocked = true;
-    this.state.gamePhase = 'lobby';
+    this.state.gamePhase = "lobby";
     this.state.showAnswer = false;
   }
 

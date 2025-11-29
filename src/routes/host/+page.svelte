@@ -3,12 +3,7 @@
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
   import { Button } from "$lib/components/ui/button";
-  import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-  } from "$lib/components/ui/card";
+  import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
   import {
     initSocket,
     hostJoin,
@@ -35,11 +30,6 @@
 
   let showResetConfirm = $state(false);
   let showPlayAgainConfirm = $state(false);
-  let editingPlayer: { id: string; name: string; score: number } | null =
-    $state(null);
-  let editScoreValue = $state("");
-  let editNameValue = $state("");
-  let editError = $state<string | null>(null);
 
   onMount(() => {
     if (browser) {
@@ -76,52 +66,9 @@
   function cancelPlayAgain() {
     showPlayAgainConfirm = false;
   }
-
-  function openScoreEditor(player: {
-    id: string;
-    name: string;
-    score: number;
-  }) {
-    editingPlayer = player;
-    editScoreValue = player.score.toString();
-    editNameValue = player.name;
-    editError = null;
-  }
-
-  async function saveScore() {
-    if (editingPlayer) {
-      // Update name if changed
-      if (editNameValue.trim() && editNameValue.trim() !== editingPlayer.name) {
-        const nameResult = await game.updatePlayerName(
-          editingPlayer.id,
-          editNameValue.trim()
-        );
-        if (!nameResult.success) {
-          editError = nameResult.error || "Failed to update name";
-          return;
-        }
-      }
-
-      // Update score if changed
-      const newScore = parseInt(editScoreValue, 10);
-      if (!isNaN(newScore) && newScore !== editingPlayer.score) {
-        game.updatePlayerScore(editingPlayer.id, newScore);
-      }
-    }
-    closeScoreEditor();
-  }
-
-  function closeScoreEditor() {
-    editingPlayer = null;
-    editScoreValue = "";
-    editNameValue = "";
-    editError = null;
-  }
 </script>
 
-<div
-  class="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 p-4 flex flex-col"
->
+<div class="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 p-4 flex flex-col">
   {#if !$connected}
     <div class="flex items-center justify-center flex-1">
       <Card class="p-8">
@@ -139,11 +86,7 @@
             <CardTitle
               class="text-4xl font-bold text-blue-600 flex items-center justify-center gap-4"
               >{$gameConfig.title}
-              <Button
-                variant="ghost"
-                size="sm"
-                onclick={() => game.reloadConfig()}
-              ></Button>
+              <Button variant="ghost" size="sm" onclick={() => game.reloadConfig()}></Button>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -151,11 +94,7 @@
               <div class="text-center">
                 <h3 class="text-xl font-semibold mb-4">Scan to join</h3>
                 {#if qrCode.qrCodeDataUrl}
-                  <img
-                    src={qrCode.qrCodeDataUrl}
-                    alt="QR Code to join game"
-                    class="mx-auto mb-2"
-                  />
+                  <img src={qrCode.qrCodeDataUrl} alt="QR Code to join game" class="mx-auto mb-2" />
                 {/if}
                 <p class="text-sm text-muted-foreground break-all">
                   {qrCode.joinUrl}
@@ -167,21 +106,15 @@
                 </h3>
                 <div class="space-y-2 max-h-64 overflow-y-auto">
                   {#each $gameState.players as player}
-                    <div
-                      class="p-2 bg-secondary rounded-lg flex items-center justify-between"
-                    >
+                    <div class="p-2 bg-secondary rounded-lg flex items-center justify-between">
                       <span>{player.name}</span>
                       {#if !player.connected}
-                        <span class="text-xs text-red-600 font-semibold"
-                          >Disconnected</span
-                        >
+                        <span class="text-xs text-red-600 font-semibold">Disconnected</span>
                       {/if}
                     </div>
                   {/each}
                   {#if $gameState.players.length === 0}
-                    <p class="text-muted-foreground">
-                      Waiting for players to join...
-                    </p>
+                    <p class="text-muted-foreground">Waiting for players to join...</p>
                   {/if}
                 </div>
               </div>
@@ -257,8 +190,7 @@
                 <div class="space-y-2">
                   {#each $gameState.buzzerOrder as buzz, index}
                     <div
-                      class="p-3 rounded-lg flex items-center justify-between {index ===
-                      0
+                      class="p-3 rounded-lg flex items-center justify-between {index === 0
                         ? 'bg-yellow-100 border-2 border-yellow-400'
                         : 'bg-secondary'}"
                     >
@@ -301,22 +233,14 @@
       <div class="max-w-2xl w-full">
         <Card>
           <CardHeader>
-            <CardTitle class="text-center text-4xl font-bold"
-              >🏆 Leaderboard 🏆</CardTitle
-            >
+            <CardTitle class="text-center text-4xl font-bold">🏆 Leaderboard 🏆</CardTitle>
           </CardHeader>
           <CardContent>
             <Leaderboard players={game.getLeaderboard()} />
             <div class="mt-8 flex justify-center gap-4">
-              <Button onclick={() => game.backToGame()} variant="outline">
-                Back to game
-              </Button>
-              <Button onclick={handlePlayAgain} variant="default" class="px-8">
-                Play again
-              </Button>
-              <Button onclick={handleResetGame} variant="secondary">
-                Back to lobby
-              </Button>
+              <Button onclick={() => game.backToGame()} variant="outline">Back to game</Button>
+              <Button onclick={handlePlayAgain} variant="default" class="px-8">Play again</Button>
+              <Button onclick={handleResetGame} variant="secondary">Back to lobby</Button>
             </div>
           </CardContent>
         </Card>
@@ -326,23 +250,19 @@
 
   <!-- Reset Confirmation Modal -->
   {#if showResetConfirm}
-    <div
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-    >
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <Card class="w-full max-w-md mx-4">
         <CardHeader>
           <CardTitle class="text-center">Reset game?</CardTitle>
         </CardHeader>
         <CardContent class="space-y-4">
           <p class="text-center text-muted-foreground">
-            Are you sure you want to reset the game? All scores will be lost and
-            players will return to the lobby.
+            Are you sure you want to reset the game? All scores will be lost and players will return
+            to the lobby.
           </p>
           <div class="flex justify-center gap-4">
             <Button onclick={cancelReset} variant="outline">Cancel</Button>
-            <Button onclick={confirmReset} variant="destructive"
-              >Reset game</Button
-            >
+            <Button onclick={confirmReset} variant="destructive">Reset game</Button>
           </div>
         </CardContent>
       </Card>
@@ -351,23 +271,18 @@
 
   <!-- Play Again Confirmation Modal -->
   {#if showPlayAgainConfirm}
-    <div
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-    >
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <Card class="w-full max-w-md mx-4">
         <CardHeader>
           <CardTitle class="text-center">Play again?</CardTitle>
         </CardHeader>
         <CardContent class="space-y-4">
           <p class="text-center text-muted-foreground">
-            This will reset all scores to 0 and start a new game with the same
-            players.
+            This will reset all scores to 0 and start a new game with the same players.
           </p>
           <div class="flex justify-center gap-4">
             <Button onclick={cancelPlayAgain} variant="outline">Cancel</Button>
-            <Button onclick={confirmPlayAgain} variant="default"
-              >Play again</Button
-            >
+            <Button onclick={confirmPlayAgain} variant="default">Play again</Button>
           </div>
         </CardContent>
       </Card>

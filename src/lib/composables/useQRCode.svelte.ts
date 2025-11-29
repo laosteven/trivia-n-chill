@@ -26,8 +26,12 @@ export function useQRCode() {
   }
 
   return {
-    get qrCodeDataUrl() { return qrCodeDataUrl; },
-    get joinUrl() { return joinUrl; },
+    get qrCodeDataUrl() {
+      return qrCodeDataUrl;
+    },
+    get joinUrl() {
+      return joinUrl;
+    },
     generate,
   };
 }

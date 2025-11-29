@@ -2,7 +2,27 @@
   import { Card, CardHeader, CardTitle, CardContent } from "$lib/components/ui/card";
   import HostQuestionControls from "$lib/components/features/host/HostQuestionControls.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
-  const p = $props<{ question: { category: string; value: number; question: string; image?: string; youtube?: string; answer: string } | null; showAnswer: boolean; reveal: () => void; isVideo: (src: string) => boolean; toVideoUrl: (src: string) => string; getYoutubeEmbedUrl: (id: string) => string; buzzerLocked: boolean; onCancel: () => void; onLock: () => void; onUnlock: () => void; onClear: () => void; onSkip: () => void }>();
+  const p = $props<{
+    question: {
+      category: string;
+      value: number;
+      question: string;
+      image?: string;
+      youtube?: string;
+      answer: string;
+    } | null;
+    showAnswer: boolean;
+    reveal: () => void;
+    isVideo: (src: string) => boolean;
+    toVideoUrl: (src: string) => string;
+    getYoutubeEmbedUrl: (id: string) => string;
+    buzzerLocked: boolean;
+    onCancel: () => void;
+    onLock: () => void;
+    onUnlock: () => void;
+    onClear: () => void;
+    onSkip: () => void;
+  }>();
 </script>
 
 <Card>

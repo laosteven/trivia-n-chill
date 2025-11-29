@@ -1,11 +1,19 @@
 <script lang="ts">
-  const p = $props<{ players: { id: string; name: string; score: number; connected: boolean }[] }>();
+  const p = $props<{
+    players: { id: string; name: string; score: number; connected: boolean }[];
+  }>();
 </script>
 
 <div class="space-y-4">
   {#each [...p.players].sort((a, b) => b.score - a.score) as player, index}
     <div
-      class="flex items-center justify-between p-4 rounded-lg {index === 0 ? 'bg-yellow-100' : index === 1 ? 'bg-gray-100' : index === 2 ? 'bg-orange-100' : 'bg-secondary'} {!player.connected ? 'opacity-60' : ''}"
+      class="flex items-center justify-between p-4 rounded-lg {index === 0
+        ? 'bg-yellow-100'
+        : index === 1
+          ? 'bg-gray-100'
+          : index === 2
+            ? 'bg-orange-100'
+            : 'bg-secondary'} {!player.connected ? 'opacity-60' : ''}"
     >
       <div class="flex items-center gap-4">
         <span class="text-3xl">
