@@ -7,6 +7,5 @@ export function validateUsername(name: string): { valid: boolean; error?: string
 
 export function validateScore(value: number): { valid: boolean; error?: string } {
   if (!Number.isFinite(value)) return { valid: false, error: "Score must be a number" };
-  if (value < 0) return { valid: false, error: "Score cannot be negative" };
   return { valid: true };
 }
