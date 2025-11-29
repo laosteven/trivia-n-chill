@@ -30,6 +30,8 @@ export interface BuzzEvent {
   timestamp: number;
 }
 
+export type GamePhase = "lobby" | "playing" | "question" | "answer" | "leaderboard";
+
 export interface GameState {
   players: Map<string, Player>;
   currentQuestion: Question | null;
@@ -37,7 +39,7 @@ export interface GameState {
   answeredQuestions: Set<string>;
   buzzerOrder: BuzzEvent[];
   buzzerLocked: boolean;
-  gamePhase: "lobby" | "playing" | "question" | "answer" | "leaderboard";
+  gamePhase: GamePhase;
   hostConnected: boolean;
   showAnswer: boolean;
 }
@@ -49,6 +51,24 @@ export interface ClientGameState {
   answeredQuestions: string[];
   buzzerOrder: BuzzEvent[];
   buzzerLocked: boolean;
-  gamePhase: "lobby" | "playing" | "question" | "answer" | "leaderboard";
+  gamePhase: GamePhase;
   showAnswer: boolean;
+}
+
+export interface GameConfigClient {
+  title: string;
+  countdown: number;
+  categories: {
+    name: string;
+    questions: { value: number }[];
+  }[];
+}
+
+export interface FullQuestion {
+  category: string;
+  question: string;
+  answer: string;
+  value: number;
+  image?: string;
+  youtube?: string;
 }

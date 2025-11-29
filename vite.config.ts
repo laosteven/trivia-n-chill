@@ -2,7 +2,6 @@ import "dotenv/config";
 import tailwindcss from "@tailwindcss/vite";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
-import { initSocketServer } from "./src/lib/server/socket";
 
 export default defineConfig(() => {
   return {
@@ -11,8 +10,10 @@ export default defineConfig(() => {
       sveltekit(),
       {
         name: "socket-io",
-        configureServer(server) {
+        async configureServer(server) {
           if (!server.httpServer) return;
+          // Dynamic import to avoid issues with SvelteKit aliases
+          const { initSocketServer } = await import("./src/lib/server/socket.js");
           // Cast to any to accommodate Vite's dev server http implementation (http/https/http2)
           initSocketServer(server.httpServer as any);
           console.log(

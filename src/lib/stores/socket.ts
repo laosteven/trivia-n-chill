@@ -43,6 +43,7 @@ export const playerId = writable<string>("");
 export const buzzerSound = writable<{ playerName: string } | null>(null);
 export const joinError = writable<string | null>(null);
 export const hostNotification = writable<{ message: string } | null>(null);
+export const updatedUsername = writable<string | null>(null);
 
 export function initSocket() {
   if (socket) return socket;
@@ -93,6 +94,7 @@ export function initSocket() {
     if (typeof window !== "undefined") {
       localStorage.setItem("jeopardy-game_username", data.newUsername);
     }
+    updatedUsername.set(data.newUsername);
   });
 
   socket.on("hostNotification", (data: { message: string }) => {
@@ -155,6 +157,10 @@ export function unlockBuzzer() {
 
 export function clearBuzzers() {
   socket?.emit("clearBuzzers");
+}
+
+export function removeBuzz(playerId: string) {
+  socket?.emit("removeBuzz", playerId);
 }
 
 export function revealAnswer() {
