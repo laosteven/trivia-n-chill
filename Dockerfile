@@ -20,7 +20,8 @@ COPY --from=builder /app/src/lib/server ./src/lib/server
 COPY --from=builder /app/src/lib/constants ./src/lib/constants
 COPY --from=builder /app/src/lib/types.ts ./src/lib/types.ts
 
-RUN npm ci --production && npm install tsx
+RUN npm ci --omit=dev && \
+    npm cache clean --force
 
 EXPOSE 3000
 
