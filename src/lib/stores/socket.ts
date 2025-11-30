@@ -1,10 +1,9 @@
-import { writable } from "svelte/store";
-import { io, type Socket } from "socket.io-client";
 import type { ClientGameState } from "$lib/types";
+import { io, type Socket } from "socket.io-client";
+import { writable } from "svelte/store";
 
 interface GameConfigClient {
   title: string;
-  countdown: number;
   categories: {
     name: string;
     questions: { value: number }[];
@@ -16,8 +15,10 @@ interface FullQuestion {
   question: string;
   answer: string;
   value: number;
-  image?: string;
-  youtube?: string;
+  questionImage?: string;
+  questionYoutube?: string;
+  answerImage?: string;
+  answerYoutube?: string;
 }
 
 let socket: Socket | null = null;
@@ -35,7 +36,6 @@ export const gameState = writable<ClientGameState & { showAnswer?: boolean }>({
 });
 export const gameConfig = writable<GameConfigClient>({
   title: "",
-  countdown: 30,
   categories: [],
 });
 export const fullQuestion = writable<FullQuestion | null>(null);

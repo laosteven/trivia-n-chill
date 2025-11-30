@@ -1,7 +1,9 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import ButtonGroup from "$lib/components/ui/button-group/button-group.svelte";
-  import { ArrowLeft, Eye, SkipForward } from "@lucide/svelte";
+  import ArrowLeft from "@lucide/svelte/icons/arrow-left";
+  import Eye from "@lucide/svelte/icons/eye";
+  import SkipForward from "@lucide/svelte/icons/skip-forward";
 
   const p = $props<{
     showAnswer: boolean;
@@ -25,18 +27,18 @@
     </ButtonGroup>
 
     <ButtonGroup>
-      <Button onclick={p.onSkip} variant="outline" class="text-red-600" title="Skip question">
-        <SkipForward />Skip
+      <Button onclick={p.onSkip} variant="outline" title="Skip question">
+        <SkipForward />Skip question
       </Button>
       <Button
+        class="text-green-600"
         onclick={p.reveal}
         disabled={p.showAnswer}
         variant="outline"
-        class="text-green-600"
         title="Reveal answer"
       >
         <Eye />
-        Answer
+        Reveal answer
       </Button>
     </ButtonGroup>
   </ButtonGroup>

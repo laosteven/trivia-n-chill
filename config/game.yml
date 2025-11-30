@@ -1,8 +1,6 @@
 # Trivia Game Configuration
 # Customize your game by editing this file
 
-countdown: 30 # Seconds to answer (future feature)
-
 categories:
   - name: "Science"
     questions:
@@ -10,7 +8,8 @@ categories:
         question: "This planet is known as the Red Planet"
         answer: "What is Mars?"
         # Optional: Add an image URL (imgur, etc.)
-        # image: "https://i.imgur.com/example.jpg"
+        # questionImage: "https://i.imgur.com/question.jpg"
+        # answerImage: "https://i.imgur.com/answer.jpg"
       - value: 200
         question: "This force keeps us on the ground"
         answer: "What is gravity?"
@@ -24,7 +23,8 @@ categories:
         question: "This scientist developed the theory of relativity"
         answer: "Who is Albert Einstein?"
         # Optional: Add a YouTube video URL
-        # youtube: "https://www.youtube.com/watch?v=example"
+        # questionYoutube: "https://www.youtube.com/watch?v=questionExample"
+        # answerYoutube: "https://www.youtube.com/watch?v=answerExample"
 
   - name: "History"
     questions:

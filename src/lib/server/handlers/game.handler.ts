@@ -4,10 +4,10 @@
  */
 
 import type { Server as SocketIOServer } from "socket.io";
-import type { PlayerService } from "../services/player.service";
-import type { GameStateService } from "../services/game-state.service";
-import type { GameConfig } from "../../types";
 import { SOCKET_EVENTS } from "../../constants/socket-events";
+import type { GameConfig } from "../../types";
+import type { GameStateService } from "../services/game-state.service";
+import type { PlayerService } from "../services/player.service";
 
 export class GameHandler {
   constructor(
@@ -56,8 +56,10 @@ export class GameHandler {
       question: question.question,
       answer: question.answer,
       value: question.value,
-      image: question.image,
-      youtube: question.youtube,
+      questionImage: question.questionImage,
+      questionYoutube: question.questionYoutube,
+      answerImage: question.answerImage,
+      answerYoutube: question.answerYoutube,
     });
   }
 

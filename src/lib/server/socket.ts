@@ -52,7 +52,6 @@ function broadcastConfig() {
   if (io) {
     io.emit(SOCKET_EVENTS.GAME_CONFIG, {
       title: gameConfig.title,
-      countdown: gameConfig.countdown,
       categories: gameConfig.categories.map((cat) => ({
         name: cat.name,
         questions: cat.questions.map((q) => ({ value: q.value })),
@@ -82,7 +81,6 @@ export function initSocketServer(server: HTTPServer) {
     // Send current config and state to new connection
     socket.emit(SOCKET_EVENTS.GAME_CONFIG, {
       title: gameConfig.title,
-      countdown: gameConfig.countdown,
       categories: gameConfig.categories.map((cat) => ({
         name: cat.name,
         questions: cat.questions.map((q) => ({ value: q.value })),

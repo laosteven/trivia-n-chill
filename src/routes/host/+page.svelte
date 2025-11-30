@@ -26,7 +26,12 @@
     hostJoin,
     initSocket,
   } from "$lib/stores/socket";
-  import { Check, LockKeyhole, LockKeyholeOpen, MoreHorizontal, Trash2, X } from "@lucide/svelte";
+  import Check from "@lucide/svelte/icons/check";
+  import LockKeyhole from "@lucide/svelte/icons/lock-keyhole";
+  import LockKeyholeOpen from "@lucide/svelte/icons/lock-keyhole-open";
+  import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
+  import Trash2 from "@lucide/svelte/icons/trash-2";
+  import X from "@lucide/svelte/icons/x";
   import { onMount } from "svelte";
 
   const game = useGame();

@@ -15,7 +15,6 @@ function getEnvTitle(): string {
 // Minimal fallback only if YAML missing or invalid.
 const FALLBACK: GameConfig = {
   title: getEnvTitle(),
-  countdown: 30,
   categories: [],
 };
 
@@ -35,7 +34,6 @@ export function loadGameConfig(): GameConfig {
       const parsed = parse(raw) as Partial<GameConfig>;
       return {
         title: getEnvTitle(),
-        countdown: parsed.countdown ?? FALLBACK.countdown,
         categories: parsed.categories || FALLBACK.categories,
       };
     } catch (err) {

@@ -3,12 +3,12 @@
  * Handles all host-related socket events: join, start game, score/name updates, etc.
  */
 
-import type { Server as SocketIOServer, Socket } from "socket.io";
-import type { PlayerService } from "../services/player.service";
-import type { GameStateService } from "../services/game-state.service";
-import type { GameConfig } from "../../types";
-import { SOCKET_EVENTS } from "../../constants/socket-events";
+import type { Socket, Server as SocketIOServer } from "socket.io";
 import { GAME_CONSTANTS } from "../../constants/game";
+import { SOCKET_EVENTS } from "../../constants/socket-events";
+import type { GameConfig } from "../../types";
+import type { GameStateService } from "../services/game-state.service";
+import type { PlayerService } from "../services/player.service";
 
 interface OperationResult {
   success: boolean;
@@ -242,7 +242,6 @@ export class HostHandler {
   broadcastConfig(config: GameConfig): void {
     this.io.emit(SOCKET_EVENTS.GAME_CONFIG, {
       title: config.title,
-      countdown: config.countdown,
       categories: config.categories.map((cat) => ({
         name: cat.name,
         questions: cat.questions.map((q) => ({ value: q.value })),

@@ -92,9 +92,6 @@ Open `http://localhost:3000` in your browser
 The game can be customized by editing the `config/game.yml` file:
 
 ```yaml
-title: "My Trivia Night!"
-countdown: 30
-
 categories:
   - name: "Category Name"
     questions:
@@ -102,13 +99,15 @@ categories:
         question: "Your question here"
         answer: "What is the answer?"
       - value: 200
-        question: "Question with an image"
+        question: "Question with images"
         answer: "Another answer"
-        image: "https://i.imgur.com/example.jpg"
+        questionImage: "https://i.imgur.com/example-question.jpg"
+        answerImage: "https://i.imgur.com/example-answer.jpg"
       - value: 300
-        question: "Question with a video"
+        question: "Question with videos"
         answer: "Video answer"
-        youtube: "https://www.youtube.com/watch?v=example"
+        questionYoutube: "dQw4w9WgXcQ" # YouTube video id
+        answerYoutube: "aBcDeFgHiJk"
 ```
 
 ### Configuration Options
@@ -116,18 +115,19 @@ categories:
 | Option       | Description                                | Default            |
 | ------------ | ------------------------------------------ | ------------------ |
 | `title`      | Game title displayed on screens            | "Trivia & Chill"   |
-| `countdown`  | Seconds allowed to answer (future feature) | 30                 |
 | `categories` | Array of category objects                  | Default categories |
 
 ### Question Options
 
-| Option     | Description                   | Required |
-| ---------- | ----------------------------- | -------- |
-| `value`    | Point value (100, 200, etc.)  | Yes      |
-| `question` | The question text             | Yes      |
-| `answer`   | The answer text               | Yes      |
-| `image`    | URL to an image (imgur, etc.) | No       |
-| `youtube`  | YouTube video URL             | No       |
+| Option             | Description                                      | Required |
+| ------------------ | ------------------------------------------------ | -------- |
+| `value`            | Point value (100, 200, etc.)                     | Yes      |
+| `question`         | The question text                                | Yes      |
+| `answer`           | The answer text                                  | Yes      |
+| `questionImage`    | URL for an image shown during the question       | No       |
+| `answerImage`      | URL for an image shown when the answer is shown  | No       |
+| `questionYoutube`  | YouTube video id for the question (e.g., `abc123`)| No       |
+| `answerYoutube`    | YouTube video id for the answer                  | No       |
 
 ## Tech Stack
 

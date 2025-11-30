@@ -1,6 +1,5 @@
 export interface GameConfig {
   title: string;
-  countdown: number;
   categories: Category[];
 }
 
@@ -13,8 +12,10 @@ export interface Question {
   value: number;
   question: string;
   answer: string;
-  image?: string;
-  youtube?: string;
+  questionImage?: string;
+  questionYoutube?: string;
+  answerImage?: string;
+  answerYoutube?: string;
 }
 
 export interface Player {
@@ -57,7 +58,6 @@ export interface ClientGameState {
 
 export interface GameConfigClient {
   title: string;
-  countdown: number;
   categories: {
     name: string;
     questions: { value: number }[];
@@ -69,6 +69,8 @@ export interface FullQuestion {
   question: string;
   answer: string;
   value: number;
-  image?: string;
-  youtube?: string;
+  questionImage?: string;
+  questionYoutube?: string;
+  answerImage?: string;
+  answerYoutube?: string;
 }
