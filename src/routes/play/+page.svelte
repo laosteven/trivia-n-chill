@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import BuzzerButton from "$lib/components/features/game/BuzzerButton.svelte";
   import PlayerStats from "$lib/components/features/player/PlayerStats.svelte";
-  import RenameModal from "$lib/components/features/player/RenameModal.svelte";
+  import RenameDialog from "$lib/components/features/player/RenameDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import {
     Card,
@@ -120,7 +120,7 @@
         <p class="text-muted-foreground">
           {$gameState.players.length} player(s) joined
         </p>
-        <RenameModal
+        <RenameDialog
           value={player.currentPlayer?.name || ""}
         />
       </CardContent>
@@ -140,7 +140,7 @@
         />
         <p class="text-muted-foreground">Waiting for host to select a question...</p>
         
-        <RenameModal
+        <RenameDialog
           value={player.currentPlayer?.name || ""}
         />
       </CardContent>

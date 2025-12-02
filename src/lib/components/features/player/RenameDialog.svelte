@@ -6,6 +6,7 @@
   import { usePlayer } from "$lib/composables/usePlayer.svelte";
   import { validateUsername } from "$lib/utils/validation";
 
+
   let {
     value = $bindable(""),
   }: {
@@ -17,8 +18,13 @@
   let renameError = $state<string | null>(null);
   let open = $state(false);
 
+  const normalize = (s: string) => (s ?? "").trim().toLowerCase();
+
   $effect(() => {
-    const { valid, error: ve } = validateUsername(value);
+    const candidate = newUsername.trim();
+    if (!open) return;
+
+    const { valid, error: ve } = validateUsername(candidate);
     if (!valid) {
       renameError = ve ?? "Invalid username";
       return;
@@ -28,20 +34,25 @@
 
   async function handleRename() {
     const target = newUsername.trim();
-    if (target) {
-      renameError = null;
-      const result = await player.rename(target);
-      if (result.success) {
-        newUsername = "";
-        open = false; // close on success
-      } else {
-        renameError = result.error || "Failed to rename";
-      }
+    if (!target) return;
+    // Prevent unchanged submission
+    if (normalize(target) === normalize(value)) {
+      renameError = null; // unchanged; just close
+      open = false;
+      return;
+    }
+    if (renameError) return; // block while invalid
+    const result = await player.rename(target);
+    if (result.success) {
+      newUsername = "";
+      open = false; // close on success
+    } else {
+      renameError = result.error || "Failed to rename";
     }
   }
 </script>
 
-<Dialog.Root bind:open>
+<Dialog.Root bind:open={open}>
   <Dialog.Trigger
     class={buttonVariants({ variant: "outline" })}
     onclick={() => {
@@ -67,11 +78,6 @@
       class="text-lg py-6"
       placeholder="Enter new name"
       aria-invalid={!!renameError}
-      oninput={() => {
-        if (renameError) {
-          renameError = null;
-        }
-      }}
     />
     {#if renameError}
       <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -81,12 +87,12 @@
     <div class="flex gap-2">
       <Dialog.Close class={buttonVariants({ variant: "outline" }) + " flex-1"}>Cancel</Dialog.Close>
       <Button
-        type="submit"
+        type="button"
         class={buttonVariants({ variant: "default" }) + " flex-1"}
-        disabled={!newUsername.trim()}
+        disabled={!newUsername.trim() || !!renameError}
         onclick={handleRename}
       >
-        Change name
+        {renameError ? 'Fix errors' : 'Change name'}
       </Button>
     </div>
   </Dialog.Content>
