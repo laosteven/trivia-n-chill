@@ -1,6 +1,8 @@
 <script lang="ts">
   import HostQuestionControls from "$lib/components/features/host/HostQuestionControls.svelte";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
+  import { gameConfig } from "$lib/stores/socket";
+  import { get } from "svelte/store";
   const p = $props<{
     question: {
       category: string;
@@ -21,6 +23,58 @@
     onCancel: () => void;
     onSkip: () => void;
   }>();
+
+  let displayedText = $state("");
+  let typing = $state(false);
+  let showMedia = $state(true);
+
+  // Start typewriter whenever question changes
+  $effect(() => {
+    const currentQuestion = p.question;
+    const cfg = get(gameConfig)?.typewriter || { enabled: true, speedMsPerChar: 20, delayBeforeMediaMs: 300 };
+    const enabled = cfg.enabled ?? true;
+    const speed = cfg.speedMsPerChar ?? 20;
+    const delayBeforeMedia = cfg.delayBeforeMediaMs ?? 300;
+
+    displayedText = "";
+    showMedia = !enabled; // hide media while typing
+
+    if (!currentQuestion) {
+      displayedText = "";
+      typing = false;
+      showMedia = true;
+      return;
+    }
+
+    if (!enabled) {
+      // If typewriter is disabled, ensure typing state is cleared and media visibility is correct
+      typing = false;
+      displayedText = currentQuestion.question || "";
+      showMedia = true;
+      return;
+    }
+
+    typing = true;
+    let cancelled = false;
+
+    (async () => {
+      const full = currentQuestion.question || "";
+      for (let i = 0; i <= full.length; i++) {
+        if (cancelled) return;
+        displayedText = full.slice(0, i);
+        await new Promise((r) => setTimeout(r, speed));
+      }
+      if (cancelled) return;
+      typing = false;
+      await new Promise((r) => setTimeout(r, delayBeforeMedia));
+      if (cancelled) return;
+      showMedia = true;
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  });
 </script>
 
 <Card>
@@ -31,9 +85,9 @@
   </CardHeader>
   <CardContent class="space-y-6">
     <div class="bg-blue-900 text-white p-8 rounded-lg text-center">
-      <p class="text-2xl">{p.question?.question}</p>
+      <p class="text-2xl">{displayedText}{typing ? "|" : ""}</p>
 
-      {#if p.question?.questionImage}
+      {#if showMedia && p.question?.questionImage}
         {#if p.isVideo(p.question.questionImage)}
           <video
             src={p.toVideoUrl(p.question.questionImage)}
@@ -54,7 +108,7 @@
         {/if}
       {/if}
 
-      {#if p.question?.questionYoutube}
+      {#if showMedia && p.question?.questionYoutube}
         <div class="mt-4 aspect-video">
           <iframe
             src={p.getYoutubeEmbedUrl(p.question.questionYoutube)}

@@ -8,6 +8,11 @@ export interface GameConfig {
     cooldownMs?: number;
     displayDurationMs?: number; 
   };
+  typewriter?: {
+    enabled?: boolean;
+    speedMsPerChar?: number;
+    delayBeforeMediaMs?: number;
+  };
 }
 
 export interface Category {

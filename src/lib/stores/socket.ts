@@ -8,6 +8,18 @@ interface GameConfigClient {
     name: string;
     questions: { value: number }[];
   }[];
+  typewriter?: {
+    enabled?: boolean;
+    speedMsPerChar?: number;
+    delayBeforeMediaMs?: number;
+  };
+  emoji?: {
+    cost?: number;
+    allowNegative?: boolean;
+    maxActive?: number;
+    cooldownMs?: number;
+    displayDurationMs?: number;
+  };
 }
 
 interface FullQuestion {
@@ -37,6 +49,8 @@ export const gameState = writable<ClientGameState & { showAnswer?: boolean }>({
 export const gameConfig = writable<GameConfigClient>({
   title: "",
   categories: [],
+  typewriter: { enabled: true, speedMsPerChar: 20, delayBeforeMediaMs: 300 },
+  emoji: { cost: 10, allowNegative: false, maxActive: 5, cooldownMs: 0, displayDurationMs: 4000 },
 });
 export const fullQuestion = writable<FullQuestion | null>(null);
 export const playerId = writable<string>("");

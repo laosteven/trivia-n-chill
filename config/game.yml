@@ -104,3 +104,8 @@ emoji:
   maxActive: 5
   cooldownMs: 0
   displayDurationMs: 4000
+
+typewriter:
+  enabled: false
+  speedMsPerChar: 30
+  delayBeforeMediaMs: 300

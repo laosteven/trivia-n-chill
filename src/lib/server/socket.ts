@@ -57,6 +57,7 @@ function broadcastConfig() {
         questions: cat.questions.map((q) => ({ value: q.value })),
       })),
       emoji: gameConfig.emoji || null,
+      typewriter: gameConfig.typewriter || null,
     });
   }
 }
@@ -86,6 +87,8 @@ export function initSocketServer(server: HTTPServer) {
         name: cat.name,
         questions: cat.questions.map((q) => ({ value: q.value })),
       })),
+      emoji: gameConfig.emoji || null,
+      typewriter: gameConfig.typewriter || null,
     });
     socket.emit(SOCKET_EVENTS.GAME_STATE, getClientGameState());
 
