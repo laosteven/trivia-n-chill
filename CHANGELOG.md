@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/laosteven/trivia-n-chill/compare/v1.1.0...v1.1.1) (2025-12-03)
+
+
+### Bug Fixes
+
+* resolve docker tags ([ea293f7](https://github.com/laosteven/trivia-n-chill/commit/ea293f74d7ef13de137be4a5ec6bd18766e5e5a1))
+
 # [1.1.0](https://github.com/laosteven/trivia-n-chill/compare/v1.0.0...v1.1.0) (2025-12-03)
 
 
