@@ -1,6 +1,6 @@
 import type { ClientGameState } from "$lib/types";
 import { io, type Socket } from "socket.io-client";
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 
 interface GameConfigClient {
   title: string;
@@ -65,7 +65,31 @@ export function initSocket() {
   });
 
   socket.on("gameState", (state: ClientGameState & { showAnswer?: boolean }) => {
+    // Compare previous state to detect score changes or phase transitions
     gameState.set(state);
+    try {
+      if (typeof window !== "undefined") {
+        // previous state stored on the module
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const prev: ClientGameState | null = (initSocket as any)._prevGameState || null;
+        const myId = get(playerId);
+
+        // If our score increased, celebrate
+        if (prev && myId) {
+          const prevPlayer = prev.players.find((p) => p.id === myId);
+          const newPlayer = state.players.find((p) => p.id === myId);
+          if (newPlayer && prevPlayer && newPlayer.score > prevPlayer.score) {
+            import("$lib/utils/confetti").then((m) => m.celebrateCorrect()).catch(() => {});
+          }
+        }
+
+        // store prev state for next comparison
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (initSocket as any)._prevGameState = state;
+      }
+    } catch (e) {
+      console.log("Confetti error:", e);
+    }
   });
 
   socket.on("gameConfig", (config: GameConfigClient) => {

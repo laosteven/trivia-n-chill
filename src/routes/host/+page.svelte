@@ -27,6 +27,7 @@
     hostJoin,
     initSocket,
   } from "$lib/stores/socket";
+  import { celebrateCorrect, celebrateLeaderboard } from "$lib/utils/confetti";
   import Check from "@lucide/svelte/icons/check";
   import LockKeyhole from "@lucide/svelte/icons/lock-keyhole";
   import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
@@ -133,6 +134,14 @@
       editError = result.error || "Failed to update name";
     }
   }
+
+  $effect(() => {
+    if ($gameState.gamePhase === "leaderboard") {
+      if (typeof window !== "undefined") {
+        celebrateLeaderboard().catch(() => {});
+      }
+    }
+  });
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 p-4 flex flex-col">
@@ -354,7 +363,11 @@
                             <X /> Wrong
                           </Button>
                           <Button
-                            onclick={() => game.markCorrect(buzz.playerId)}
+                            onclick={() => {
+                              game.markCorrect(buzz.playerId);
+                              // celebrate for correct answer
+                              celebrateCorrect().catch(() => {});
+                            }}
                             variant="default"
                             class="bg-green-600 hover:bg-green-700 text-white border-green-700"
                           >
