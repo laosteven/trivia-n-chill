@@ -24,6 +24,7 @@
     fullQuestion,
     gameConfig,
     gameState,
+    hostEmojiReaction,
     hostJoin,
     initSocket,
   } from "$lib/stores/socket";
@@ -34,6 +35,7 @@
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import X from "@lucide/svelte/icons/x";
   import { onMount } from "svelte";
+  import { toast, Toaster } from "svelte-sonner";
 
   const game = useGame();
   const qrCode = useQRCode();
@@ -140,6 +142,12 @@
       if (typeof window !== "undefined") {
         celebrateLeaderboard().catch(() => {});
       }
+    }
+  });
+
+  $effect(() => {
+    if ($hostEmojiReaction) {
+      toast.info(`${$hostEmojiReaction.playerName} sent ${$hostEmojiReaction.emoji}`, { dismissable: true });
     }
   });
 </script>
@@ -495,3 +503,5 @@
     </div>
   {/if}
 </div>
+
+<Toaster richColors position="top-right" />

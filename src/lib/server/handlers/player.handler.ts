@@ -4,10 +4,10 @@
  */
 
 import type { Socket } from "socket.io";
-import type { PlayerService } from "../services/player.service";
-import type { GameStateService } from "../services/game-state.service";
-import { SOCKET_EVENTS } from "../../constants/socket-events";
 import { GAME_CONSTANTS } from "../../constants/game";
+import { SOCKET_EVENTS } from "../../constants/socket-events";
+import type { GameStateService } from "../services/game-state.service";
+import type { PlayerService } from "../services/player.service";
 
 interface OperationResult {
   success: boolean;
@@ -183,4 +183,9 @@ export class PlayerHandler {
     const key = player.name.toLowerCase();
     this.playerService.getStoredScore(key); // Ensures score is persisted
   }
+
+  handleEmojiReaction(socket: Socket, emoji: string): void {
+    console.log(`Player reacted with emoji: ${emoji}`);
+  }
 }
+

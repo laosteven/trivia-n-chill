@@ -30,6 +30,7 @@ export const SOCKET_EVENTS = {
   PLAYER_JOIN: "playerJoin",
   PLAYER_RENAME: "playerRename",
   BUZZ: "buzz",
+  EMOJI_REACTION: "emojiReaction",
 
   // Buzzer control events
   LOCK_BUZZER: "lockBuzzer",

@@ -50,4 +50,17 @@ export async function celebrateLeaderboard(duration = 15000) {
   })();
 }
 
-export default { celebrateCorrect, celebrateLeaderboard };
+export async function playerEmojiReact(emoji: string) {
+    const confetti = await load();
+    const emojiShape = confetti.shapeFromText({ text: emoji });
+    if (!confetti) return;
+    confetti({
+        particleCount: 30,
+        spread: 100,
+        shapes: [emojiShape],
+        origin: { x: Math.random(), y: 1 },
+        scalar: Math.random() * 2 + 0.4,
+    });
+}
+
+export default { celebrateCorrect, celebrateLeaderboard, playerEmojiReact };

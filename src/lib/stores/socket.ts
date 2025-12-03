@@ -41,6 +41,7 @@ export const gameConfig = writable<GameConfigClient>({
 export const fullQuestion = writable<FullQuestion | null>(null);
 export const playerId = writable<string>("");
 export const buzzerSound = writable<{ playerName: string } | null>(null);
+export const hostEmojiReaction = writable<{ playerName: string; emoji: string } | null>(null);
 export const joinError = writable<string | null>(null);
 export const hostNotification = writable<{ message: string } | null>(null);
 export const updatedUsername = writable<string | null>(null);
@@ -122,6 +123,14 @@ export function initSocket() {
     hostNotification.set(data);
     // Auto-clear after 5 seconds
     setTimeout(() => hostNotification.set(null), 5000);
+  });
+
+  socket.on("emojiReaction", (data: { emoji: string; playerName?: string }) => {
+    hostEmojiReaction.set({ playerName: data.playerName || "", emoji: data.emoji });
+    // Clear after a few seconds
+    setTimeout(() => hostEmojiReaction.set(null), 4000);
+    // Trigger emoji confetti on host clients as well
+    import("$lib/utils/confetti").then((m) => m.playerEmojiReact(data.emoji)).catch(() => {});
   });
 
   return socket;
@@ -268,4 +277,8 @@ export function hostUpdatePlayerName(
       }
     );
   });
+}
+
+export function sendEmojiReaction(emoji: string) {
+  socket?.emit("emojiReaction", { emoji });
 }

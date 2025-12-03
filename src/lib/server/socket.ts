@@ -255,6 +255,11 @@ export function initSocketServer(server: HTTPServer) {
       }
     );
 
+    // Player sends emoji reaction
+    socket.on(SOCKET_EVENTS.EMOJI_REACTION, (data: { emoji: string }) => {
+      hostHandler.handleEmojiReaction(socket, data.emoji);
+    });
+
     // Disconnect handling
     socket.on("disconnect", () => {
       playerHandler.handleDisconnect(socket);

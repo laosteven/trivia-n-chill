@@ -4,17 +4,17 @@
  */
 
 import { browser } from "$app/environment";
-import type { ClientGameState } from "$lib/types";
 import {
+  gameState,
+  joinError,
+  playerId,
+  buzz as socketBuzz,
   playerJoin as socketPlayerJoin,
   playerRename as socketPlayerRename,
-  buzz as socketBuzz,
-  gameState,
-  playerId,
-  joinError,
+  sendEmojiReaction as socketSendEmojiReaction,
   updatedUsername,
 } from "$lib/stores/socket";
-import type { Player } from "$lib/types";
+import type { ClientGameState, Player } from "$lib/types";
 import { validateUsername } from "$lib/utils/validation";
 
 const STORAGE_KEY = "jeopardy-game_username";
@@ -124,6 +124,13 @@ export function usePlayer() {
   }
 
   /**
+   * Send emoji reaction
+   */
+  function sendEmojiReaction(emoji: string) {
+    socketSendEmojiReaction(emoji);
+  }
+
+  /**
    * Get current player from game state (reactive)
    */
   const currentPlayer = $derived(
@@ -188,5 +195,6 @@ export function usePlayer() {
     rename,
     doBuzz,
     resetBuzz,
+    sendEmojiReaction,
   };
 }

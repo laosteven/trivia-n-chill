@@ -219,6 +219,18 @@ export class HostHandler {
     callback?.({ success: true });
   }
 
+  handleEmojiReaction(socket: Socket, emoji: string): void {
+    const player = this.playerService.getPlayer(socket.id);
+    const playerName = player ? player.name : "Unknown";
+    console.log(`Player ${playerName} reacted with emoji: ${emoji}`);
+
+    // Broadcast emoji reaction to host clients so the host UI can display it
+    this.io.to("host").emit(SOCKET_EVENTS.EMOJI_REACTION, {
+      playerName,
+      emoji,
+    });
+  }
+
   /**
    * Handle manual config reload
    */
