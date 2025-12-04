@@ -22,6 +22,7 @@
     initSocket,
     joinError,
   } from "$lib/stores/socket";
+  import { LottiePlayer } from "@lottiefiles/svelte-lottie-player";
   import { onMount } from "svelte";
   import { Toaster, toast } from "svelte-sonner";
 
@@ -114,7 +115,7 @@
         <CardDescription>Waiting for host to start the game...</CardDescription>
       </CardHeader>
       <CardContent class="text-center space-y-4">
-        <div class="text-6xl mb-4">⏳</div>
+        <LottiePlayer src="/animations/sandy.json" autoplay loop style="display: inline-block" />
         <p class="text-xl font-semibold mb-2">
           Welcome, {player.currentPlayer?.name}!
         </p>
@@ -171,7 +172,7 @@
       {:else if player.hasBuzzedValue}
         <Card class="bg-yellow-100 border-yellow-300">
           <CardContent class="p-8 text-center">
-            <div class="text-6xl mb-4">✋</div>
+            <LottiePlayer src="/animations/idea.json" autoplay loop style="display: inline-block" />
             <p class="text-xl font-semibold text-yellow-800">You buzzed!</p>
             <p class="text-2xl font-bold">Position: #{player.buzzPosition}</p>
           </CardContent>
@@ -204,7 +205,7 @@
             #{rank} of {$gameState.players.length}
           </p>
         </div>
-        
+
         <div class="mt-4 flex items-center justify-center gap-4">
           <EmojiPickerReaction />
         </div>

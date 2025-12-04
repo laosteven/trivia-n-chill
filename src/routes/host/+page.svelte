@@ -267,6 +267,7 @@
                 onclick={() => game.startGame()}
                 disabled={$gameState.players.length === 0}
                 class="px-8 py-4 text-xl"
+                size="lg"
               >
                 Start game
               </Button>
