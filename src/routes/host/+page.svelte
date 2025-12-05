@@ -3,7 +3,6 @@
   import GameBoard from "$lib/components/features/game/GameBoard.svelte";
   import QuestionCard from "$lib/components/features/game/QuestionCard.svelte";
   import HostControls from "$lib/components/features/host/HostControls.svelte";
-  import PlayerManagement from "$lib/components/features/host/PlayerManagement.svelte";
   import Leaderboard from "$lib/components/features/leaderboard/Leaderboard.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
@@ -310,11 +309,6 @@
               isAnswered={(cat, value) => game.isQuestionAnswered(cat, value)}
               onSelect={(cat, value) => game.selectQuestion(cat, value)}
             />
-
-            <!-- Player Management -->
-            <div class="mt-6">
-              <PlayerManagement players={$gameState.players} />
-            </div>
           </div>
         </div>
       {:else if $gameState.gamePhase === "question"}
