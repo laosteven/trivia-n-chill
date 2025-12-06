@@ -4,12 +4,13 @@
   import * as InputGroup from "$lib/components/ui/input-group/index.js";
   import Input from "$lib/components/ui/input/input.svelte";
   import Label from "$lib/components/ui/label/label.svelte";
-  import { hostUpdatePlayerName, removePlayer, updatePlayerScore } from "$lib/stores/socket";
+  import { hostUpdatePlayerName, updatePlayerScore } from "$lib/stores/socket";
   import type { Player } from "$lib/types";
   import Minus from "@lucide/svelte/icons/minus";
   import Plus from "@lucide/svelte/icons/plus";
   import type { Snippet } from "svelte";
   import type { ClassValue } from "svelte/elements";
+  import HostRemovePlayerDialog from "./HostRemovePlayerDialog.svelte";
 
   let {
     player,
@@ -21,7 +22,7 @@
     class?: ClassValue | null | undefined;
   } = $props();
 
-  let selected: Player | null = null;
+  let selected: Player | null = $state(null);
   let editingScore = $state(0);
   let editingName = $state("");
   let open = $state(false);
@@ -66,9 +67,7 @@
     editingScore = Number(editingScore) - skipValue;
   }
 
-  async function handleRemove() {
-    if (!selected) return;
-    removePlayer(selected.id);
+  function onRemove() {
     open = false;
     selected = null;
   }
@@ -108,7 +107,11 @@
       </InputGroup.Root>
     </div>
     <Dialog.Footer class="flex w-full gap-2 space-x-2">
-      <Button variant="destructive" class="flex-1" onclick={handleRemove}>Remove</Button>
+      {#if selected}
+        <HostRemovePlayerDialog player={selected} class="flex-1" {onRemove}>
+          <Button variant="destructive" class="w-full">Remove</Button>
+        </HostRemovePlayerDialog>
+      {/if}
       <Dialog.Close class={buttonVariants({ variant: "outline" }) + " flex-1"}>Cancel</Dialog.Close>
       <Button onclick={save} class="flex-1">Save</Button>
     </Dialog.Footer>

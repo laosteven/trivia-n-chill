@@ -177,11 +177,14 @@ export class HostHandler {
 
     console.log(`Host updated ${player.name}'s score to ${data.newScore}`);
 
-    // Notify the player
     const scoreDiff = data.newScore - oldScore;
     const diffSign = scoreDiff >= 0 ? "+" : "";
     this.io.to(data.playerId).emit(SOCKET_EVENTS.HOST_NOTIFICATION, {
       message: `Host updated your score: $${oldScore} → $${data.newScore} (${diffSign}${scoreDiff})`,
+    });
+
+    this.io.to("host").emit(SOCKET_EVENTS.HOST_NOTIFICATION, {
+      message: `${player.name}: ${diffSign}${scoreDiff}`,
     });
   }
 
@@ -254,6 +257,10 @@ export class HostHandler {
       message: `Host updated your name: "${oldName}" → "${cleanName}"`,
     });
 
+    this.io.to("host").emit(SOCKET_EVENTS.HOST_NOTIFICATION, {
+      message: `Name: "${oldName}" → "${cleanName}"`,
+    });
+
     console.log(`Host updated player name: ${oldName} -> ${cleanName}`);
     callback?.({ success: true });
   }
@@ -314,6 +321,7 @@ export class HostHandler {
       buzzerLocked: state.buzzerLocked,
       gamePhase: state.gamePhase,
       showAnswer: state.showAnswer,
+      scoringEnabled: state.scoringEnabled ?? true,
     };
     this.io.emit(SOCKET_EVENTS.GAME_STATE, clientState);
 

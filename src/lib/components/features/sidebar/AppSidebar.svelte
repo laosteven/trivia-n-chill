@@ -1,18 +1,15 @@
 <script lang="ts">
   import * as Collapsible from "$lib/components/ui/collapsible/index.js";
-  import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-  import Switch from "$lib/components/ui/switch/switch.svelte";
   import { usePlayer } from "$lib/composables/usePlayer.svelte";
   import { gameState, isHost, toggleScoring } from "$lib/stores/socket";
   import type { Player } from "$lib/types";
   import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-  import Ellipsis from "@lucide/svelte/icons/ellipsis";
   import Gamepad2 from "@lucide/svelte/icons/gamepad-2";
   import Github from "@lucide/svelte/icons/github";
+  import HatGlasses from "@lucide/svelte/icons/hat-glasses";
   import Power from "@lucide/svelte/icons/power";
   import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
-  import Settings from "@lucide/svelte/icons/settings";
   import User from "@lucide/svelte/icons/user";
   import UserRoundX from "@lucide/svelte/icons/user-round-x";
   import Zap from "@lucide/svelte/icons/zap";
@@ -75,8 +72,8 @@
           </Sidebar.MenuButton>
         </Sidebar.MenuItem>
 
-        {#if $players.length}
-          <Sidebar.MenuSub>
+        <Sidebar.MenuSub>
+          {#if $players.length}
             {#each $players as p, idx}
               <Sidebar.MenuSubItem>
                 <Sidebar.MenuSubButton>
@@ -90,10 +87,10 @@
                 </Sidebar.MenuSubButton>
               </Sidebar.MenuSubItem>
             {/each}
-          </Sidebar.MenuSub>
-        {:else}
-          <div class="text-sm text-muted-foreground px-2">No players yet</div>
-        {/if}
+          {:else}
+            <div class="text-sm text-muted-foreground px-2">No players yet</div>
+          {/if}
+        </Sidebar.MenuSub>
       </Sidebar.Menu>
     </Sidebar.Group>
   </Sidebar.Content>
@@ -120,6 +117,15 @@
               </Collapsible.Trigger>
               <Collapsible.Content>
                 <Sidebar.MenuSub>
+                  <Sidebar.MenuSubItem>
+                    <Sidebar.MenuSubButton onclick={toggleScoring}>
+                      <div class="flex items-center gap-2 w-full text-xs">
+                        <HatGlasses size={12} />
+                        {$gameState.scoringEnabled ? "Disable" : "Enable"} scoring
+                      </div>
+                    </Sidebar.MenuSubButton>
+                  </Sidebar.MenuSubItem>
+                  <Sidebar.Separator />
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton>
                       <RemoveDisconnectedDialog class="w-full">
@@ -152,30 +158,6 @@
             </Sidebar.MenuItem>
           {/snippet}
         </Collapsible.Root>
-
-        <Sidebar.MenuItem>
-          <Sidebar.MenuButton>
-            <div class="flex items-center gap-2">
-              <Settings size={16} /> Settings
-            </div>
-          </Sidebar.MenuButton>
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger>
-              {#snippet child({ props })}
-                <Sidebar.MenuAction showOnHover {...props}>
-                  <Ellipsis />
-                  <span class="sr-only">More</span>
-                </Sidebar.MenuAction>
-              {/snippet}
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content align="end" side="top">
-              <DropdownMenu.Item onclick={toggleScoring}>
-                <Switch bind:checked={$gameState.scoringEnabled} />
-                {$gameState.scoringEnabled ? "Disable" : "Enable"} scoring
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-        </Sidebar.MenuItem>
       {/if}
 
       <Sidebar.MenuItem>

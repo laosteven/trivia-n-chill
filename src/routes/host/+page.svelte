@@ -31,6 +31,7 @@
     hostEmojiReaction,
     hostJoin,
     hostLeave,
+    hostNotification,
     initSocket,
   } from "$lib/stores/socket";
   import { celebrateCorrect, celebrateLeaderboard } from "$lib/utils/confetti";
@@ -94,6 +95,12 @@
       if (typeof window !== "undefined") {
         celebrateLeaderboard().catch(() => {});
       }
+    }
+  });
+
+  $effect(() => {
+    if ($hostNotification) {
+      toast.info($hostNotification.message, { dismissable: true });
     }
   });
 

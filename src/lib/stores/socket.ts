@@ -311,6 +311,14 @@ export function showScoring() {
 }
 
 export function showLeaderboard() {
+  try {
+    const url = "/sounds/cheers.mp3";
+    const a = new Audio(url);
+    a.preload = "auto";
+    a.play().catch(() => {});
+  } catch (e) {
+    console.debug("Play correct sound failed", e);
+  }
   socket?.emit("showLeaderboard");
 }
 
