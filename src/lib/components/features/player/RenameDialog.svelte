@@ -60,7 +60,8 @@
       newUsername = value;
       renameError = null;
       open = true;
-    }}>
+    }}
+  >
     {@render children?.()}
   </Dialog.Trigger>
   <Dialog.Content>

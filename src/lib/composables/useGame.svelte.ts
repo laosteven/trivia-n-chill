@@ -3,31 +3,32 @@
  * Manages game state and flow for host
  */
 
-import { get } from "svelte/store";
 import {
-  startGame as socketStartGame,
-  selectQuestion as socketSelectQuestion,
-  correctAnswer as socketCorrectAnswer,
-  incorrectAnswer as socketIncorrectAnswer,
-  skipQuestion as socketSkipQuestion,
-  cancelQuestion as socketCancelQuestion,
-  showLeaderboard as socketShowLeaderboard,
-  backToGame as socketBackToGame,
-  resetGame as socketResetGame,
-  lockBuzzer as socketLockBuzzer,
-  unlockBuzzer as socketUnlockBuzzer,
-  clearBuzzers as socketClearBuzzers,
-  removeBuzz as socketRemoveBuzz,
-  revealAnswer as socketRevealAnswer,
-  updatePlayerScore as socketUpdatePlayerScore,
-  hostUpdatePlayerName as socketHostUpdatePlayerName,
-  reloadConfig as socketReloadConfig,
-  clearPlayers as socketClearPlayers,
-  removePlayer as socketRemovePlayer,
-  clearDisconnected as socketClearDisconnected,
   gameState,
+  backToGame as socketBackToGame,
+  cancelQuestion as socketCancelQuestion,
+  clearBuzzers as socketClearBuzzers,
+  clearDisconnected as socketClearDisconnected,
+  clearPlayers as socketClearPlayers,
+  correctAnswer as socketCorrectAnswer,
+  hostUpdatePlayerName as socketHostUpdatePlayerName,
+  incorrectAnswer as socketIncorrectAnswer,
+  lockBuzzer as socketLockBuzzer,
+  reloadConfig as socketReloadConfig,
+  removeBuzz as socketRemoveBuzz,
+  removePlayer as socketRemovePlayer,
+  resetGame as socketResetGame,
+  revealAnswer as socketRevealAnswer,
+  selectQuestion as socketSelectQuestion,
+  showLeaderboard as socketShowLeaderboard,
+  showScoring as socketShowScoring,
+  skipQuestion as socketSkipQuestion,
+  startGame as socketStartGame,
+  unlockBuzzer as socketUnlockBuzzer,
+  updatePlayerScore as socketUpdatePlayerScore,
 } from "$lib/stores/socket";
 import type { Player } from "$lib/types";
+import { get } from "svelte/store";
 
 export function useGame() {
   /**
@@ -95,6 +96,13 @@ export function useGame() {
    */
   function showLeaderboard() {
     socketShowLeaderboard();
+  }
+
+  /**
+   * Show chart view
+   */
+  function showScoring() {
+    socketShowScoring();
   }
 
   /**
@@ -200,6 +208,7 @@ export function useGame() {
     clearPlayers,
     removePlayer,
     clearDisconnected,
+    showScoring,
     showLeaderboard,
     backToGame,
     markCorrect,

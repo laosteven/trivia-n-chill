@@ -205,6 +205,12 @@ export function initSocketServer(server: HTTPServer) {
       broadcastGameState();
     });
 
+    // Host shows scoring
+    socket.on(SOCKET_EVENTS.SHOW_SCORING, () => {
+      hostHandler.handleShowScoring();
+      broadcastGameState();
+    });
+
     // Host shows leaderboard
     socket.on(SOCKET_EVENTS.SHOW_LEADERBOARD, () => {
       hostHandler.handleShowLeaderboard();

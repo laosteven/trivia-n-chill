@@ -221,8 +221,7 @@ export function hostLeave(): Promise<void> {
   });
 }
 
-export async function hostToPlayer(name: string): Promise<{ success: boolean; error?: string }>
-{
+export async function hostToPlayer(name: string): Promise<{ success: boolean; error?: string }> {
   // drop host role first
   await hostLeave();
   // then attempt to join as player
@@ -304,6 +303,10 @@ export function skipQuestion() {
 export function cancelQuestion() {
   socket?.emit("cancelQuestion");
   fullQuestion.set(null);
+}
+
+export function showScoring() {
+  socket?.emit("showScoring");
 }
 
 export function showLeaderboard() {

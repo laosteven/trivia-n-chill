@@ -11,9 +11,10 @@
   const WAIT_MS = 5000; // wait before starting the roll
   const DURATION_MS = 20000; // duration of the scroll animation
   const PAUSE_MS = 1000; // pause at bottom before scrolling back
-  const LOOP = true; // set to true to continuously loop the roll
+  const LOOP = false; // disable continuous loop to keep UI responsive
 
   let viewport = $state<HTMLElement | null>(null);
+  let autoscrollEnabled = $state(true);
 
   // smooth scroll helper: animate from current scrollTop to target over duration
   // Returns a promise that resolves when animation completes and provides a cancel function
@@ -52,6 +53,7 @@
 
       do {
         if (!viewport) return;
+        if (!autoscrollEnabled) break;
         const bottom = Math.max(0, viewport.scrollHeight - viewport.clientHeight);
         if (bottom > 0) {
           await smoothScrollTo(viewport, bottom, DURATION_MS);
@@ -66,6 +68,11 @@
     }
 
     runLoop().catch(() => {});
+
+    // disable autoscroll on user interaction inside the viewport
+    const disableOnInteract = () => (autoscrollEnabled = false);
+    viewport?.addEventListener("pointerdown", disableOnInteract, { once: true });
+    viewport?.addEventListener("wheel", disableOnInteract, { once: true });
 
     return () => {
       destroyed = true;

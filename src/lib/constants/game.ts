@@ -27,6 +27,7 @@ export const GAME_PHASES = {
   PLAYING: "playing",
   QUESTION: "question",
   ANSWER: "answer",
+  SCORING: "scoring",
   LEADERBOARD: "leaderboard",
 } as const;
 

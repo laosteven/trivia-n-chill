@@ -43,7 +43,7 @@ export async function celebrateCorrect(duration = 1000) {
   }, 250);
 }
 
-export async function celebrateLeaderboard(duration = 15000) {
+export async function celebrateLeaderboard(duration = 10000) {
   const confetti = await load();
   if (!confetti) return;
 

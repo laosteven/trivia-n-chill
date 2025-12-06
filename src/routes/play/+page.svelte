@@ -185,6 +185,21 @@
         <BuzzerButton onBuzz={handleBuzz} />
       {/if}
     </div>
+  {:else if $gameState.gamePhase === "scoring"}
+    <!-- Scoring -->
+    <Card class="w-full max-w-md">
+      <CardHeader class="text-center">
+        <CardTitle class="text-3xl">Results</CardTitle>
+      </CardHeader>
+      <CardContent class="text-center space-y-4">
+        <div class="bg-secondary p-4 rounded-lg">
+          <p class="text-sm text-muted-foreground">Final score</p>
+          <p class="text-4xl font-bold text-purple-600">
+            ${player.currentPlayer?.score ?? 0}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
   {:else if $gameState.gamePhase === "leaderboard"}
     <!-- Leaderboard -->
     <Card class="w-full max-w-md">
@@ -198,13 +213,13 @@
         </div>
         <p class="text-2xl font-semibold">{player.currentPlayer?.name}</p>
         <div class="bg-secondary p-4 rounded-lg">
-          <p class="text-sm text-muted-foreground">Final Score</p>
+          <p class="text-sm text-muted-foreground">Final score</p>
           <p class="text-4xl font-bold text-purple-600">
             ${player.currentPlayer?.score ?? 0}
           </p>
         </div>
         <div class="bg-secondary p-4 rounded-lg">
-          <p class="text-sm text-muted-foreground">Final Rank</p>
+          <p class="text-sm text-muted-foreground">Final rank</p>
           <p class="text-2xl font-bold">
             #{rank} of {$gameState.players.length}
           </p>

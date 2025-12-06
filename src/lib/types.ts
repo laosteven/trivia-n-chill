@@ -43,7 +43,7 @@ export interface BuzzEvent {
   timestamp: number;
 }
 
-export type GamePhase = "lobby" | "playing" | "question" | "answer" | "leaderboard";
+export type GamePhase = "lobby" | "playing" | "question" | "answer" | "scoring" | "leaderboard";
 
 export interface GameState {
   players: Map<string, Player>;

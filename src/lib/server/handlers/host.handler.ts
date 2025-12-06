@@ -123,11 +123,18 @@ export class HostHandler {
   }
 
   /**
-   * Handle show leaderboard
+   * Handle show scoring
+   */
+  handleShowScoring(): void {
+    this.gameStateService.setPhase("scoring");
+    this.gameStateService.clearCurrentQuestion();
+  }
+
+  /**
+   * Handle proceed to leaderboard from chart
    */
   handleShowLeaderboard(): void {
     this.gameStateService.setPhase("leaderboard");
-    this.gameStateService.clearCurrentQuestion();
   }
 
   /**
@@ -135,7 +142,7 @@ export class HostHandler {
    */
   handleBackToGame(): void {
     const gameState = this.gameStateService.getState();
-    if (gameState.gamePhase === "leaderboard") {
+    if (gameState.gamePhase === "leaderboard" || gameState.gamePhase === "scoring") {
       this.gameStateService.setPhase("playing");
     }
   }

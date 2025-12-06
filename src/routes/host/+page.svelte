@@ -3,6 +3,7 @@
   import GameBoard from "$lib/components/features/game/GameBoard.svelte";
   import QuestionCard from "$lib/components/features/game/QuestionCard.svelte";
   import HostControls from "$lib/components/features/host/HostControls.svelte";
+  import ChartPhase from "$lib/components/features/leaderboard/ChartPhase.svelte";
   import Leaderboard from "$lib/components/features/leaderboard/Leaderboard.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
@@ -301,7 +302,7 @@
               title={$gameConfig.title}
               canStart={$gameState.players.length > 0}
               onStart={() => game.startGame()}
-              onShowLeaderboard={() => game.showLeaderboard()}
+              onShowLeaderboard={() => game.showScoring()}
               onReset={handleResetGame}
             />
 
@@ -409,6 +410,26 @@
                       {/each}
                     </div>
                   {/if}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      {:else if $gameState.gamePhase === "scoring"}
+        <!-- Scoring View -->
+        <div class="flex items-center justify-center flex-1">
+          <div class="max-w-2xl w-full">
+            <Card>
+              <CardHeader>
+                <CardTitle class="text-center text-4xl font-bold">Score</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChartPhase players={game.getLeaderboard()} />
+                <div class="mt-8 flex justify-center gap-4">
+                  <Button onclick={() => game.backToGame()} variant="outline">Back to game</Button>
+                  <Button onclick={() => game.showLeaderboard()} variant="default">
+                    Leaderboard
+                  </Button>
                 </div>
               </CardContent>
             </Card>
