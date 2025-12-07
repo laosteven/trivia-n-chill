@@ -33,6 +33,12 @@ interface FullQuestion {
   answerYoutube?: string;
 }
 
+  interface AnswerPayload {
+    playerId?: string;
+    playerName?: string;
+    points?: number;
+  }
+
 let socket: Socket | null = null;
 
 export const connected = writable(false);
@@ -110,7 +116,7 @@ export function initSocket() {
               a.preload = "auto";
               a.play().catch(() => {});
             }
-          } catch (e) {
+          } catch {
             // ignore
           }
         }
@@ -190,9 +196,15 @@ export function initSocket() {
     setTimeout(() => hostNotification.set(null), 5000);
   });
 
-  // Play correct/incorrect sounds when server notifies
-  socket.on("correctAnswer", () => {
+  socket.on("correctAnswer", (payload: AnswerPayload) => {
     try {
+      const myId = get(playerId);
+      if (payload && payload.playerId) {
+        if (payload.playerId !== myId) return;
+      } else {
+        return;
+      }
+
       const url = "/sounds/correct.mp3";
       const a = new Audio(url);
       a.preload = "auto";
@@ -202,8 +214,15 @@ export function initSocket() {
     }
   });
 
-  socket.on("incorrectAnswer", () => {
+  socket.on("incorrectAnswer", (payload: AnswerPayload) => {
     try {
+      const myId = get(playerId);
+      if (payload && payload.playerId) {
+        if (payload.playerId !== myId) return;
+      } else {
+        return;
+      }
+
       const url = "/sounds/incorrect.mp3";
       const a = new Audio(url);
       a.preload = "auto";
@@ -212,6 +231,7 @@ export function initSocket() {
       console.debug("Play incorrect sound failed", e);
     }
   });
+  
 
   socket.on("emojiReaction", (data: { emoji: string; playerName?: string }) => {
     hostEmojiReaction.set({ playerName: data.playerName || "", emoji: data.emoji });
