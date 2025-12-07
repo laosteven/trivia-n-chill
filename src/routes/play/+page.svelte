@@ -1,9 +1,10 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import BuzzerButton from "$lib/components/features/game/BuzzerButton.svelte";
-  import EmojiPickerReaction from "$lib/components/features/player/EmojiPickerReaction.svelte";
-  import PlayerStats from "$lib/components/features/player/PlayerStats.svelte";
-  import RenameDialog from "$lib/components/features/player/RenameDialog.svelte";
+  import LeaderboardPhase from "$lib/components/phases/player/Leaderboard.svelte";
+  import LobbyPhase from "$lib/components/phases/player/Lobby.svelte";
+  import PlayingPhase from "$lib/components/phases/player/Playing.svelte";
+  import QuestionPhase from "$lib/components/phases/player/Question.svelte";
+  import ScoringPhase from "$lib/components/phases/player/Scoring.svelte";
   import { Button } from "$lib/components/ui/button";
   import {
     Card,
@@ -22,7 +23,6 @@
     initSocket,
     joinError,
   } from "$lib/stores/socket";
-  import { LottiePlayer } from "@lottiefiles/svelte-lottie-player";
   import { onMount } from "svelte";
   import { Toaster, toast } from "svelte-sonner";
 
@@ -108,130 +108,15 @@
       </CardContent>
     </Card>
   {:else if $gameState.gamePhase === "lobby"}
-    <!-- Waiting in Lobby -->
-    <Card class="w-full max-w-md">
-      <CardHeader class="text-center">
-        <CardTitle class="text-2xl">{$gameConfig.title}</CardTitle>
-        <CardDescription>Waiting for host to start the game...</CardDescription>
-      </CardHeader>
-      <CardContent class="text-center space-y-4">
-        <LottiePlayer src="/animations/sandy.json" autoplay loop style="display: inline-block" />
-        <p class="text-xl font-semibold mb-2">
-          Welcome, {player.currentPlayer?.name}!
-        </p>
-        <p class="text-muted-foreground">
-          {$gameState.players.length} player(s) joined
-        </p>
-        <div class="mt-4 flex items-center justify-center gap-4">
-          <RenameDialog value={player.currentPlayer?.name}>
-            <Button variant="outline">Change name</Button>
-          </RenameDialog>
-          <EmojiPickerReaction />
-        </div>
-      </CardContent>
-    </Card>
+    <LobbyPhase />
   {:else if $gameState.gamePhase === "playing"}
-    <!-- Waiting for Question -->
-    <Card class="w-full max-w-md">
-      <CardHeader class="text-center">
-        <CardTitle class="text-2xl">{player.currentPlayer?.name}</CardTitle>
-      </CardHeader>
-      <CardContent class="text-center space-y-4">
-        <PlayerStats
-          name={player.currentPlayer?.name || ""}
-          score={player.currentPlayer?.score ?? 0}
-          rank={player.playerRank}
-          totalPlayers={$gameState.players.length}
-        />
-        <p class="text-muted-foreground">Waiting for host to select a question...</p>
-
-        <div class="mt-4 flex items-center justify-center gap-4">
-          <RenameDialog value={player.currentPlayer?.name}>
-            <Button variant="outline">Change name</Button>
-          </RenameDialog>
-          <EmojiPickerReaction />
-        </div>
-      </CardContent>
-    </Card>
+    <PlayingPhase />
   {:else if $gameState.gamePhase === "question"}
-    <!-- Buzzer Screen -->
-    <div class="w-full max-w-md">
-      <Card class="mb-4">
-        <CardHeader class="text-center pb-2">
-          <CardTitle class="text-xl">{player.currentPlayer?.name}</CardTitle>
-          <CardContent class="text-2xl font-bold text-purple-600">
-            ${player.currentPlayer?.score ?? 0}
-          </CardContent>
-        </CardHeader>
-      </Card>
-
-      {#if $gameState.buzzerLocked}
-        <Card class="bg-red-100 border-red-300">
-          <CardContent class="p-8 text-center">
-            <div class="text-6xl mb-4">🔒</div>
-            <p class="text-xl font-semibold text-red-800">Buzzer locked</p>
-            <p class="text-muted-foreground">Wait for the host to unlock...</p>
-          </CardContent>
-        </Card>
-      {:else if player.hasBuzzedValue}
-        <Card class="bg-yellow-100 border-yellow-300">
-          <CardContent class="p-8 text-center">
-            <LottiePlayer src="/animations/idea.json" autoplay loop style="display: inline-block" />
-            <p class="text-xl font-semibold text-yellow-800">You buzzed!</p>
-            <p class="text-2xl font-bold text-yellow-900">Position: #{player.buzzPosition}</p>
-          </CardContent>
-        </Card>
-      {:else}
-        <BuzzerButton onBuzz={handleBuzz} />
-      {/if}
-    </div>
+    <QuestionPhase />
   {:else if $gameState.gamePhase === "scoring"}
-    <!-- Scoring -->
-    <Card class="w-full max-w-md">
-      <CardHeader class="text-center">
-        <CardTitle class="text-3xl">Results</CardTitle>
-      </CardHeader>
-      <CardContent class="text-center space-y-4">
-        <div class="bg-secondary p-4 rounded-lg">
-          <p class="text-sm text-muted-foreground">Final score</p>
-          <p class="text-4xl font-bold text-purple-600">
-            ${player.currentPlayer?.score ?? 0}
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+    <ScoringPhase />
   {:else if $gameState.gamePhase === "leaderboard"}
-    <!-- Leaderboard -->
-    <Card class="w-full max-w-md">
-      <CardHeader class="text-center">
-        <CardTitle class="text-3xl">🏆 Game over! 🏆</CardTitle>
-      </CardHeader>
-      <CardContent class="text-center space-y-4">
-        {@const rank = player.playerRank}
-        <div class="text-6xl">
-          {#if rank === 1}🥇{:else if rank === 2}🥈{:else if rank === 3}🥉{:else}🎮{/if}
-        </div>
-        <p class="text-2xl font-semibold">{player.currentPlayer?.name}</p>
-        <div class="bg-secondary p-4 rounded-lg">
-          <p class="text-sm text-muted-foreground">Final score</p>
-          <p class="text-4xl font-bold text-purple-600">
-            ${player.currentPlayer?.score ?? 0}
-          </p>
-        </div>
-        {#if $gameState.scoringEnabled}
-          <div class="bg-secondary p-4 rounded-lg">
-            <p class="text-sm text-muted-foreground">Final rank</p>
-            <p class="text-2xl font-bold">
-              #{rank} of {$gameState.players.length}
-            </p>
-          </div>
-        {/if}
-
-        <div class="mt-4 flex items-center justify-center gap-4">
-          <EmojiPickerReaction />
-        </div>
-      </CardContent>
-    </Card>
+    <LeaderboardPhase />
   {/if}
 </div>
 

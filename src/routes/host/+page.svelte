@@ -1,6 +1,6 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import LeaderboardPhase from "$lib/components/phases/host/LeaderboardPhase.svelte";
+  import LeaderboardPhase from "$lib/components/phases/host/Leaderboard.svelte";
   import LobbyPhase from "$lib/components/phases/host/Lobby.svelte";
   import PlayingPhase from "$lib/components/phases/host/Playing.svelte";
   import QuestionPhase from "$lib/components/phases/host/Question.svelte";
