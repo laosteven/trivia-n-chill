@@ -84,6 +84,45 @@ export function initSocket() {
 
   socket.on("gameState", (state: ClientGameState & { showAnswer?: boolean }) => {
     // Compare previous state to detect score changes or phase transitions
+    try {
+      if (typeof window !== "undefined") {
+        // previous state stored on the module
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const prev: ClientGameState | null = (initSocket as any)._prevGameState || null;
+        const myId = get(playerId);
+
+        // If our score increased, celebrate
+        if (prev && myId) {
+          const prevPlayer = prev.players.find((p) => p.id === myId);
+          const newPlayer = state.players.find((p) => p.id === myId);
+          if (newPlayer && prevPlayer && newPlayer.score > prevPlayer.score) {
+            import("$lib/utils/confetti").then((m) => m.celebrateCorrect()).catch(() => {});
+          }
+        }
+
+        // If the phase just moved to leaderboard, play cheer on host screens
+        if (prev && prev.gamePhase !== "leaderboard" && state.gamePhase === "leaderboard") {
+          try {
+            const isHostLocal = get(isHost);
+            if (isHostLocal) {
+              const url = "/sounds/cheers.mp3";
+              const a = new Audio(url);
+              a.preload = "auto";
+              a.play().catch(() => {});
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
+
+        // store prev state for next comparison
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (initSocket as any)._prevGameState = state;
+      }
+    } catch (e) {
+      console.log("Confetti error:", e);
+    }
+
     gameState.set(state);
     try {
       if (typeof window !== "undefined") {
@@ -311,14 +350,6 @@ export function showScoring() {
 }
 
 export function showLeaderboard() {
-  try {
-    const url = "/sounds/cheers.mp3";
-    const a = new Audio(url);
-    a.preload = "auto";
-    a.play().catch(() => {});
-  } catch (e) {
-    console.debug("Play correct sound failed", e);
-  }
   socket?.emit("showLeaderboard");
 }
 

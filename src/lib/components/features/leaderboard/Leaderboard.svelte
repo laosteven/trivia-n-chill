@@ -102,7 +102,7 @@
             {/if}
           </div>
         </div>
-        <span class="text-2xl font-bold text-blue-600">${player.score}</span>
+        <span class="text-2xl font-bold text-blue-600 font-mono tabular-nums">${player.score}</span>
       </div>
     {/each}
   </ScrollArea>

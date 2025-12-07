@@ -178,7 +178,7 @@
           <CardContent class="p-8 text-center">
             <LottiePlayer src="/animations/idea.json" autoplay loop style="display: inline-block" />
             <p class="text-xl font-semibold text-yellow-800">You buzzed!</p>
-            <p class="text-2xl font-bold">Position: #{player.buzzPosition}</p>
+            <p class="text-2xl font-bold text-yellow-900">Position: #{player.buzzPosition}</p>
           </CardContent>
         </Card>
       {:else}

@@ -13,12 +13,12 @@ export function useQRCode() {
   /**
    * Generate QR code for the join URL
    */
-  async function generate() {
+  async function generate(size: number = 300) {
     if (!browser) return;
 
     try {
       joinUrl = `${window.location.origin}/play`;
-      const url = await QRCode.toDataURL(joinUrl, { width: 200 });
+      const url = await QRCode.toDataURL(joinUrl, { width: size });
       qrCodeDataUrl = url;
     } catch (error) {
       console.error("Failed to generate QR code:", error);

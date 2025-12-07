@@ -31,7 +31,7 @@
   </div>
   {#if $gameState.scoringEnabled || $gameState.gamePhase === "leaderboard"}
     <div
-      class="text-muted-foreground"
+      class="text-muted-foreground font-mono tabular-nums"
       class:font-bold={!$isHost && p.id === player.currentPlayer?.id}
     >
       ${p.score}

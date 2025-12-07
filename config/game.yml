@@ -100,8 +100,8 @@ categories:
 
 emoji:
   cost: 5
-  allowNegative: false
-  maxActive: 5
+  allowNegative: true
+  maxActive: 10
   cooldownMs: 0
   displayDurationMs: 4000
 

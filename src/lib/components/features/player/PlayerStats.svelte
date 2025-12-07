@@ -9,7 +9,7 @@
   <LottiePlayer src="/animations/search.json" autoplay loop style="display: inline-block" />
   <div class="bg-secondary p-4 rounded-lg">
     <p class="text-sm text-muted-foreground">Your score</p>
-    <p class="text-4xl font-bold text-purple-600">${p.score}</p>
+    <p class="text-4xl font-bold text-purple-600 font-mono tabular-nums">${p.score}</p>
   </div>
 
   {#if $gameState.scoringEnabled}

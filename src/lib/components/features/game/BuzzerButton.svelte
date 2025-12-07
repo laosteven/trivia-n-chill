@@ -7,10 +7,19 @@
 
 <div class="w-full h-140 md:h-[80vh]">
   <Button
-    onclick={p.onBuzz}
+    onclick={() => {
+      if (typeof navigator !== "undefined" && (navigator as any).vibrate) {
+        try {
+          (navigator as any).vibrate(100);
+        } catch (e) {}
+      }
+      p.onBuzz();
+    }}
     class="w-full h-full flex flex-col items-center justify-center transition-all duration-100 shadow-2xl bg-gradient-to-br from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 active:scale-95 rounded-xl"
   >
     <Zap class="text-white drop-shadow-lg" style="width: 96px; height: 96px;" />
-    <span class="text-2xl font-black uppercase tracking-widest text-white">BUZZ</span>
+    <span class="text-2xl md:text-4xl lg:text-6xl font-black uppercase tracking-widest text-white"
+      >BUZZ</span
+    >
   </Button>
 </div>

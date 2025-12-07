@@ -7,6 +7,7 @@
   import { usePlayer } from "$lib/composables/usePlayer.svelte";
   import SmilePlus from "@lucide/svelte/icons/smile-plus";
   import { onMount } from "svelte";
+  import { toast } from "svelte-sonner";
 
   const player = usePlayer();
   let emoji = $state<string>("😀");
@@ -79,7 +80,15 @@
         <Button
           variant="outline"
           size="icon"
-          onclick={() => player.sendEmojiReaction(r)}
+          onclick={() => {
+            if (typeof navigator !== "undefined" && (navigator as any).vibrate) {
+              try {
+                (navigator as any).vibrate(100);
+              } catch (e) {}
+            }
+            toast.success(`Sent ${r}`);
+            player.sendEmojiReaction(r);
+          }}
           aria-label={`Send ${r}`}
         >
           {r}

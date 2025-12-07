@@ -1,11 +1,13 @@
 <script lang="ts">
   import { browser } from "$app/environment";
+  import DisplayQrDialog from "$lib/components/features/game/DisplayQrDialog.svelte";
   import AppSidebar from "$lib/components/features/sidebar/AppSidebar.svelte";
   import ToggleMode from "$lib/components/features/toggleMode/ToggleMode.svelte";
   import { buttonVariants } from "$lib/components/ui/button";
   import ButtonGroup from "$lib/components/ui/button-group/button-group.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { initSocket } from "$lib/stores/socket";
+  import QrCode from "@lucide/svelte/icons/qr-code";
   import { ModeWatcher } from "mode-watcher";
   import { onMount } from "svelte";
   import "./layout.css";
@@ -32,6 +34,9 @@
       <div class="absolute top-5 right-5 z-50">
         <ButtonGroup>
           <ToggleMode />
+          <DisplayQrDialog class={buttonVariants({ variant: "outline", size: "icon" })}>
+            <QrCode />
+          </DisplayQrDialog>
           <Sidebar.Trigger class={buttonVariants({ variant: "outline", size: "icon" })} />
         </ButtonGroup>
       </div>

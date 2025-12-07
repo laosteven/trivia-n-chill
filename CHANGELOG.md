@@ -1,9 +1,8 @@
 ## [1.3.1](https://github.com/laosteven/trivia-n-chill/compare/v1.3.0...v1.3.1) (2025-12-06)
 
-
 ### Bug Fixes
 
-* player removal dialog and host notifications ([33cacd3](https://github.com/laosteven/trivia-n-chill/commit/33cacd39b2465b1863850e585b584d3eacc1097d))
+- player removal dialog and host notifications ([33cacd3](https://github.com/laosteven/trivia-n-chill/commit/33cacd39b2465b1863850e585b584d3eacc1097d))
 
 # [1.3.0](https://github.com/laosteven/trivia-n-chill/compare/v1.2.0...v1.3.0) (2025-12-06)
 

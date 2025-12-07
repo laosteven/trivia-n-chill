@@ -17,8 +17,8 @@
   import { derived } from "svelte/store";
   import HostEditPlayerDialog from "../host/HostEditPlayerDialog.svelte";
   import HostEndGameDialog from "../host/HostEndGameDialog.svelte";
-  import RemoveDisconnectedDialog from "../host/HostRemoveDisconnectedDialog.svelte";
-  import ResetScoringDialog from "../host/HostResetScoringDialog.svelte";
+  import HostRemoveDisconnectedDialog from "../host/HostRemoveDisconnectedDialog.svelte";
+  import HostResetScoringDialog from "../host/HostResetScoringDialog.svelte";
   import RenameDialog from "../player/RenameDialog.svelte";
   import PlayerRankingMenuItem from "./PlayerRankingMenuItem.svelte";
 
@@ -54,7 +54,7 @@
           </div>
           <div class="flex flex-col gap-0.5 leading-none">
             <span class="font-medium">Trivia & Chill</span>
-            <span class="text-muted-foreground text-xs font-normal">v{appVersion}</span>
+            <span class="text-muted-foreground text-xs font-mono tabular-nums">v{appVersion}</span>
           </div>
         </Sidebar.MenuButton>
       </Sidebar.MenuItem>
@@ -128,20 +128,20 @@
                   <Sidebar.Separator />
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton>
-                      <RemoveDisconnectedDialog class="w-full">
+                      <HostRemoveDisconnectedDialog class="w-full">
                         <div class="flex items-center gap-2 w-full text-xs">
                           <UserRoundX size={12} /> Remove disconnected
                         </div>
-                      </RemoveDisconnectedDialog>
+                      </HostRemoveDisconnectedDialog>
                     </Sidebar.MenuSubButton>
                   </Sidebar.MenuSubItem>
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton>
-                      <ResetScoringDialog class="w-full">
+                      <HostResetScoringDialog class="w-full">
                         <div class="flex items-center gap-2 w-full text-xs">
                           <RotateCcw size={12} /> Reset scoring
                         </div>
-                      </ResetScoringDialog>
+                      </HostResetScoringDialog>
                     </Sidebar.MenuSubButton>
                   </Sidebar.MenuSubItem>
                   <Sidebar.MenuSubItem>

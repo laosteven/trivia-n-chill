@@ -35,10 +35,12 @@
     initSocket,
   } from "$lib/stores/socket";
   import { celebrateCorrect, celebrateLeaderboard } from "$lib/utils/confetti";
+  import BrushCleaning from "@lucide/svelte/icons/brush-cleaning";
   import Check from "@lucide/svelte/icons/check";
   import LockKeyhole from "@lucide/svelte/icons/lock-keyhole";
   import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
   import Trash2 from "@lucide/svelte/icons/trash-2";
+  import UserRoundX from "@lucide/svelte/icons/user-round-x";
   import X from "@lucide/svelte/icons/x";
   import { onMount } from "svelte";
   import { toast, Toaster } from "svelte-sonner";
@@ -51,6 +53,7 @@
   let editingPlayerId = $state<string | null>(null);
   let editingName = $state("");
   let editError = $state("");
+  let _prevPhase: string | null = null;
 
   onMount(() => {
     if (browser) {
@@ -91,11 +94,13 @@
   }
 
   $effect(() => {
-    if ($gameState.gamePhase === "leaderboard") {
+    const phase = $gameState.gamePhase;
+    if (_prevPhase !== phase && phase === "leaderboard") {
       if (typeof window !== "undefined") {
         celebrateLeaderboard().catch(() => {});
       }
     }
+    _prevPhase = phase;
   });
 
   $effect(() => {
@@ -119,8 +124,8 @@
   <div
     class="flex flex-col items-center justify-center min-h-screen p-6 text-center space-y-12 relative overflow-hidden"
   >
-    <div class="relative z-10 space-y-6 max-w-2xl w-full">
-      {#if !$connected}
+    {#if !$connected}
+      <div class="relative z-10 space-y-6 max-w-2xl w-full">
         <div class="flex items-center justify-center flex-1">
           <Card class="p-8">
             <CardContent>
@@ -128,21 +133,24 @@
             </CardContent>
           </Card>
         </div>
-      {:else if $gameState.gamePhase === "lobby"}
-        <!-- Lobby View -->
+      </div>
+    {:else if $gameState.gamePhase === "lobby"}
+      <!-- Lobby View -->
+      <div class="relative z-10 space-y-6 max-w-2xl w-full">
         <div class="flex items-center justify-center flex-1">
           <div class="max-w-6xl w-full">
             <Card class="mb-6">
               <CardHeader class="text-center">
                 <CardTitle
-                  class="text-4xl font-bold text-blue-600 flex items-center justify-center gap-4"
-                  >{$gameConfig.title}
+                  class="text-4xl font-bold uppercase tracking-tighter bg-gradient-to-br from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent drop-shadow-sm"
+                >
+                  {$gameConfig.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div class="gap-6 md-2">
                   <div class="text-center">
-                    <h3 class="text-xl font-semibold mb-4">Scan the QR code to join!</h3>
+                    <h3 class="text-xl font-semibold">Scan the QR code to join!</h3>
                     {#if qrCode.qrCodeDataUrl}
                       <img
                         src={qrCode.qrCodeDataUrl}
@@ -170,14 +178,18 @@
                             <DropdownMenuItem>
                               {#snippet child({ props })}
                                 <HostRemoveDisconnectedDialog {...props}>
-                                  Remove disconnected
+                                  <div class="flex items-center gap-2">
+                                    <UserRoundX size={12} /> Remove disconnected
+                                  </div>
                                 </HostRemoveDisconnectedDialog>
                               {/snippet}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                               {#snippet child({ props })}
                                 <HostRemoveAllPlayersDialog {...props}>
-                                  Clear players
+                                  <div class="flex items-center gap-2">
+                                    <BrushCleaning size={12} /> Clear players
+                                  </div>
                                 </HostRemoveAllPlayersDialog>
                               {/snippet}
                             </DropdownMenuItem>
@@ -185,10 +197,10 @@
                         </DropdownMenu>
                       {/if}
                     </div>
-                    <ScrollArea class="h-50 rounded-md border">
+                    <ScrollArea class="h-40 rounded-md">
                       {#each $gameState.players as player}
                         <div
-                          class="px-4 py-2 bg-secondary rounded-lg flex items-center justify-between m-2 m-4"
+                          class="px-4 py-2 bg-secondary rounded-lg flex items-center justify-between m-2"
                         >
                           {#if editingPlayerId === player.id}
                             <div class="flex flex-col gap-1 flex-1">
@@ -256,10 +268,13 @@
             </Card>
           </div>
         </div>
-      {:else if $gameState.gamePhase === "playing"}
-        <!-- Game Board View -->
+      </div>
+    {:else if $gameState.gamePhase === "playing"}
+      <!-- Game Board View -->
+
+      <div class="relative z-10 space-y-6 max-w-[80vw] w-full h-full">
         <div class="flex items-center justify-center flex-1">
-          <div class="max-w-7xl w-full">
+          <div class="max-w-12xl w-full">
             <HostControls title={$gameConfig.title} onRevealScoring={() => game.showScoring()} />
 
             <!-- Game Board -->
@@ -270,8 +285,11 @@
             />
           </div>
         </div>
-      {:else if $gameState.gamePhase === "question"}
-        <!-- Question View -->
+      </div>
+    {:else if $gameState.gamePhase === "question"}
+      <!-- Question View -->
+
+      <div class="relative z-10 space-y-6 max-w-2xl w-full">
         <div class="flex items-center justify-center flex-1">
           <div class="max-w-4xl w-full">
             <QuestionCard
@@ -371,8 +389,10 @@
             </Card>
           </div>
         </div>
-      {:else if $gameState.gamePhase === "scoring"}
-        <!-- Scoring View -->
+      </div>
+    {:else if $gameState.gamePhase === "scoring"}
+      <!-- Scoring View -->
+      <div class="relative z-10 space-y-6 max-w-2xl w-full">
         <div class="flex items-center justify-center flex-1">
           <div class="max-w-2xl w-full">
             <Card>
@@ -391,8 +411,11 @@
             </Card>
           </div>
         </div>
-      {:else if $gameState.gamePhase === "leaderboard"}
-        <!-- Leaderboard View -->
+      </div>
+    {:else if $gameState.gamePhase === "leaderboard"}
+      <!-- Leaderboard View -->
+
+      <div class="relative z-10 space-y-6 max-w-2xl w-full">
         <div class="flex items-center justify-center flex-1">
           <div class="max-w-2xl w-full">
             <Card>
@@ -411,8 +434,8 @@
             </Card>
           </div>
         </div>
-      {/if}
-    </div>
+      </div>
+    {/if}
   </div>
 </div>
 
