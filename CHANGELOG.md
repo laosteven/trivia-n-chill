@@ -1,3 +1,12 @@
+## [1.3.2](https://github.com/laosteven/trivia-n-chill/compare/v1.3.1...v1.3.2) (2025-12-07)
+
+
+### Bug Fixes
+
+* QR dialog and mobile feedback ([1eb481d](https://github.com/laosteven/trivia-n-chill/commit/1eb481d6570d25f34338716e674935f635f0cf2f))
+* refactor host phases into separate components ([ee5a362](https://github.com/laosteven/trivia-n-chill/commit/ee5a36234ad460c8f6260f475f9fd5f3327a9ad0))
+* refactor player phases ([245ba78](https://github.com/laosteven/trivia-n-chill/commit/245ba78feaa7d7cf395a953b3fd83bf672d5e2fa))
+
 ## [1.3.1](https://github.com/laosteven/trivia-n-chill/compare/v1.3.0...v1.3.1) (2025-12-06)
 
 ### Bug Fixes
