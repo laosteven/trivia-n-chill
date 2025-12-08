@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/laosteven/trivia-n-chill/compare/v1.3.2...v1.4.0) (2025-12-08)
+
+
+### Features
+
+* toggle for negative and positive scores ([7de9d23](https://github.com/laosteven/trivia-n-chill/commit/7de9d2332d9c0337fd0c6082f15973e0b2780b38))
+
 ## [1.3.2](https://github.com/laosteven/trivia-n-chill/compare/v1.3.1...v1.3.2) (2025-12-07)
 
 
