@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/laosteven/trivia-n-chill/compare/v1.4.0...v1.4.1) (2025-12-12)
+
+
+### Bug Fixes
+
+* display answer on mobile host ([7945e48](https://github.com/laosteven/trivia-n-chill/commit/7945e4879cab43ae6949e38d6b1d2ea85191224d))
+
 # [1.4.0](https://github.com/laosteven/trivia-n-chill/compare/v1.3.2...v1.4.0) (2025-12-08)
 
 
