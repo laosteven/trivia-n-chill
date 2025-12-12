@@ -171,5 +171,9 @@
         onSkip={p.onSkip}
       />
     </div>
+
+    <div class="sm:hidden text-sm text-muted-foreground">
+      {p.question.answer}
+    </div>
   </CardContent>
 </Card>
