@@ -106,6 +106,6 @@ emoji:
   displayDurationMs: 4000
 
 typewriter:
-  enabled: false
-  speedMsPerChar: 30
+  enabled: true
+  speedMsPerChar: 50
   delayBeforeMediaMs: 300
