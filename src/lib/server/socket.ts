@@ -286,7 +286,7 @@ export function initSocketServer(server: HTTPServer) {
     // Disconnect handling
     socket.on("disconnect", () => {
       // If this socket was marked as host, inform host handler
-      if ((socket as any).data?.isHost) {
+      if ((socket as Socket).data?.isHost) {
         hostHandler.handleHostLeave(socket);
       }
       playerHandler.handleDisconnect(socket);
