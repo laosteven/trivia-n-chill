@@ -15,7 +15,9 @@
   <Card class="mb-4">
     <CardHeader class="text-center pb-2">
       <CardTitle class="text-xl">{player.currentPlayer?.name}</CardTitle>
-      <CardContent class="text-2xl font-bold text-purple-600">${player.currentPlayer?.score ?? 0}</CardContent>
+      <CardContent class="text-2xl font-bold text-purple-600"
+        >${player.currentPlayer?.score ?? 0}</CardContent
+      >
     </CardHeader>
   </Card>
 

@@ -3,6 +3,7 @@
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Label } from "$lib/components/ui/label";
+  import ScrollArea from "$lib/components/ui/scroll-area/scroll-area.svelte";
   import Switch from "$lib/components/ui/switch/switch.svelte";
   import { useGame } from "$lib/composables/useGame.svelte";
   import { useMedia } from "$lib/composables/useMedia.svelte";
@@ -17,9 +18,9 @@
   const media = useMedia();
 </script>
 
-<div class="relative z-10 space-y-6 max-w-2xl w-full">
+<div class="relative z-10 space-y-6 w-full max-w-[80vw]">
   <div class="flex items-center justify-center flex-1">
-    <div class="max-w-4xl w-full">
+    <div class="w-full">
       <QuestionCard
         question={$fullQuestion}
         showAnswer={$gameState.showAnswer}
@@ -70,46 +71,48 @@
               <p class="text-muted-foreground">No one has buzzed yet...</p>
             {:else}
               <div class="space-y-2">
-                {#each $gameState.buzzerOrder as buzz, index}
-                  <div
-                    class="p-3 rounded-lg flex items-center justify-between {index === 0
-                      ? 'bg-yellow-100 border-2 border-yellow-400'
-                      : 'bg-secondary'}"
-                  >
-                    <div class="flex items-center gap-2">
-                      <span class="font-bold text-lg">#{index + 1}</span>
-                      <span class="font-semibold">{buzz.playerName}</span>
-                    </div>
-                    <div class="flex gap-2 items-center">
-                      {#if index === 0}
+                <ScrollArea class="h-[20vh]">
+                  {#each $gameState.buzzerOrder as buzz, index}
+                    <div
+                      class="p-3 m-2 rounded-lg flex items-center justify-between {index === 0
+                        ? 'bg-yellow-100 border-2 border-yellow-400'
+                        : 'bg-secondary'}"
+                    >
+                      <div class="flex items-center gap-2">
+                        <span class="font-bold text-lg">#{index + 1}</span>
+                        <span class="font-semibold">{buzz.playerName}</span>
+                      </div>
+                      <div class="flex gap-2 items-center">
+                        {#if index === 0}
+                          <Button
+                            onclick={() => game.markIncorrect(buzz.playerId)}
+                            variant="destructive"
+                          >
+                            <X /> Wrong
+                          </Button>
+                          <Button
+                            onclick={() => {
+                              game.markCorrect(buzz.playerId);
+                              // celebrate for correct answer
+                              celebrateCorrect().catch(() => {});
+                            }}
+                            variant="default"
+                            class="bg-green-600 hover:bg-green-700 text-white border-green-700"
+                          >
+                            <Check /> Correct
+                          </Button>
+                        {/if}
                         <Button
-                          onclick={() => game.markIncorrect(buzz.playerId)}
-                          variant="destructive"
+                          onclick={() => game.removeBuzz(buzz.playerId)}
+                          variant="outline"
+                          class="text-xs"
                         >
-                          <X /> Wrong
+                          <Trash2 />
                         </Button>
-                        <Button
-                          onclick={() => {
-                            game.markCorrect(buzz.playerId);
-                            // celebrate for correct answer
-                            celebrateCorrect().catch(() => {});
-                          }}
-                          variant="default"
-                          class="bg-green-600 hover:bg-green-700 text-white border-green-700"
-                        >
-                          <Check /> Correct
-                        </Button>
-                      {/if}
-                      <Button
-                        onclick={() => game.removeBuzz(buzz.playerId)}
-                        variant="outline"
-                        class="text-xs"
-                      >
-                        <Trash2 />
-                      </Button>
+                      </div>
                     </div>
-                  </div>
-                {/each}
+                  {/each}
+                </ScrollArea>
               </div>
             {/if}
           </div>

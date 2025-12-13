@@ -33,7 +33,7 @@
       <TakeScreenshot
         nodeId="player-node"
         playerName={player.currentPlayer?.name ?? "leaderboard"}
-        />
+      />
       <EmojiPickerReaction />
     </div>
   </CardContent>

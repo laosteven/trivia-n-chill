@@ -83,13 +83,15 @@
 
 <Card>
   <CardHeader>
-    <CardTitle class="text-center text-2xl">
+    <CardTitle class="text-center" style="font-size: clamp(1.25rem, 2.5vw, 2rem);">
       {p.question?.category} - ${p.question?.value}
     </CardTitle>
   </CardHeader>
   <CardContent class="space-y-6">
     <div class="bg-blue-900 text-white p-8 rounded-lg text-center">
-      <p class="text-3xl font-bold">{displayedText}{typing ? "|" : ""}</p>
+      <p class="font-bold" style="font-size: clamp(1.5rem, 4vw, 4rem);">
+        {displayedText}{typing ? "|" : ""}
+      </p>
 
       {#if showMedia && p.question?.questionImage}
         {#if p.isVideo(p.question.questionImage)}
@@ -99,7 +101,7 @@
             loop
             playsinline
             controls
-            class="mx-auto mt-4 max-h-64 rounded-lg"
+            class="mx-auto mt-4 rounded-lg responsive-media"
           >
             <track kind="captions" label="Video" default />
           </video>
@@ -107,7 +109,7 @@
           <img
             src={p.question.questionImage}
             alt="Question"
-            class="mx-auto mt-4 max-h-64 rounded-lg"
+            class="mx-auto mt-4 rounded-lg responsive-media"
           />
         {/if}
       {/if}
@@ -117,7 +119,7 @@
           <iframe
             src={p.getYoutubeEmbedUrl(p.question.questionYoutube)}
             title="Question video"
-            class="w-full h-full rounded-lg"
+            class="w-full h-full rounded-lg responsive-media-iframe"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           ></iframe>
@@ -127,8 +129,12 @@
 
     {#if p.showAnswer}
       <div class="bg-green-100 p-4 rounded-lg">
-        <p class="text-sm text-muted-foreground mb-1">Answer:</p>
-        <p class="text-xl font-semibold text-green-800">{p.question?.answer}</p>
+        <p class="text-muted-foreground mb-1" style="font-size: clamp(0.9rem, 1.5vw, 1.1rem);">
+          Answer:
+        </p>
+        <p class="font-semibold text-green-800" style="font-size: clamp(1rem, 2.2vw, 2rem);">
+          {p.question?.answer}
+        </p>
         {#if p.question?.answerImage}
           {#if p.isVideo(p.question.answerImage)}
             <video
@@ -137,7 +143,7 @@
               loop
               playsinline
               controls
-              class="mx-auto mt-4 max-h-64 rounded-lg"
+              class="mx-auto mt-4 rounded-lg responsive-media"
             >
               <track kind="captions" label="Video" default />
             </video>
@@ -145,7 +151,7 @@
             <img
               src={p.question.answerImage}
               alt="Answer"
-              class="mx-auto mt-4 max-h-64 rounded-lg"
+              class="mx-auto mt-4 rounded-lg responsive-media"
             />
           {/if}
         {/if}
@@ -154,7 +160,7 @@
             <iframe
               src={p.getYoutubeEmbedUrl(p.question.answerYoutube)}
               title="Answer video"
-              class="w-full h-full rounded-lg"
+              class="w-full h-full rounded-lg responsive-media-iframe"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
@@ -177,3 +183,17 @@
     </div>
   </CardContent>
 </Card>
+
+<style>
+  .responsive-media {
+    max-height: clamp(160px, 40vh, 640px);
+    width: auto;
+    display: block;
+  }
+
+  .responsive-media-iframe {
+    max-height: clamp(180px, 50vh, 720px);
+    width: 100%;
+    display: block;
+  }
+</style>

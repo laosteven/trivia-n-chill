@@ -25,7 +25,7 @@
   {#if p.players.length === 0}
     <div class="text-sm text-muted-foreground">No players</div>
   {:else if showNegativeScores}
-    <Chart.Container config={{}} class="h-full w-full my-6">
+    <Chart.Container config={{}} class="h-full w-full h-[30vh] my-6">
       <BarChart
         bind:context
         data={[...p.players]
@@ -63,7 +63,7 @@
       </BarChart>
     </Chart.Container>
   {:else}
-    <Chart.Container config={{}} class="h-full w-full my-6">
+    <Chart.Container config={{}} class="h-full w-full max-h-[40vh]  my-6">
       <BarChart
         bind:context
         data={[...p.players]

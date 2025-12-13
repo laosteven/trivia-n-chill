@@ -1,7 +1,13 @@
 <script lang="ts">
   import EmojiPickerReaction from "$lib/components/features/player/EmojiPickerReaction.svelte";
   import RenameDialog from "$lib/components/features/player/RenameDialog.svelte";
-  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
+  import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+  } from "$lib/components/ui/card";
   import { usePlayer } from "$lib/composables/usePlayer.svelte";
   import { gameConfig, gameState } from "$lib/stores/socket";
   import { LottiePlayer } from "@lottiefiles/svelte-lottie-player";

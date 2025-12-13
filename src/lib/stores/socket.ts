@@ -33,11 +33,11 @@ interface FullQuestion {
   answerYoutube?: string;
 }
 
-  interface AnswerPayload {
-    playerId?: string;
-    playerName?: string;
-    points?: number;
-  }
+interface AnswerPayload {
+  playerId?: string;
+  playerName?: string;
+  points?: number;
+}
 
 let socket: Socket | null = null;
 
@@ -208,7 +208,6 @@ export function initSocket() {
       console.debug("Play incorrect sound failed", e);
     }
   });
-  
 
   socket.on("emojiReaction", (data: { emoji: string; playerName?: string }) => {
     hostEmojiReaction.set({ playerName: data.playerName || "", emoji: data.emoji });

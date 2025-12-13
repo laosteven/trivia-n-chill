@@ -83,7 +83,7 @@
 </script>
 
 <div class="space-y-4">
-  <ScrollArea class="h-96" bind:viewportRef={viewport}>
+  <ScrollArea class="responsive-scrollarea h-[50vh]" bind:viewportRef={viewport}>
     {#each [...p.players].sort((a, b) => b.score - a.score) as player, index}
       <div
         class="flex items-center justify-between p-4 rounded-lg bg-secondary mb-2 {!player.connected
@@ -91,19 +91,40 @@
           : ''}"
       >
         <div class="flex items-center gap-4">
-          <span class="text-xl text-muted-foreground">
+          <span class="text-rank">
             {#if index === 0}🥇{:else if index === 1}🥈{:else if index === 2}🥉{:else}{index +
                 1}{/if}
           </span>
           <div class="flex items-center gap-2">
-            <span class="font-semibold text-xl">{player.name}</span>
+            <span class="font-semibold name-text">{player.name}</span>
             {#if !player.connected}
               <span class="text-xs text-red-600 font-semibold"><TriangleAlert size={16} /></span>
             {/if}
           </div>
         </div>
-        <span class="text-2xl font-bold text-blue-600 font-mono tabular-nums">${player.score}</span>
+        <span class="score-text font-bold text-blue-600 font-mono tabular-nums"
+          >${player.score}</span
+        >
       </div>
     {/each}
   </ScrollArea>
 </div>
+
+<style>
+  .responsive-scrollarea {
+    height: clamp(18rem, 45vh, 40rem);
+  }
+
+  .text-rank {
+    font-size: clamp(1rem, 2.2vw, 2rem);
+    color: var(--muted-foreground);
+  }
+
+  .name-text {
+    font-size: clamp(1rem, 2.6vw, 2.2rem);
+  }
+
+  .score-text {
+    font-size: clamp(1.25rem, 3vw, 2.6rem);
+  }
+</style>
