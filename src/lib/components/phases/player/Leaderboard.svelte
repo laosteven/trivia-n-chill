@@ -1,4 +1,5 @@
 <script lang="ts">
+  import TakeScreenshot from "$lib/components/features/game/TakeScreenshot.svelte";
   import EmojiPickerReaction from "$lib/components/features/player/EmojiPickerReaction.svelte";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { usePlayer } from "$lib/composables/usePlayer.svelte";
@@ -29,6 +30,10 @@
     {/if}
 
     <div class="mt-4 flex items-center justify-center gap-4">
+      <TakeScreenshot
+        nodeId="player-node"
+        playerName={player.currentPlayer?.name ?? "leaderboard"}
+        />
       <EmojiPickerReaction />
     </div>
   </CardContent>

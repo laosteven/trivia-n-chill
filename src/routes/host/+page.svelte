@@ -61,6 +61,7 @@
 </script>
 
 <div
+  id="host-node"
   class="min-h-screen bg-blue-950 dark:bg-slate-950 text-slate-100 font-sans selection:bg-amber-500/30"
 >
   <div

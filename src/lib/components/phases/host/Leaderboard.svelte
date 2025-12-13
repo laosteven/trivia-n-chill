@@ -1,4 +1,5 @@
 <script lang="ts">
+  import TakeScreenshot from "$lib/components/features/game/TakeScreenshot.svelte";
   import HostEndGameDialog from "$lib/components/features/host/HostEndGameDialog.svelte";
   import Leaderboard from "$lib/components/features/leaderboard/Leaderboard.svelte";
   import { Button } from "$lib/components/ui/button";
@@ -23,6 +24,7 @@
               <Button>Back to lobby</Button>
             </HostEndGameDialog>
           </div>
+            <TakeScreenshot nodeId="host-node" class="mt-4 flex justify-center"/>
         </CardContent>
       </Card>
     </div>

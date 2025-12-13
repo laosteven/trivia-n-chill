@@ -62,6 +62,7 @@
 </script>
 
 <div
+  id="player-node"
   class="min-h-screen bg-gradient-to-br from-purple-900 to-purple-700 p-4 flex items-center justify-center"
 >
   {#if !$connected}
