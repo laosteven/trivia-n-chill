@@ -19,6 +19,7 @@ export const SOCKET_EVENTS = {
   SHOW_LEADERBOARD: "showLeaderboard",
   SHOW_SCORING: "showScoring",
   TOGGLE_SCORING: "toggleScoring",
+  TOGGLE_NEGATIVE_SCORES: "toggleNegativeScores",
   BACK_TO_GAME: "backToGame",
   RESET_GAME: "resetGame",
   RELOAD_CONFIG: "reloadConfig",

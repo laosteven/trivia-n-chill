@@ -1,45 +1,23 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
+  import { useSidebar } from "$lib/components/ui/sidebar";
   import { useGame } from "$lib/composables/useGame.svelte";
   import { useQRCode } from "$lib/composables/useQRCode.svelte";
   import { gameConfig, gameState } from "$lib/stores/socket";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
 
   const game = useGame();
   const qrCode = useQRCode();
 
-  let editingPlayerId: string | null = null;
-  let editingName = "";
-  let editError = "";
-
   onMount(() => {
     qrCode.generate();
+    useSidebar().setOpen(true);
   });
 
-  function startEditingName(playerId: string, currentName: string) {
-    editingPlayerId = playerId;
-    editingName = currentName;
-    editError = "";
-  }
-
-  function cancelEditName() {
-    editingPlayerId = null;
-    editingName = "";
-    editError = "";
-  }
-
-  async function saveEditName() {
-    if (!editingPlayerId) return;
-    const result = await game.updatePlayerName(editingPlayerId, editingName);
-    if (result.success) {
-      editingPlayerId = null;
-      editingName = "";
-      editError = "";
-    } else {
-      editError = result.error || "Failed to update name";
-    }
-  }
+  onDestroy(() => {
+    useSidebar().setOpen(false);
+  });
 </script>
 
 <div class="relative z-10 space-y-6 max-w-2xl w-full">
@@ -62,11 +40,11 @@
               <p class="text-sm text-muted-foreground break-all">{qrCode.joinUrl}</p>
             </div>
           </div>
-          <div class="flex mt-6 text-center gap-4 justify-center">
+          <div class="flex mt-6 flex-col text-center gap-4 justify-center">
             <Button
               onclick={() => game.startGame()}
               disabled={$gameState.players.length === 0}
-              class="px-8 py-4 text-xl"
+              class="p-8 text-xl mx-auto"
               size="lg">Start game</Button
             >
           </div>

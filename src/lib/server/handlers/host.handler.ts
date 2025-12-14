@@ -146,6 +146,10 @@ export class HostHandler {
     this.gameStateService.setScoringEnabled(next);
   }
 
+  handleToggleNegativeScores(show: boolean): void {
+    this.gameStateService.setNegativeScoresEnabled(show);
+  }
+
   /**
    * Handle back to game from leaderboard
    */
@@ -322,6 +326,7 @@ export class HostHandler {
       gamePhase: state.gamePhase,
       showAnswer: state.showAnswer,
       scoringEnabled: state.scoringEnabled ?? true,
+      negativeScoresEnabled: state.negativeScoresEnabled ?? false,
     };
     this.io.emit(SOCKET_EVENTS.GAME_STATE, clientState);
 

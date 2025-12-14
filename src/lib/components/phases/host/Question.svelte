@@ -38,7 +38,7 @@
           <CardTitle class="flex justify-between items-center">
             <p class="text-xl mr-auto">Buzzer queue</p>
             <div
-              class="flex items-center mr-2 border-input bg-background border shadow-sm h-8 rounded-md px-3 text-xs"
+              class="flex items-center mr-2 border-input bg-background border shadow-xs h-8 rounded-md px-3 text-xs"
             >
               <Switch
                 id="buzzer-lock-switch"
@@ -71,10 +71,11 @@
               <p class="text-muted-foreground">No one has buzzed yet...</p>
             {:else}
               <div class="space-y-2">
-                <ScrollArea class="h-[20vh]">
+                <ScrollArea class="h-[20vh] w-full">
                   {#each $gameState.buzzerOrder as buzz, index}
                     <div
-                      class="p-3 m-2 rounded-lg flex items-center justify-between {index === 0
+                      class="overflow-auto w-full p-3 my-2 rounded-lg flex items-center justify-between {index ===
+                      0
                         ? 'bg-yellow-100 border-2 border-yellow-400'
                         : 'bg-secondary'}"
                     >

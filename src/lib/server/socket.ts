@@ -40,6 +40,7 @@ function getClientGameState(): ClientGameState {
     gamePhase: gameState.gamePhase,
     showAnswer: gameState.showAnswer,
     scoringEnabled: gameState.scoringEnabled ?? true,
+    negativeScoresEnabled: gameState.negativeScoresEnabled ?? false,
   };
 }
 
@@ -221,6 +222,12 @@ export function initSocketServer(server: HTTPServer) {
     // Host toggles scoring visibility
     socket.on(SOCKET_EVENTS.TOGGLE_SCORING, () => {
       hostHandler.handleToggleScoring();
+      broadcastGameState();
+    });
+
+    // Host toggles negative scores display (broadcast to all hosts)
+    socket.on(SOCKET_EVENTS.TOGGLE_NEGATIVE_SCORES, (data: { show: boolean }) => {
+      hostHandler.handleToggleNegativeScores(data.show);
       broadcastGameState();
     });
 

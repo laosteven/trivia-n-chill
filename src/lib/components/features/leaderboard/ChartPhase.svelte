@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from "$lib/components/ui/button/button.svelte";
   import * as Chart from "$lib/components/ui/chart/index.js";
+  import { gameState, toggleNegativeScores } from "$lib/stores/socket";
   import type { Player } from "$lib/types";
   import { BarChart, type ChartContextValue } from "layerchart";
   import { onMount } from "svelte";
@@ -14,17 +15,26 @@
   let hasNegativeScores = $state(false);
   let showNegativeScores = $state(false);
 
+  function handleToggleNegativeScores() {
+    showNegativeScores = !showNegativeScores;
+    toggleNegativeScores(showNegativeScores);
+  }
+
   onMount(() => {
     // Check if there are negative scores. If there is, show them first to roast the players
     hasNegativeScores = p.players.some((d: Player) => d.score < 0);
     showNegativeScores = hasNegativeScores;
+  });
+
+  $effect(() => {
+    showNegativeScores = $gameState.negativeScoresEnabled ?? false;
   });
 </script>
 
 <div class="bg-secondary rounded-lg p-4">
   {#if p.players.length === 0}
     <div class="text-sm text-muted-foreground">No players</div>
-  {:else if showNegativeScores}
+  {:else if $gameState.negativeScoresEnabled}
     <Chart.Container config={{}} class="h-full w-full h-[30vh] my-6">
       <BarChart
         bind:context
@@ -104,7 +114,7 @@
 
   {#if hasNegativeScores}
     <Button
-      onclick={() => (showNegativeScores = !showNegativeScores)}
+      onclick={handleToggleNegativeScores}
       class={showNegativeScores
         ? "w-full mt-2 bg-green-500 hover:bg-green-700 text-white border-green-700"
         : "w-full mt-2 bg-red-500 hover:bg-red-700 text-white border-red-700"}

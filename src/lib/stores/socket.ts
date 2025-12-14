@@ -53,6 +53,7 @@ export const gameState = writable<ClientGameState & { showAnswer?: boolean }>({
   gamePhase: "lobby",
   scoringEnabled: true,
   showAnswer: false,
+  negativeScoresEnabled: false,
 });
 export const gameConfig = writable<GameConfigClient>({
   title: "",
@@ -416,4 +417,8 @@ export function hostUpdatePlayerName(
 
 export function sendEmojiReaction(emoji: string) {
   socket?.emit("emojiReaction", { emoji });
+}
+
+export function toggleNegativeScores(show: boolean) {
+  socket?.emit("toggleNegativeScores", { show });
 }

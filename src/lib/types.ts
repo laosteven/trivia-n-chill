@@ -56,6 +56,7 @@ export interface GameState {
   hostConnected: boolean;
   showAnswer: boolean;
   scoringEnabled?: boolean;
+  negativeScoresEnabled?: boolean;
 }
 
 export interface ClientGameState {
@@ -68,6 +69,7 @@ export interface ClientGameState {
   gamePhase: GamePhase;
   showAnswer: boolean;
   scoringEnabled?: boolean;
+  negativeScoresEnabled?: boolean;
 }
 
 export interface GameConfigClient {

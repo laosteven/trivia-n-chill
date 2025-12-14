@@ -23,6 +23,7 @@ export class GameStateService {
       hostConnected: false,
       showAnswer: false,
       scoringEnabled: true,
+      negativeScoresEnabled: false,
     };
   }
 
@@ -148,5 +149,9 @@ export class GameStateService {
    */
   setScoringEnabled(enabled: boolean): void {
     this.state.scoringEnabled = enabled;
+  }
+
+  setNegativeScoresEnabled(enabled: boolean): void {
+    this.state.negativeScoresEnabled = enabled;
   }
 }
