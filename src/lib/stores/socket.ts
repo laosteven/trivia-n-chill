@@ -22,6 +22,7 @@ interface GameConfigClient {
   };
   game?: {
     buzzerLockedAtStart?: boolean;
+    delayBeforeQuestionMs?: number;
   };
 }
 
@@ -64,7 +65,7 @@ export const gameConfig = writable<GameConfigClient>({
   categories: [],
   typewriter: { enabled: true, speedMsPerChar: 20, delayBeforeMediaMs: 300 },
   emoji: { cost: 10, allowNegative: false, maxActive: 5, cooldownMs: 0, displayDurationMs: 4000 },
-  game: { buzzerLockedAtStart: false },
+  game: { buzzerLockedAtStart: false, delayBeforeQuestionMs: 1000 },
 });
 export const fullQuestion = writable<FullQuestion | null>(null);
 export const playerId = writable<string>("");

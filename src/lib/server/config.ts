@@ -68,6 +68,8 @@ export function loadGameConfig(): GameConfig {
         game: {
           buzzerLockedAtStart:
             parsed.game?.buzzerLockedAtStart ?? FALLBACK.game?.buzzerLockedAtStart,
+          delayBeforeQuestionMs:
+            parsed.game?.delayBeforeQuestionMs ?? FALLBACK.game?.delayBeforeQuestionMs,
         },
       } as GameConfig;
     } catch (err) {

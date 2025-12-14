@@ -61,36 +61,38 @@
     typing = true;
     let cancelled = false;
 
-    (async () => {
-      const full = currentQuestion.question || "";
-      for (let i = 0; i <= full.length; i++) {
+    setTimeout(() => {
+      (async () => {
+        const full = currentQuestion.question || "";
+        for (let i = 0; i <= full.length; i++) {
+          if (cancelled) return;
+          displayedText = full.slice(0, i);
+          await new Promise((r) => setTimeout(r, speed));
+        }
         if (cancelled) return;
-        displayedText = full.slice(0, i);
-        await new Promise((r) => setTimeout(r, speed));
-      }
-      if (cancelled) return;
-      typing = false;
-      await new Promise((r) => setTimeout(r, delayBeforeMedia));
-      if (cancelled) return;
-      showMedia = true;
-    })();
+        typing = false;
+        await new Promise((r) => setTimeout(r, delayBeforeMedia));
+        if (cancelled) return;
+        showMedia = true;
+      })();
 
-    return () => {
-      cancelled = true;
-    };
+      return () => {
+        cancelled = true;
+      };
+    }, $gameConfig?.game?.delayBeforeQuestionMs || 0);
   });
 </script>
 
 <Card>
   <CardHeader>
     <CardTitle class="text-center" style="font-size: clamp(1.25rem, 2.5vw, 2rem);">
-      {p.question?.category} - ${p.question?.value}
+      {p.question?.category} - <span class="font-mono tabular-nums">${p.question?.value}</span>
     </CardTitle>
   </CardHeader>
   <CardContent class="space-y-6">
     <div class="bg-blue-900 text-white p-8 rounded-lg text-center">
       <p class="font-bold" style="font-size: clamp(1.5rem, 4vw, 4rem);">
-        {displayedText}{typing ? "|" : ""}
+        {displayedText}{#if typing}<span class="font-thin animate-pulse">|</span>{/if}
       </p>
 
       {#if showMedia && p.question?.questionImage}

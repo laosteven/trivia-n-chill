@@ -15,6 +15,7 @@ export interface GameConfig {
   };
   game?: {
     buzzerLockedAtStart?: boolean;
+    delayBeforeQuestionMs?: number;
   };
 }
 
@@ -61,6 +62,7 @@ export interface GameState {
   scoringEnabled?: boolean;
   negativeScoresEnabled?: boolean;
   buzzerLockedAtStart?: boolean;
+  delayBeforeQuestionMs?: number;
 }
 
 export interface ClientGameState {
@@ -75,6 +77,7 @@ export interface ClientGameState {
   scoringEnabled?: boolean;
   negativeScoresEnabled?: boolean;
   buzzerLockedAtStart?: boolean;
+  delayBeforeQuestionMs?: number;
 }
 
 export interface GameConfigClient {
@@ -97,6 +100,7 @@ export interface GameConfigClient {
   };
   game?: {
     buzzerLockedAtStart?: boolean;
+    delayBeforeQuestionMs?: number;
   };
 }
 
