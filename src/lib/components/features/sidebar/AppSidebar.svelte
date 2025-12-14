@@ -2,7 +2,7 @@
   import * as Collapsible from "$lib/components/ui/collapsible/index.js";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { usePlayer } from "$lib/composables/usePlayer.svelte";
-  import { gameState, isHost, toggleScoring } from "$lib/stores/socket";
+  import { gameState, isHost, toggleBuzzerLockedAtStart, toggleScoring } from "$lib/stores/socket";
   import type { Player } from "$lib/types";
   import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
   import Gamepad2 from "@lucide/svelte/icons/gamepad-2";
@@ -13,7 +13,7 @@
   import User from "@lucide/svelte/icons/user";
   import UserRoundX from "@lucide/svelte/icons/user-round-x";
   import Zap from "@lucide/svelte/icons/zap";
-  import type { ComponentProps } from "svelte";
+  import { type ComponentProps } from "svelte";
   import { derived } from "svelte/store";
   import HostEditPlayerDialog from "../host/HostEditPlayerDialog.svelte";
   import HostEndGameDialog from "../host/HostEndGameDialog.svelte";
@@ -117,6 +117,14 @@
               </Collapsible.Trigger>
               <Collapsible.Content>
                 <Sidebar.MenuSub>
+                  <Sidebar.MenuSubItem>
+                    <Sidebar.MenuSubButton onclick={toggleBuzzerLockedAtStart}>
+                      <div class="flex items-center gap-2 w-full text-xs">
+                        <Zap size={12} />
+                        {$gameState.buzzerLockedAtStart ? "Unlock" : "Lock"} buzzer at start
+                      </div>
+                    </Sidebar.MenuSubButton>
+                  </Sidebar.MenuSubItem>
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton onclick={toggleScoring}>
                       <div class="flex items-center gap-2 w-full text-xs">

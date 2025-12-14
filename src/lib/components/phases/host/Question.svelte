@@ -13,9 +13,18 @@
   import LockKeyhole from "@lucide/svelte/icons/lock-keyhole";
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import X from "@lucide/svelte/icons/x";
+  import { onMount } from "svelte";
 
   const game = useGame();
   const media = useMedia();
+
+  onMount(() => {
+    if ($gameState.buzzerLockedAtStart) {
+      game.lockBuzzer();
+    } else {
+      game.unlockBuzzer();
+    }
+  });
 </script>
 
 <div class="relative z-10 space-y-6 w-full max-w-[80vw]">

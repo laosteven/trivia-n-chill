@@ -20,6 +20,9 @@ interface GameConfigClient {
     cooldownMs?: number;
     displayDurationMs?: number;
   };
+  game?: {
+    buzzerLockedAtStart?: boolean;
+  };
 }
 
 interface FullQuestion {
@@ -54,12 +57,14 @@ export const gameState = writable<ClientGameState & { showAnswer?: boolean }>({
   scoringEnabled: true,
   showAnswer: false,
   negativeScoresEnabled: false,
+  buzzerLockedAtStart: false,
 });
 export const gameConfig = writable<GameConfigClient>({
   title: "",
   categories: [],
   typewriter: { enabled: true, speedMsPerChar: 20, delayBeforeMediaMs: 300 },
   emoji: { cost: 10, allowNegative: false, maxActive: 5, cooldownMs: 0, displayDurationMs: 4000 },
+  game: { buzzerLockedAtStart: false },
 });
 export const fullQuestion = writable<FullQuestion | null>(null);
 export const playerId = writable<string>("");
@@ -345,6 +350,10 @@ export function showScoring() {
 
 export function showLeaderboard() {
   socket?.emit("showLeaderboard");
+}
+
+export function toggleBuzzerLockedAtStart() {
+  socket?.emit("toggleBuzzerLockedAtStart");
 }
 
 export function toggleScoring() {

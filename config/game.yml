@@ -109,3 +109,6 @@ typewriter:
   enabled: true
   speedMsPerChar: 50
   delayBeforeMediaMs: 300
+
+game:
+  buzzerLockedAtStart: true

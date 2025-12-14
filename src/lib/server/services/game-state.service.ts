@@ -3,14 +3,14 @@
  * Manages the core game state and logic
  */
 
-import type { BuzzEvent, GamePhase, GameState, Question } from "../../types";
+import type { BuzzEvent, GameConfig, GamePhase, GameState, Question } from "../../types";
 import { PlayerService } from "./player.service";
 
 export class GameStateService {
   private state: GameState;
   private playerService: PlayerService;
 
-  constructor(playerService: PlayerService) {
+  constructor(playerService: PlayerService, gameConfig: GameConfig) {
     this.playerService = playerService;
     this.state = {
       players: new Map(),
@@ -24,6 +24,7 @@ export class GameStateService {
       showAnswer: false,
       scoringEnabled: true,
       negativeScoresEnabled: false,
+      buzzerLockedAtStart: gameConfig?.game?.buzzerLockedAtStart || false,
     };
   }
 
@@ -153,5 +154,9 @@ export class GameStateService {
 
   setNegativeScoresEnabled(enabled: boolean): void {
     this.state.negativeScoresEnabled = enabled;
+  }
+
+  setBuzzerLockedAtStart(enabled: boolean): void {
+    this.state.buzzerLockedAtStart = enabled;
   }
 }

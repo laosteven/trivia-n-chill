@@ -28,6 +28,9 @@ const FALLBACK: GameConfig = {
     speedMsPerChar: 30,
     delayBeforeMediaMs: 300,
   },
+  game: {
+    buzzerLockedAtStart: false,
+  },
 };
 
 function resolvePath(): string {
@@ -61,6 +64,10 @@ export function loadGameConfig(): GameConfig {
           speedMsPerChar: parsed.typewriter?.speedMsPerChar ?? FALLBACK.typewriter?.speedMsPerChar,
           delayBeforeMediaMs:
             parsed.typewriter?.delayBeforeMediaMs ?? FALLBACK.typewriter?.delayBeforeMediaMs,
+        },
+        game: {
+          buzzerLockedAtStart:
+            parsed.game?.buzzerLockedAtStart ?? FALLBACK.game?.buzzerLockedAtStart,
         },
       } as GameConfig;
     } catch (err) {

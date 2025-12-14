@@ -13,6 +13,9 @@ export interface GameConfig {
     speedMsPerChar?: number;
     delayBeforeMediaMs?: number;
   };
+  game?: {
+    buzzerLockedAtStart?: boolean;
+  };
 }
 
 export interface Category {
@@ -57,6 +60,7 @@ export interface GameState {
   showAnswer: boolean;
   scoringEnabled?: boolean;
   negativeScoresEnabled?: boolean;
+  buzzerLockedAtStart?: boolean;
 }
 
 export interface ClientGameState {
@@ -70,6 +74,7 @@ export interface ClientGameState {
   showAnswer: boolean;
   scoringEnabled?: boolean;
   negativeScoresEnabled?: boolean;
+  buzzerLockedAtStart?: boolean;
 }
 
 export interface GameConfigClient {
@@ -84,6 +89,14 @@ export interface GameConfigClient {
     maxActive?: number;
     cooldownMs?: number;
     displayDurationMs?: number;
+  };
+  typewriter?: {
+    enabled?: boolean;
+    speedMsPerChar?: number;
+    delayBeforeMediaMs?: number;
+  };
+  game?: {
+    buzzerLockedAtStart?: boolean;
   };
 }
 

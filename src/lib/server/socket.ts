@@ -14,7 +14,7 @@ let gameConfig = loadGameConfig();
 
 // Initialize services
 const playerService = new PlayerService();
-const gameStateService = new GameStateService(playerService);
+const gameStateService = new GameStateService(playerService, gameConfig);
 
 // Initialize handlers (will be set after io is created)
 let playerHandler: PlayerHandler;
@@ -41,6 +41,7 @@ function getClientGameState(): ClientGameState {
     showAnswer: gameState.showAnswer,
     scoringEnabled: gameState.scoringEnabled ?? true,
     negativeScoresEnabled: gameState.negativeScoresEnabled ?? false,
+    buzzerLockedAtStart: gameState.buzzerLockedAtStart ?? false,
   };
 }
 
@@ -60,6 +61,7 @@ function broadcastConfig() {
       })),
       emoji: gameConfig.emoji || null,
       typewriter: gameConfig.typewriter || null,
+      game: gameConfig.game || null,
     });
   }
 }
@@ -91,6 +93,7 @@ export function initSocketServer(server: HTTPServer) {
       })),
       emoji: gameConfig.emoji || null,
       typewriter: gameConfig.typewriter || null,
+      game: gameConfig.game || null,
     });
     socket.emit(SOCKET_EVENTS.GAME_STATE, getClientGameState());
 
@@ -222,6 +225,11 @@ export function initSocketServer(server: HTTPServer) {
     // Host toggles scoring visibility
     socket.on(SOCKET_EVENTS.TOGGLE_SCORING, () => {
       hostHandler.handleToggleScoring();
+      broadcastGameState();
+    });
+
+    socket.on(SOCKET_EVENTS.TOGGLE_BUZZER_LOCKED_AT_START, () => {
+      hostHandler.handleToggleBuzzerLockedAtStart();
       broadcastGameState();
     });
 

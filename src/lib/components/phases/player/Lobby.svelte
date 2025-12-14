@@ -1,6 +1,7 @@
 <script lang="ts">
   import EmojiPickerReaction from "$lib/components/features/player/EmojiPickerReaction.svelte";
   import RenameDialog from "$lib/components/features/player/RenameDialog.svelte";
+  import Button from "$lib/components/ui/button/button.svelte";
   import {
     Card,
     CardContent,
@@ -26,7 +27,7 @@
     <p class="text-muted-foreground">{$gameState.players.length} player(s) joined</p>
     <div class="mt-4 flex items-center justify-center gap-4">
       <RenameDialog value={player.currentPlayer?.name}>
-        <button class="btn">Change name</button>
+        <Button variant="outline">Change name</Button>
       </RenameDialog>
       <EmojiPickerReaction />
     </div>

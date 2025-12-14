@@ -146,6 +146,19 @@ export class HostHandler {
     this.gameStateService.setScoringEnabled(next);
   }
 
+  /**
+   * Handle toggle buzzer locked at start setting (host only)
+   */
+  handleToggleBuzzerLockedAtStart(): void {
+    const state = this.gameStateService.getState();
+    const next = !(state.buzzerLockedAtStart ?? false);
+    this.gameStateService.setBuzzerLockedAtStart(next);
+  }
+
+  /**
+   * Handle toggle negative scores display (host only)
+   * @param show
+   */
   handleToggleNegativeScores(show: boolean): void {
     this.gameStateService.setNegativeScoresEnabled(show);
   }
@@ -327,6 +340,7 @@ export class HostHandler {
       showAnswer: state.showAnswer,
       scoringEnabled: state.scoringEnabled ?? true,
       negativeScoresEnabled: state.negativeScoresEnabled ?? false,
+      buzzerLockedAtStart: state.buzzerLockedAtStart ?? false,
     };
     this.io.emit(SOCKET_EVENTS.GAME_STATE, clientState);
 
