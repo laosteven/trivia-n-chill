@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, watch } from "fs";
+import { existsSync, readFileSync, readdirSync, watch } from "fs";
 import path from "path";
 import { parse } from "yaml";
 import type { GameConfig } from "../types";
@@ -11,6 +11,9 @@ function getEnvTitle(): string {
   const cleaned = title.replace(/^["']|["']$/g, "");
   return cleaned;
 }
+
+// Store the current config file name
+let currentConfigFile = "example.yml";
 
 // Minimal fallback only if YAML missing or invalid.
 const FALLBACK: GameConfig = {
@@ -33,12 +36,36 @@ const FALLBACK: GameConfig = {
   },
 };
 
-function resolvePath(): string {
-  const envPath = process.env.CONFIG_PATH;
-  if (envPath && existsSync(envPath)) return envPath;
-  const local = path.resolve("config/game.yml");
+function resolvePath(fileName?: string): string {
+  const configFileName = fileName || currentConfigFile;
+  const local = path.resolve(`config/${configFileName}`);
   if (existsSync(local)) return local;
-  return envPath || local; // may be missing; caller handles
+  return local; // may be missing; caller handles
+}
+
+export function listConfigFiles(): string[] {
+  const configDir = path.resolve("config");
+  if (!existsSync(configDir)) return [];
+  try {
+    const files = readdirSync(configDir);
+    return files.filter((file) => file.endsWith(".yml") || file.endsWith(".yaml"));
+  } catch (err) {
+    console.error("Failed to list config files", err);
+    return [];
+  }
+}
+
+export function setCurrentConfigFile(fileName: string): boolean {
+  const configPath = path.resolve(`config/${fileName}`);
+  if (existsSync(configPath)) {
+    currentConfigFile = fileName;
+    return true;
+  }
+  return false;
+}
+
+export function getCurrentConfigFile(): string {
+  return currentConfigFile;
 }
 
 export function loadGameConfig(): GameConfig {
@@ -90,7 +117,7 @@ export function watchGameConfig(onChange: (cfg: GameConfig) => void) {
     watch(file, { persistent: false }, () => {
       const cfg = loadGameConfig();
       onChange(cfg);
-      console.log("[config] Reloaded game.yml");
+      console.log("[config] Reloaded example.yml");
     });
   } catch (err) {
     console.error("Failed to watch config file", err);

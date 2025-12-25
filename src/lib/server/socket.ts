@@ -2,7 +2,13 @@ import type { Server as HTTPServer } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
 import { SOCKET_EVENTS } from "../constants/socket-events";
 import type { ClientGameState } from "../types";
-import { loadGameConfig, watchGameConfig } from "./config";
+import {
+  getCurrentConfigFile,
+  listConfigFiles,
+  loadGameConfig,
+  setCurrentConfigFile,
+  watchGameConfig,
+} from "./config";
 import { GameHandler } from "./handlers/game.handler";
 import { HostHandler } from "./handlers/host.handler";
 import { PlayerHandler } from "./handlers/player.handler";
@@ -116,6 +122,33 @@ export function initSocketServer(server: HTTPServer) {
         return gameConfig;
       });
     });
+
+    // List available config files
+    socket.on(SOCKET_EVENTS.LIST_CONFIG_FILES, (callback?: (files: string[]) => void) => {
+      const files = listConfigFiles();
+      if (callback) callback(files);
+    });
+
+    // Switch to a different config file
+    socket.on(
+      SOCKET_EVENTS.SWITCH_CONFIG_FILE,
+      (
+        fileName: string,
+        callback?: (result: { success: boolean; error?: string; currentFile?: string }) => void
+      ) => {
+        const success = setCurrentConfigFile(fileName);
+        if (success) {
+          gameConfig = loadGameConfig();
+          // Reset game state when switching configs
+          hostHandler.handleResetGame();
+          broadcastConfig();
+          broadcastGameState();
+          if (callback) callback({ success: true, currentFile: getCurrentConfigFile() });
+        } else {
+          if (callback) callback({ success: false, error: "Config file not found" });
+        }
+      }
+    );
 
     // Player joins with username
     socket.on(

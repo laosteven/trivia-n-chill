@@ -1,0 +1,55 @@
+# Practice game - Get familiar with Trivia & Chill!
+# A shorter demo game to learn the mechanics
+
+categories:
+  - name: "Quick facts"
+    questions:
+      - value: 100
+        question: "This color is made by mixing red and blue"
+        answer: "What is purple?"
+      - value: 200
+        question: "This planet is closest to the Sun"
+        answer: "What is Mercury?"
+      - value: 300
+        question: "This is the capital of France"
+        answer: "What is Paris?"
+
+  - name: "Easy animals"
+    questions:
+      - value: 100
+        question: "This animal says 'meow'"
+        answer: "What is a cat?"
+      - value: 200
+        question: "This animal has a trunk"
+        answer: "What is an elephant?"
+      - value: 300
+        question: "This bird cannot fly but can swim"
+        answer: "What is a penguin?"
+
+  - name: "Simple math"
+    questions:
+      - value: 100
+        question: "5 plus 5 equals this number"
+        answer: "What is 10?"
+      - value: 200
+        question: "The number of sides on a triangle"
+        answer: "What is 3?"
+      - value: 300
+        question: "Half of 100"
+        answer: "What is 50?"
+
+emoji:
+  cost: 5
+  allowNegative: true
+  maxActive: 10
+  cooldownMs: 0
+  displayDurationMs: 4000
+
+typewriter:
+  enabled: true
+  speedMsPerChar: 50
+  delayBeforeMediaMs: 300
+
+game:
+  buzzerLockedAtStart: false
+  delayBeforeQuestionMs: 1000

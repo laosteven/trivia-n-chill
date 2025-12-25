@@ -12,10 +12,10 @@ A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interac
 
 ### Using Docker Compose (Recommended)
 
-Get the `game.yml` file
+Get the `example.yml` file
 
 ```bash
-wget -O game.yml https://raw.githubusercontent.com/laosteven/trivia-n-chill/refs/heads/master/config/game.yml
+wget -O example.yml https://raw.githubusercontent.com/laosteven/trivia-n-chill/refs/heads/master/config/example.yml
 ```
 
 Get the docker compose file
@@ -89,7 +89,7 @@ Open `http://localhost:3000` in your browser
 
 ## Configuration
 
-The game can be customized by editing the `config/game.yml` file:
+The game can be customized by editing the `config/example.yml` file:
 
 ```yaml
 categories:
@@ -138,11 +138,10 @@ categories:
 
 ## Environment Variables
 
-| Variable      | Description              | Default          |
-| ------------- | ------------------------ | ---------------- |
-| `PORT`        | Server port              | 3000             |
-| `CONFIG_PATH` | Path to game YAML config | /config/game.yml |
-| `GAME_TITLE`  | Game title               | "Trivia & Chill" |
+| Variable     | Description | Default          |
+| ------------ | ----------- | ---------------- |
+| `PORT`       | Server port | 3000             |
+| `GAME_TITLE` | Game title  | "Trivia & Chill" |
 
 ## More screenshots
 

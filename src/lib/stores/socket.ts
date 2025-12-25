@@ -432,3 +432,33 @@ export function sendEmojiReaction(emoji: string) {
 export function toggleNegativeScores(show: boolean) {
   socket?.emit("toggleNegativeScores", { show });
 }
+
+export function listConfigFiles(): Promise<string[]> {
+  return new Promise((resolve) => {
+    if (!socket) {
+      resolve([]);
+      return;
+    }
+    socket.emit("listConfigFiles", (files: string[]) => {
+      resolve(files);
+    });
+  });
+}
+
+export function switchConfigFile(
+  fileName: string
+): Promise<{ success: boolean; error?: string; currentFile?: string }> {
+  return new Promise((resolve) => {
+    if (!socket) {
+      resolve({ success: false, error: "Not connected" });
+      return;
+    }
+    socket.emit(
+      "switchConfigFile",
+      fileName,
+      (result: { success: boolean; error?: string; currentFile?: string }) => {
+        resolve(result);
+      }
+    );
+  });
+}

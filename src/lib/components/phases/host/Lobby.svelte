@@ -1,4 +1,5 @@
 <script lang="ts">
+  import GameFileSelector from "$lib/components/features/host/GameFileSelector.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { useSidebar } from "$lib/components/ui/sidebar";
@@ -25,10 +26,15 @@
     <div class="max-w-6xl w-full">
       <Card class="mb-6">
         <CardHeader class="text-center">
-          <CardTitle
-            class="text-4xl font-bold uppercase tracking-tighter bg-gradient-to-br from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent drop-shadow-sm"
-            >{$gameConfig.title}</CardTitle
-          >
+          <div class="flex items-center justify-between mb-2">
+            <CardTitle
+              class="flex-1 text-4xl font-bold uppercase tracking-tighter bg-gradient-to-br from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent drop-shadow-sm"
+              >{$gameConfig.title}</CardTitle
+            >
+          </div>
+          <div class="flex-1 flex justify-center mt-4">
+            <GameFileSelector />
+          </div>
         </CardHeader>
         <CardContent>
           <div class="gap-6 md-2">

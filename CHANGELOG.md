@@ -1,21 +1,19 @@
 # [1.5.0](https://github.com/laosteven/trivia-n-chill/compare/v1.4.1...v1.5.0) (2025-12-14)
 
-
 ### Bug Fixes
 
-* broken host state ([d96e4eb](https://github.com/laosteven/trivia-n-chill/commit/d96e4eb679e3de61bd5318e9bc02722a3593d4d1))
-* question and confetti scaling ([858a1b3](https://github.com/laosteven/trivia-n-chill/commit/858a1b38ed9dbd358cd64478cb31b5aa86f60853))
-* remove player management UI ([92d51e7](https://github.com/laosteven/trivia-n-chill/commit/92d51e75ac8bd39c9bfac1c456c8c9891537e3c8))
-* toggle leaderboard ([d9e2208](https://github.com/laosteven/trivia-n-chill/commit/d9e2208c2c7ebfff88d6bd4841c4d617d89755c9))
-
+- broken host state ([d96e4eb](https://github.com/laosteven/trivia-n-chill/commit/d96e4eb679e3de61bd5318e9bc02722a3593d4d1))
+- question and confetti scaling ([858a1b3](https://github.com/laosteven/trivia-n-chill/commit/858a1b38ed9dbd358cd64478cb31b5aa86f60853))
+- remove player management UI ([92d51e7](https://github.com/laosteven/trivia-n-chill/commit/92d51e75ac8bd39c9bfac1c456c8c9891537e3c8))
+- toggle leaderboard ([d9e2208](https://github.com/laosteven/trivia-n-chill/commit/d9e2208c2c7ebfff88d6bd4841c4d617d89755c9))
 
 ### Features
 
-* configurable delay before question display ([8892d9f](https://github.com/laosteven/trivia-n-chill/commit/8892d9f76bb4e652aa4552ad098b83874478b6d0))
-* lock buzzer config ([fea2847](https://github.com/laosteven/trivia-n-chill/commit/fea28475eebc333d5c8c6d1a21fd95d0fb73d121))
-* negative or positive points hint ([e98a0cf](https://github.com/laosteven/trivia-n-chill/commit/e98a0cf489fc6320b33ad3175e6c668a7e11bf54))
-* responsive design ([66b8c53](https://github.com/laosteven/trivia-n-chill/commit/66b8c53d92502412d4bb08c97bcaa792e6f3b2c9))
-* screenshot button ([2081619](https://github.com/laosteven/trivia-n-chill/commit/20816199c77d3d7271b4073ac6d6240c3ecd5ae6))
+- configurable delay before question display ([8892d9f](https://github.com/laosteven/trivia-n-chill/commit/8892d9f76bb4e652aa4552ad098b83874478b6d0))
+- lock buzzer config ([fea2847](https://github.com/laosteven/trivia-n-chill/commit/fea28475eebc333d5c8c6d1a21fd95d0fb73d121))
+- negative or positive points hint ([e98a0cf](https://github.com/laosteven/trivia-n-chill/commit/e98a0cf489fc6320b33ad3175e6c668a7e11bf54))
+- responsive design ([66b8c53](https://github.com/laosteven/trivia-n-chill/commit/66b8c53d92502412d4bb08c97bcaa792e6f3b2c9))
+- screenshot button ([2081619](https://github.com/laosteven/trivia-n-chill/commit/20816199c77d3d7271b4073ac6d6240c3ecd5ae6))
 
 ## [1.4.1](https://github.com/laosteven/trivia-n-chill/compare/v1.4.0...v1.4.1) (2025-12-12)
 
