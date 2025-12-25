@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/laosteven/trivia-n-chill/compare/v1.6.0...v1.6.1) (2025-12-25)
+
+
+### Bug Fixes
+
+* update config volume path ([aeeb35e](https://github.com/laosteven/trivia-n-chill/commit/aeeb35e97ea97dedd6f02ecae288f8b03ce68d76))
+
 # [1.6.0](https://github.com/laosteven/trivia-n-chill/compare/v1.5.0...v1.6.0) (2025-12-25)
 
 
