@@ -7,5 +7,5 @@ services:
       - PORT=3000
       - GAME_TITLE=${GAME_TITLE:-Trivia & Chill}
     volumes:
-      - ./config:/config:ro
+      - ./config:/app/config:ro
     restart: unless-stopped

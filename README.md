@@ -15,7 +15,8 @@ A self-hosted Jeopardy game built with SvelteKit and shadcn-svelte. Host interac
 Get the `example.yml` file
 
 ```bash
-wget -O example.yml https://raw.githubusercontent.com/laosteven/trivia-n-chill/refs/heads/master/config/example.yml
+mkdir config
+wget -O ./config/example.yml https://raw.githubusercontent.com/laosteven/trivia-n-chill/refs/heads/master/config/example.yml
 ```
 
 Get the docker compose file

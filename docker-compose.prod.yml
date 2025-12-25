@@ -11,4 +11,4 @@ services:
       NODE_ENV: production
       GAME_TITLE: ${GAME_TITLE:-Trivia & Chill}
     volumes:
-      - ./config:/config:ro
+      - ./config:/app/config:ro
