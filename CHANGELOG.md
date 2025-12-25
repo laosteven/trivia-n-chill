@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/laosteven/trivia-n-chill/compare/v1.5.0...v1.6.0) (2025-12-25)
+
+
+### Features
+
+* add game file selection and configuration management ([d5e0c8f](https://github.com/laosteven/trivia-n-chill/commit/d5e0c8fac8ae80a97d3d25ae8c1d687feceaf8b8))
+
 # [1.5.0](https://github.com/laosteven/trivia-n-chill/compare/v1.4.1...v1.5.0) (2025-12-14)
 
 ### Bug Fixes
