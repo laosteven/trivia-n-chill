@@ -92,21 +92,19 @@ export async function playerEmojiReact(emoji: string) {
   const scale = Math.min(4, Math.sqrt(area / referenceArea));
 
   // Base values tuned for small screens
-  const baseParticleCount = 30;
-  const baseScalar = 2; // visual size multiplier
-  const baseVelocity = 30;
+  const baseParticleCount = 50;
+  const baseScalar = 4; // visual size multiplier
+  const baseVelocity = -35;
   const baseGravity = 0.5;
-  const baseTicks = 60;
 
   confetti({
     particleCount: Math.floor(baseParticleCount * scale),
-    spread: 100,
+    spread: 180,
     shapes: [emojiShape],
-    origin: { x: Math.random(), y: 1 },
+    origin: { x: Math.random(), y: -0.1 },
     scalar: Math.max(0.5, baseScalar * (Math.random() * 0.6 + 0.7) * scale),
     startVelocity: Math.floor(baseVelocity * scale),
     gravity: baseGravity * Math.max(1, scale / 1.5),
-    ticks: Math.floor(baseTicks * Math.min(2, scale)),
   });
 }
 
