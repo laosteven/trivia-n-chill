@@ -31,6 +31,7 @@ export const SOCKET_EVENTS = {
   CLEAR_DISCONNECTED: "clearDisconnected",
   LIST_CONFIG_FILES: "listConfigFiles",
   SWITCH_CONFIG_FILE: "switchConfigFile",
+  SET_POINT_MULTIPLIER: "setPointMultiplier",
 
   // Player events
   PLAYER_JOIN: "playerJoin",

@@ -63,6 +63,7 @@ export interface GameState {
   negativeScoresEnabled?: boolean;
   buzzerLockedAtStart?: boolean;
   delayBeforeQuestionMs?: number;
+  pointMultiplier?: number;
 }
 
 export interface ClientGameState {
@@ -78,6 +79,7 @@ export interface ClientGameState {
   negativeScoresEnabled?: boolean;
   buzzerLockedAtStart?: boolean;
   delayBeforeQuestionMs?: number;
+  pointMultiplier?: number;
 }
 
 export interface GameConfigClient {

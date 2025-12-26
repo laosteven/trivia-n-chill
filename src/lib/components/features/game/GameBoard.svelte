@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { gameState } from "$lib/stores/socket";
+
   const p = $props<{
     categories: { name: string; questions: { value: number }[] }[];
     isAnswered: (cat: string, value: number) => boolean;
@@ -35,6 +37,7 @@
     {#each valueRows as value}
       {#each p.categories as category}
         {@const answered = p.isAnswered(category.name, value)}
+        {@const displayValue = (value as number) * ($gameState.pointMultiplier || 1)}
         <button
           onclick={() => p.onSelect(category.name, value)}
           disabled={answered}
@@ -43,7 +46,7 @@
           <div
             class="font-bold uppercase tracking-tighter bg-gradient-to-br from-amber-200 via-amber-250 to-amber-300 bg-clip-text text-transparent combined-drop-shadows"
           >
-            {answered ? "" : `$${value}`}
+            {answered ? "" : `$${displayValue}`}
           </div>
         </button>
       {/each}

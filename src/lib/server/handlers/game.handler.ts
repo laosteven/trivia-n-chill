@@ -75,8 +75,9 @@ export class GameHandler {
       return;
     }
 
-    // Award points
-    const points = gameState.currentQuestion.value;
+    // Award points (with multiplier)
+    const multiplier = gameState.pointMultiplier || 1;
+    const points = gameState.currentQuestion.value * multiplier;
     this.playerService.updatePlayerScore(playerId, player.score + points);
 
     // Mark question as answered
@@ -110,8 +111,9 @@ export class GameHandler {
       return;
     }
 
-    // Deduct points
-    const points = gameState.currentQuestion.value;
+    // Deduct points (with multiplier)
+    const multiplier = gameState.pointMultiplier || 1;
+    const points = gameState.currentQuestion.value * multiplier;
     this.playerService.updatePlayerScore(playerId, player.score - points);
 
     // Remove player from buzzer queue
@@ -212,5 +214,13 @@ export class GameHandler {
       this.gameStateService.setShowAnswer(true);
       console.log("Answer revealed");
     }
+  }
+
+  /**
+   * Handle set point multiplier
+   */
+  handleSetPointMultiplier(multiplier: number): void {
+    this.gameStateService.setPointMultiplier(multiplier);
+    console.log(`Point multiplier set to ${multiplier}x`);
   }
 }

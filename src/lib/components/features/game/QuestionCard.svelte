@@ -1,7 +1,7 @@
 <script lang="ts">
   import HostQuestionControls from "$lib/components/features/host/HostQuestionControls.svelte";
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
-  import { gameConfig } from "$lib/stores/socket";
+  import { gameConfig, gameState } from "$lib/stores/socket";
   import { get } from "svelte/store";
   const p = $props<{
     question: {
@@ -88,7 +88,9 @@
 <Card>
   <CardHeader>
     <CardTitle class="text-center" style="font-size: clamp(1.25rem, 2.5vw, 2rem);">
-      {p.question?.category} - <span class="font-mono tabular-nums">${p.question?.value}</span>
+      {p.question?.category} - <span class="font-mono tabular-nums"
+        >${p.question ? p.question.value * ($gameState.pointMultiplier || 1) : 0}</span
+      >
     </CardTitle>
   </CardHeader>
   <CardContent class="space-y-6">

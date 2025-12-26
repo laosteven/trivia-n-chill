@@ -4,28 +4,29 @@
  */
 
 import {
-  gameState,
-  backToGame as socketBackToGame,
-  cancelQuestion as socketCancelQuestion,
-  clearBuzzers as socketClearBuzzers,
-  clearDisconnected as socketClearDisconnected,
-  clearPlayers as socketClearPlayers,
-  correctAnswer as socketCorrectAnswer,
-  hostUpdatePlayerName as socketHostUpdatePlayerName,
-  incorrectAnswer as socketIncorrectAnswer,
-  lockBuzzer as socketLockBuzzer,
-  reloadConfig as socketReloadConfig,
-  removeBuzz as socketRemoveBuzz,
-  removePlayer as socketRemovePlayer,
-  resetGame as socketResetGame,
-  revealAnswer as socketRevealAnswer,
-  selectQuestion as socketSelectQuestion,
-  showLeaderboard as socketShowLeaderboard,
-  showScoring as socketShowScoring,
-  skipQuestion as socketSkipQuestion,
-  startGame as socketStartGame,
-  unlockBuzzer as socketUnlockBuzzer,
-  updatePlayerScore as socketUpdatePlayerScore,
+    gameState,
+    backToGame as socketBackToGame,
+    cancelQuestion as socketCancelQuestion,
+    clearBuzzers as socketClearBuzzers,
+    clearDisconnected as socketClearDisconnected,
+    clearPlayers as socketClearPlayers,
+    correctAnswer as socketCorrectAnswer,
+    hostUpdatePlayerName as socketHostUpdatePlayerName,
+    incorrectAnswer as socketIncorrectAnswer,
+    lockBuzzer as socketLockBuzzer,
+    reloadConfig as socketReloadConfig,
+    removeBuzz as socketRemoveBuzz,
+    removePlayer as socketRemovePlayer,
+    resetGame as socketResetGame,
+    revealAnswer as socketRevealAnswer,
+    selectQuestion as socketSelectQuestion,
+    setPointMultiplier as socketSetPointMultiplier,
+    showLeaderboard as socketShowLeaderboard,
+    showScoring as socketShowScoring,
+    skipQuestion as socketSkipQuestion,
+    startGame as socketStartGame,
+    unlockBuzzer as socketUnlockBuzzer,
+    updatePlayerScore as socketUpdatePlayerScore,
 } from "$lib/stores/socket";
 import type { Player } from "$lib/types";
 import { get } from "svelte/store";
@@ -199,6 +200,13 @@ export function useGame() {
     socketReloadConfig();
   }
 
+  /**
+   * Set point multiplier
+   */
+  function setPointMultiplier(multiplier: number) {
+    socketSetPointMultiplier(multiplier);
+  }
+
   return {
     isQuestionAnswered,
     selectQuestion,
@@ -223,5 +231,6 @@ export function useGame() {
     updatePlayerScore,
     updatePlayerName,
     reloadConfig,
+    setPointMultiplier,
   };
 }

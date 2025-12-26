@@ -25,6 +25,7 @@ export class GameStateService {
       scoringEnabled: true,
       negativeScoresEnabled: false,
       buzzerLockedAtStart: gameConfig?.game?.buzzerLockedAtStart || false,
+      pointMultiplier: 1,
     };
   }
 
@@ -158,5 +159,9 @@ export class GameStateService {
 
   setBuzzerLockedAtStart(enabled: boolean): void {
     this.state.buzzerLockedAtStart = enabled;
+  }
+
+  setPointMultiplier(multiplier: number): void {
+    this.state.pointMultiplier = multiplier;
   }
 }

@@ -3,11 +3,11 @@ import { Socket, Server as SocketIOServer } from "socket.io";
 import { SOCKET_EVENTS } from "../constants/socket-events";
 import type { ClientGameState } from "../types";
 import {
-  getCurrentConfigFile,
-  listConfigFiles,
-  loadGameConfig,
-  setCurrentConfigFile,
-  watchGameConfig,
+    getCurrentConfigFile,
+    listConfigFiles,
+    loadGameConfig,
+    setCurrentConfigFile,
+    watchGameConfig,
 } from "./config";
 import { GameHandler } from "./handlers/game.handler";
 import { HostHandler } from "./handlers/host.handler";
@@ -48,6 +48,7 @@ function getClientGameState(): ClientGameState {
     scoringEnabled: gameState.scoringEnabled ?? true,
     negativeScoresEnabled: gameState.negativeScoresEnabled ?? false,
     buzzerLockedAtStart: gameState.buzzerLockedAtStart ?? false,
+    pointMultiplier: gameState.pointMultiplier ?? 1,
   };
 }
 
@@ -305,6 +306,12 @@ export function initSocketServer(server: HTTPServer) {
     // Host reveals answer (sets showAnswer true)
     socket.on(SOCKET_EVENTS.REVEAL_ANSWER, () => {
       gameHandler.handleRevealAnswer();
+      broadcastGameState();
+    });
+
+    // Host sets point multiplier
+    socket.on(SOCKET_EVENTS.SET_POINT_MULTIPLIER, (multiplier: number) => {
+      gameHandler.handleSetPointMultiplier(multiplier);
       broadcastGameState();
     });
 
