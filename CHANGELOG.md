@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/laosteven/trivia-n-chill/compare/v1.7.0...v1.8.0) (2025-12-26)
+
+
+### Features
+
+* screen wake lock toggle ([5fb8eff](https://github.com/laosteven/trivia-n-chill/commit/5fb8effd6253de0b97f92c6522c204fa28bc61ca))
+
 # [1.7.0](https://github.com/laosteven/trivia-n-chill/compare/v1.6.1...v1.7.0) (2025-12-26)
 
 
