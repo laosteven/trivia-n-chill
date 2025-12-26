@@ -4,31 +4,35 @@
   import { gameState, toggleNegativeScores } from "$lib/stores/socket";
   import type { Player } from "$lib/types";
   import { BarChart, type ChartContextValue } from "layerchart";
-  import { onMount } from "svelte";
   import { cubicInOut } from "svelte/easing";
 
-  const p = $props<{
-    players: { id: string; name: string; score: number; connected: boolean }[];
-  }>();
+  interface ChartPlayer {
+    id: string;
+    name: string;
+    score: number;
+    connected: boolean;
+  }
+
+  const p = $props<{ players: ChartPlayer[] }>();
 
   let context = $state<ChartContextValue>();
-  let hasNegativeScores = $state(false);
-  let showNegativeScores = $state(false);
+  let hasNegativeScores = $derived(p.players.some((player: Player) => player.score < 0));
+  let showNegativeScores = $state($gameState.negativeScoresEnabled);
+
+  // Initialize to show negative scores first if they exist (for roasting)
+  $effect(() => {
+    if (hasNegativeScores && $gameState.negativeScoresEnabled === undefined) {
+      showNegativeScores = true;
+      toggleNegativeScores(true);
+    } else {
+      showNegativeScores = $gameState.negativeScoresEnabled ?? false;
+    }
+  });
 
   function handleToggleNegativeScores() {
     showNegativeScores = !showNegativeScores;
     toggleNegativeScores(showNegativeScores);
   }
-
-  onMount(() => {
-    // Check if there are negative scores. If there is, show them first to roast the players
-    hasNegativeScores = p.players.some((d: Player) => d.score < 0);
-    showNegativeScores = hasNegativeScores;
-  });
-
-  $effect(() => {
-    showNegativeScores = $gameState.negativeScoresEnabled ?? false;
-  });
 </script>
 
 <div class="bg-secondary rounded-lg p-4">

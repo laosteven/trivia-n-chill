@@ -176,9 +176,6 @@ export class PlayerHandler {
     // Mark as disconnected instead of removing
     this.playerService.markDisconnected(socket.id);
 
-    // Remove from buzzer queue if present
-    this.gameStateService.removeBuzz(socket.id);
-
     // Store their score for future reconnects
     const key = player.name.toLowerCase();
     this.playerService.getStoredScore(key); // Ensures score is persisted
