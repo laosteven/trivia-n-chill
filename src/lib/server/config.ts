@@ -117,7 +117,7 @@ export function watchGameConfig(onChange: (cfg: GameConfig) => void) {
     watch(file, { persistent: false }, () => {
       const cfg = loadGameConfig();
       onChange(cfg);
-      console.log("[config] Reloaded example.yml");
+      console.log("[config] Reloaded file");
     });
   } catch (err) {
     console.error("Failed to watch config file", err);

@@ -22,6 +22,7 @@
     buzzerLocked: boolean;
     onCancel: () => void;
     onSkip: () => void;
+    questionRevealed: () => void;
   }>();
 
   let displayedText = $state("");
@@ -74,6 +75,7 @@
         await new Promise((r) => setTimeout(r, delayBeforeMedia));
         if (cancelled) return;
         showMedia = true;
+        p.questionRevealed();
       })();
 
       return () => {

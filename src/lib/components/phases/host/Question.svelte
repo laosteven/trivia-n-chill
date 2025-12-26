@@ -40,6 +40,7 @@
         buzzerLocked={$gameState.buzzerLocked}
         onCancel={() => game.cancelQuestion()}
         onSkip={() => game.skipQuestion()}
+        questionRevealed={() => game.unlockBuzzer()}
       />
 
       <Card class="mt-6">

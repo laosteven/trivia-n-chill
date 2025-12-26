@@ -15,6 +15,7 @@
   onMount(async () => {
     const files = await listConfigFiles();
     configFiles = files;
+    currentFile = files[0] || "";
   });
 
   async function handleSelectFile(fileName: string) {
