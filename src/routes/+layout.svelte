@@ -3,6 +3,7 @@
   import DisplayQrDialog from "$lib/components/features/game/DisplayQrDialog.svelte";
   import AppSidebar from "$lib/components/features/sidebar/AppSidebar.svelte";
   import ToggleMode from "$lib/components/features/toggleMode/ToggleMode.svelte";
+  import WakeLockToggle from "$lib/components/features/toggleMode/WakeLockToggle.svelte";
   import { buttonVariants } from "$lib/components/ui/button";
   import ButtonGroup from "$lib/components/ui/button-group/button-group.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
@@ -33,6 +34,7 @@
     <div class="relative">
       <div class="absolute top-5 right-5 z-50">
         <ButtonGroup>
+          <WakeLockToggle />
           <ToggleMode />
           <DisplayQrDialog class={buttonVariants({ variant: "outline", size: "icon" })}>
             <QrCode />
