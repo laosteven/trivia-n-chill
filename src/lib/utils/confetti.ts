@@ -80,8 +80,8 @@ export async function celebrateLeaderboard(duration = 5000) {
 
 export async function playerEmojiReact(emoji: string) {
   const confetti = await load();
-  const emojiShape = confetti.shapeFromText({ text: emoji });
   if (!confetti) return;
+  
   // Compute a scale factor based on viewport size so confetti looks good on TVs
   const vw = typeof window !== "undefined" ? window.innerWidth : 0;
   const vh = typeof window !== "undefined" ? window.innerHeight : 0;
@@ -91,9 +91,16 @@ export async function playerEmojiReact(emoji: string) {
   // Scale factor capped to avoid excessive particle counts
   const scale = Math.min(4, Math.sqrt(area / referenceArea));
 
+  // Higher font size produces sharper emoji rendering on canvas
+  const fontSize = Math.floor(80 * scale); // Increased from implicit default
+  const emojiShape = confetti.shapeFromText({ 
+    text: emoji,
+    scalar: fontSize / 10 // Normalize the font size to scalar for better quality
+  });
+
   // Base values tuned for small screens
   const baseParticleCount = 50;
-  const baseScalar = 4; // visual size multiplier
+  const baseScalar = 5;
   const baseVelocity = -35;
   const baseGravity = 0.5;
 
@@ -102,7 +109,7 @@ export async function playerEmojiReact(emoji: string) {
     spread: 180,
     shapes: [emojiShape],
     origin: { x: Math.random(), y: -0.1 },
-    scalar: Math.max(0.5, baseScalar * (Math.random() * 0.6 + 0.7) * scale),
+    scalar: Math.max(1, baseScalar * (Math.random() * 0.6 + 0.7) * scale),
     startVelocity: Math.floor(baseVelocity * scale),
     gravity: baseGravity * Math.max(1, scale / 1.5),
   });
