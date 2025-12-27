@@ -58,9 +58,16 @@ export class GameHandler {
       value: question.value,
       questionImage: question.questionImage,
       questionVideo: question.questionVideo,
+      questionVideoLoop: question.questionVideoLoop,
+      questionVideoMuted: question.questionVideoMuted,
+      questionVideoAutoplay: question.questionVideoAutoplay,
+      questionVideoHint: question.questionVideoHint,
       questionYoutube: question.questionYoutube,
       answerImage: question.answerImage,
       answerVideo: question.answerVideo,
+      answerVideoLoop: question.answerVideoLoop,
+      answerVideoMuted: question.answerVideoMuted,
+      answerVideoAutoplay: question.answerVideoAutoplay,
       answerYoutube: question.answerYoutube,
     });
   }

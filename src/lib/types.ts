@@ -30,9 +30,16 @@ export interface Question {
   answer: string;
   questionImage?: string;
   questionVideo?: string;
+  questionVideoLoop?: boolean;
+  questionVideoMuted?: boolean;
+  questionVideoAutoplay?: boolean;
+  questionVideoHint?: string;
   questionYoutube?: string;
   answerImage?: string;
   answerVideo?: string;
+  answerVideoLoop?: boolean;
+  answerVideoMuted?: boolean;
+  answerVideoAutoplay?: boolean;
   answerYoutube?: string;
 }
 

@@ -13,12 +13,15 @@
       questionYoutube?: string;
       questionVideoLoop?: boolean;
       questionVideoMuted?: boolean;
+      questionVideoAutoplay?: boolean;
+      questionVideoHint?: string;
       answer: string;
       answerImage?: string;
       answerVideo?: string;
       answerYoutube?: string;
       answerVideoLoop?: boolean;
       answerVideoMuted?: boolean;
+      answerVideoAutoplay?: boolean;
     } | null;
     showAnswer: boolean;
     reveal: () => void;
@@ -95,7 +98,8 @@
 <Card>
   <CardHeader>
     <CardTitle class="text-center" style="font-size: clamp(1.25rem, 2.5vw, 2rem);">
-      {p.question?.category} - <span class="font-mono tabular-nums"
+      {p.question?.category} -
+      <span class="font-mono tabular-nums"
         >${p.question ? p.question.value * ($gameState.pointMultiplier || 1) : 0}</span
       >
     </CardTitle>
@@ -105,6 +109,10 @@
       <p class="font-bold" style="font-size: clamp(1.5rem, 4vw, 4rem);">
         {displayedText}{#if typing}<span class="font-thin animate-pulse">|</span>{/if}
       </p>
+
+      <div class="sm:hidden text-sm">
+        {p.question?.questionVideoHint}
+      </div>
 
       {#if showMedia && p.question?.questionImage}
         {#if p.isVideo(p.question.questionImage)}
@@ -130,7 +138,7 @@
       {#if showMedia && p.question?.questionVideo}
         <video
           src={p.question.questionVideo}
-          autoplay
+          autoplay={p.question.questionVideoAutoplay ?? true}
           loop={p.question.questionVideoLoop ?? true}
           muted={p.question.questionVideoMuted ?? true}
           playsinline
@@ -185,7 +193,7 @@
         {#if p.question?.answerVideo}
           <video
             src={p.question.answerVideo}
-            autoplay
+            autoplay={p.question.answerVideoAutoplay ?? true}
             loop={p.question.answerVideoLoop ?? false}
             muted={p.question.answerVideoMuted ?? false}
             playsinline
