@@ -3,11 +3,11 @@ import { Socket, Server as SocketIOServer } from "socket.io";
 import { SOCKET_EVENTS } from "../constants/socket-events";
 import type { ClientGameState } from "../types";
 import {
-    getCurrentConfigFile,
-    listConfigFiles,
-    loadGameConfig,
-    setCurrentConfigFile,
-    watchGameConfig,
+  getCurrentConfigFile,
+  listConfigFiles,
+  loadGameConfig,
+  setCurrentConfigFile,
+  watchGameConfig,
 } from "./config";
 import { GameHandler } from "./handlers/game.handler";
 import { HostHandler } from "./handlers/host.handler";

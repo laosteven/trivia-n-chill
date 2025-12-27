@@ -30,7 +30,9 @@
           size="sm"
           onclick={() => game.setPointMultiplier(mult)}
           variant="secondary"
-          class={( $gameState.pointMultiplier === mult ? "bg-blue-600/70 text-white" : "dark:text-white text-black" ) + " text-xs"}
+          class={($gameState.pointMultiplier === mult
+            ? "bg-blue-600/70 text-white"
+            : "dark:text-white text-black") + " text-xs"}
         >
           x{mult}
         </Button>

@@ -1,37 +1,32 @@
 # [1.8.0](https://github.com/laosteven/trivia-n-chill/compare/v1.7.0...v1.8.0) (2025-12-26)
 
-
 ### Features
 
-* screen wake lock toggle ([5fb8eff](https://github.com/laosteven/trivia-n-chill/commit/5fb8effd6253de0b97f92c6522c204fa28bc61ca))
+- screen wake lock toggle ([5fb8eff](https://github.com/laosteven/trivia-n-chill/commit/5fb8effd6253de0b97f92c6522c204fa28bc61ca))
 
 # [1.7.0](https://github.com/laosteven/trivia-n-chill/compare/v1.6.1...v1.7.0) (2025-12-26)
 
-
 ### Bug Fixes
 
-* emoji rendering ([926c521](https://github.com/laosteven/trivia-n-chill/commit/926c521eaea085c03f6c93f5ef0a7dd84d6ab5ee))
-* keep player buzz order after disconnect ([185884e](https://github.com/laosteven/trivia-n-chill/commit/185884ee97bc1c819fce938dddf9e1057ee3971b))
-
+- emoji rendering ([926c521](https://github.com/laosteven/trivia-n-chill/commit/926c521eaea085c03f6c93f5ef0a7dd84d6ab5ee))
+- keep player buzz order after disconnect ([185884e](https://github.com/laosteven/trivia-n-chill/commit/185884ee97bc1c819fce938dddf9e1057ee3971b))
 
 ### Features
 
-* emoji player animation ([b07687b](https://github.com/laosteven/trivia-n-chill/commit/b07687b8d6ed44b2dd181da9a01b0f2febe2205c))
-* enhance game functionality with question reveal and config file selection ([a999eb2](https://github.com/laosteven/trivia-n-chill/commit/a999eb2cc3767eb7942f6c09cc96a8024d4c4646))
+- emoji player animation ([b07687b](https://github.com/laosteven/trivia-n-chill/commit/b07687b8d6ed44b2dd181da9a01b0f2febe2205c))
+- enhance game functionality with question reveal and config file selection ([a999eb2](https://github.com/laosteven/trivia-n-chill/commit/a999eb2cc3767eb7942f6c09cc96a8024d4c4646))
 
 ## [1.6.1](https://github.com/laosteven/trivia-n-chill/compare/v1.6.0...v1.6.1) (2025-12-25)
 
-
 ### Bug Fixes
 
-* update config volume path ([aeeb35e](https://github.com/laosteven/trivia-n-chill/commit/aeeb35e97ea97dedd6f02ecae288f8b03ce68d76))
+- update config volume path ([aeeb35e](https://github.com/laosteven/trivia-n-chill/commit/aeeb35e97ea97dedd6f02ecae288f8b03ce68d76))
 
 # [1.6.0](https://github.com/laosteven/trivia-n-chill/compare/v1.5.0...v1.6.0) (2025-12-25)
 
-
 ### Features
 
-* add game file selection and configuration management ([d5e0c8f](https://github.com/laosteven/trivia-n-chill/commit/d5e0c8fac8ae80a97d3d25ae8c1d687feceaf8b8))
+- add game file selection and configuration management ([d5e0c8f](https://github.com/laosteven/trivia-n-chill/commit/d5e0c8fac8ae80a97d3d25ae8c1d687feceaf8b8))
 
 # [1.5.0](https://github.com/laosteven/trivia-n-chill/compare/v1.4.1...v1.5.0) (2025-12-14)
 

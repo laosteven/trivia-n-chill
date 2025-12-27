@@ -81,7 +81,7 @@ export async function celebrateLeaderboard(duration = 5000) {
 export async function playerEmojiReact(emoji: string) {
   const confetti = await load();
   if (!confetti) return;
-  
+
   // Compute a scale factor based on viewport size so confetti looks good on TVs
   const vw = typeof window !== "undefined" ? window.innerWidth : 0;
   const vh = typeof window !== "undefined" ? window.innerHeight : 0;
@@ -93,9 +93,9 @@ export async function playerEmojiReact(emoji: string) {
 
   // Higher font size produces sharper emoji rendering on canvas
   const fontSize = Math.floor(80 * scale); // Increased from implicit default
-  const emojiShape = confetti.shapeFromText({ 
+  const emojiShape = confetti.shapeFromText({
     text: emoji,
-    scalar: fontSize / 10 // Normalize the font size to scalar for better quality
+    scalar: fontSize / 10, // Normalize the font size to scalar for better quality
   });
 
   // Base values tuned for small screens
