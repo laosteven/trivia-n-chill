@@ -29,8 +29,10 @@ export interface Question {
   question: string;
   answer: string;
   questionImage?: string;
+  questionVideo?: string;
   questionYoutube?: string;
   answerImage?: string;
+  answerVideo?: string;
   answerYoutube?: string;
 }
 

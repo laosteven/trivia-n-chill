@@ -9,10 +9,16 @@
       value: number;
       question: string;
       questionImage?: string;
+      questionVideo?: string;
       questionYoutube?: string;
+      questionVideoLoop?: boolean;
+      questionVideoMuted?: boolean;
       answer: string;
       answerImage?: string;
+      answerVideo?: string;
       answerYoutube?: string;
+      answerVideoLoop?: boolean;
+      answerVideoMuted?: boolean;
     } | null;
     showAnswer: boolean;
     reveal: () => void;
@@ -76,6 +82,7 @@
         if (cancelled) return;
         showMedia = true;
         p.questionRevealed();
+        console.log("question video:" + p.question?.questionVideo);
       })();
 
       return () => {
@@ -120,6 +127,20 @@
         {/if}
       {/if}
 
+      {#if showMedia && p.question?.questionVideo}
+        <video
+          src={p.question.questionVideo}
+          autoplay
+          loop={p.question.questionVideoLoop ?? true}
+          muted={p.question.questionVideoMuted ?? true}
+          playsinline
+          controls
+          class="mx-auto mt-4 rounded-lg responsive-media"
+        >
+          <track kind="captions" label="Video" default />
+        </video>
+      {/if}
+
       {#if showMedia && p.question?.questionYoutube}
         <div class="mt-4 aspect-video">
           <iframe
@@ -160,6 +181,19 @@
               class="mx-auto mt-4 rounded-lg responsive-media"
             />
           {/if}
+        {/if}
+        {#if p.question?.answerVideo}
+          <video
+            src={p.question.answerVideo}
+            autoplay
+            loop={p.question.answerVideoLoop ?? false}
+            muted={p.question.answerVideoMuted ?? false}
+            playsinline
+            controls
+            class="mx-auto mt-4 rounded-lg responsive-media"
+          >
+            <track kind="captions" label="Video" default />
+          </video>
         {/if}
         {#if p.question?.answerYoutube}
           <div class="mt-4 aspect-video">

@@ -57,8 +57,10 @@ export class GameHandler {
       answer: question.answer,
       value: question.value,
       questionImage: question.questionImage,
+      questionVideo: question.questionVideo,
       questionYoutube: question.questionYoutube,
       answerImage: question.answerImage,
+      answerVideo: question.answerVideo,
       answerYoutube: question.answerYoutube,
     });
   }

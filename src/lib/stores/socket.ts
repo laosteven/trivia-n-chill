@@ -32,8 +32,10 @@ interface FullQuestion {
   answer: string;
   value: number;
   questionImage?: string;
+  questionVideo?: string;
   questionYoutube?: string;
   answerImage?: string;
+  answerVideo?: string;
   answerYoutube?: string;
 }
 
