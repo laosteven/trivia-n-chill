@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/laosteven/trivia-n-chill/compare/v1.8.0...v1.9.0) (2025-12-27)
+
+
+### Features
+
+* point multiplier ([a9bf742](https://github.com/laosteven/trivia-n-chill/commit/a9bf7426f279f6daea1ba0940cd3ed8e2f9523c0))
+* video control and hint fields ([a20d48e](https://github.com/laosteven/trivia-n-chill/commit/a20d48e201f9fb6b944ffe7cd3fd36433cc25583))
+* video support ([c192a09](https://github.com/laosteven/trivia-n-chill/commit/c192a0965691a413a9a3db3e342aa2a5bd1bb17f))
+
 # [1.8.0](https://github.com/laosteven/trivia-n-chill/compare/v1.7.0...v1.8.0) (2025-12-26)
 
 
