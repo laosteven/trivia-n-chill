@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/laosteven/trivia-n-chill/compare/v1.9.0...v1.10.0) (2025-12-27)
+
+
+### Features
+
+* show multiplier ([4333274](https://github.com/laosteven/trivia-n-chill/commit/43332744af7b30d4aacba0f7221759771c272ef2))
+
 # [1.9.0](https://github.com/laosteven/trivia-n-chill/compare/v1.8.0...v1.9.0) (2025-12-27)
 
 
