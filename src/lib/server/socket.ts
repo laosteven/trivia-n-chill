@@ -3,11 +3,11 @@ import { Socket, Server as SocketIOServer } from "socket.io";
 import { SOCKET_EVENTS } from "../constants/socket-events";
 import type { ClientGameState } from "../types";
 import {
-  getCurrentConfigFile,
-  listConfigFiles,
-  loadGameConfig,
-  setCurrentConfigFile,
-  watchGameConfig,
+    getCurrentConfigFile,
+    listConfigFiles,
+    loadGameConfig,
+    setCurrentConfigFile,
+    watchGameConfig,
 } from "./config";
 import { GameHandler } from "./handlers/game.handler";
 import { HostHandler } from "./handlers/host.handler";
@@ -49,6 +49,7 @@ function getClientGameState(): ClientGameState {
     negativeScoresEnabled: gameState.negativeScoresEnabled ?? false,
     buzzerLockedAtStart: gameState.buzzerLockedAtStart ?? false,
     pointMultiplier: gameState.pointMultiplier ?? 1,
+    showMultiplier: gameState.showMultiplier ?? false,
   };
 }
 
@@ -264,6 +265,11 @@ export function initSocketServer(server: HTTPServer) {
 
     socket.on(SOCKET_EVENTS.TOGGLE_BUZZER_LOCKED_AT_START, () => {
       hostHandler.handleToggleBuzzerLockedAtStart();
+      broadcastGameState();
+    });
+
+    socket.on(SOCKET_EVENTS.TOGGLE_SHOW_MULTIPLIER, () => {
+      hostHandler.handleToggleShowMultiplier();
       broadcastGameState();
     });
 

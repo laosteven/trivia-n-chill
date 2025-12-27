@@ -73,6 +73,7 @@ export interface GameState {
   buzzerLockedAtStart?: boolean;
   delayBeforeQuestionMs?: number;
   pointMultiplier?: number;
+  showMultiplier?: boolean;
 }
 
 export interface ClientGameState {
@@ -89,6 +90,7 @@ export interface ClientGameState {
   buzzerLockedAtStart?: boolean;
   delayBeforeQuestionMs?: number;
   pointMultiplier?: number;
+  showMultiplier?: boolean;
 }
 
 export interface GameConfigClient {
@@ -112,6 +114,7 @@ export interface GameConfigClient {
   game?: {
     buzzerLockedAtStart?: boolean;
     delayBeforeQuestionMs?: number;
+    showMultiplier?: boolean;
   };
 }
 

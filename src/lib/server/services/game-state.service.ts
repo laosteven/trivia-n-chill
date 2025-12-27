@@ -26,6 +26,7 @@ export class GameStateService {
       negativeScoresEnabled: false,
       buzzerLockedAtStart: gameConfig?.game?.buzzerLockedAtStart || false,
       pointMultiplier: 1,
+      showMultiplier: gameConfig?.game?.showMultiplier || false,
     };
   }
 
@@ -163,5 +164,9 @@ export class GameStateService {
 
   setPointMultiplier(multiplier: number): void {
     this.state.pointMultiplier = multiplier;
+  }
+
+  setShowMultiplier(enabled: boolean): void {
+    this.state.showMultiplier = enabled;
   }
 }

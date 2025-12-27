@@ -2,13 +2,14 @@
   import * as Collapsible from "$lib/components/ui/collapsible/index.js";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { usePlayer } from "$lib/composables/usePlayer.svelte";
-  import { gameState, isHost, toggleBuzzerLockedAtStart, toggleScoring } from "$lib/stores/socket";
+  import { gameState, isHost, toggleBuzzerLockedAtStart, toggleScoring, toggleShowMultiplier } from "$lib/stores/socket";
   import type { Player } from "$lib/types";
   import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
   import Gamepad2 from "@lucide/svelte/icons/gamepad-2";
   import Github from "@lucide/svelte/icons/github";
   import HatGlasses from "@lucide/svelte/icons/hat-glasses";
   import Power from "@lucide/svelte/icons/power";
+  import Rocket from "@lucide/svelte/icons/rocket";
   import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
   import User from "@lucide/svelte/icons/user";
   import UserRoundX from "@lucide/svelte/icons/user-round-x";
@@ -117,6 +118,14 @@
               </Collapsible.Trigger>
               <Collapsible.Content>
                 <Sidebar.MenuSub>
+                  <Sidebar.MenuSubItem>
+                    <Sidebar.MenuSubButton onclick={toggleShowMultiplier}>
+                      <div class="flex items-center gap-2 w-full text-xs">
+                        <Rocket size={12} />
+                        {$gameState.showMultiplier ? "Hide" : "Show"} multiplier
+                      </div>
+                    </Sidebar.MenuSubButton>
+                  </Sidebar.MenuSubItem>
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton onclick={toggleBuzzerLockedAtStart}>
                       <div class="flex items-center gap-2 w-full text-xs">

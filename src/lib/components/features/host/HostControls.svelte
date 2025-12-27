@@ -24,20 +24,22 @@
 <div class="flex justify-between items-center mb-4">
   <div class="flex items-center gap-4">
     <h1 class="text-2xl uppercase font-bold text-white">{p.title}</h1>
-    <ButtonGroup class="flex items-center ml-4 h-2">
-      {#each multipliers as mult}
-        <Button
-          size="sm"
-          onclick={() => game.setPointMultiplier(mult)}
-          variant="secondary"
-          class={($gameState.pointMultiplier === mult
-            ? "bg-blue-600/70 text-white"
-            : "dark:text-white text-black") + " text-xs"}
-        >
-          x{mult}
-        </Button>
-      {/each}
-    </ButtonGroup>
+    {#if $gameState.showMultiplier}
+      <ButtonGroup class="flex items-center ml-4 h-2">
+        {#each multipliers as mult}
+          <Button
+            size="sm"
+            onclick={() => game.setPointMultiplier(mult)}
+            variant="secondary"
+            class={($gameState.pointMultiplier === mult
+              ? "bg-blue-600/70 text-white"
+              : "dark:text-white text-black") + " text-xs"}
+          >
+            x{mult}
+          </Button>
+        {/each}
+      </ButtonGroup>
+    {/if}
   </div>
   <div class="space-x-2">
     <Button onclick={p.onRevealScoring} variant="ghost">

@@ -164,6 +164,15 @@ export class HostHandler {
   }
 
   /**
+   * Handle toggle show multiplier setting (host only)
+   */
+  handleToggleShowMultiplier(): void {
+    const state = this.gameStateService.getState();
+    const next = !(state.showMultiplier ?? false);
+    this.gameStateService.setShowMultiplier(next);
+  }
+
+  /**
    * Handle back to game from leaderboard
    */
   handleBackToGame(): void {

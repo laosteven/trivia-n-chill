@@ -21,6 +21,7 @@ export const SOCKET_EVENTS = {
   TOGGLE_SCORING: "toggleScoring",
   TOGGLE_BUZZER_LOCKED_AT_START: "toggleBuzzerLockedAtStart",
   TOGGLE_NEGATIVE_SCORES: "toggleNegativeScores",
+  TOGGLE_SHOW_MULTIPLIER: "toggleShowMultiplier",
   BACK_TO_GAME: "backToGame",
   RESET_GAME: "resetGame",
   RELOAD_CONFIG: "reloadConfig",

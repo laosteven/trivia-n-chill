@@ -69,6 +69,7 @@ export const gameState = writable<ClientGameState & { showAnswer?: boolean }>({
   negativeScoresEnabled: false,
   buzzerLockedAtStart: false,
   pointMultiplier: 1,
+  showMultiplier: false,
 });
 export const gameConfig = writable<GameConfigClient>({
   title: "",
@@ -475,4 +476,8 @@ export function switchConfigFile(
 
 export function setPointMultiplier(multiplier: number) {
   socket?.emit("setPointMultiplier", multiplier);
+}
+
+export function toggleShowMultiplier() {
+  socket?.emit("toggleShowMultiplier");
 }

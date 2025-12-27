@@ -113,3 +113,4 @@ typewriter:
 game:
   buzzerLockedAtStart: true
   delayBeforeQuestionMs: 1000
+  showMultiplier: false
